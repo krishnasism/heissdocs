@@ -1,2 +1,2 @@
 # pdf-to-nosql
-Parse PDFs and load them into a NoSQL Db
+Parse PDFs and load them into a search engine
