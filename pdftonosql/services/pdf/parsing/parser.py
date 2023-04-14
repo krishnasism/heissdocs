@@ -1,13 +1,14 @@
 import logging
 import pytesseract
 from pdf2image import convert_from_path, pdfinfo_from_path
-from services.pdf.utils.helpers import clean_text
 from fastapi import UploadFile
 from tempfile import NamedTemporaryFile
 import os
 from multiprocessing import Process, Queue, Pool, cpu_count
 from itertools import chain
 
+from services.pdf.utils.helpers import clean_text
+from services.database.db_ops import put_pdf_to_database
 
 class PDFParser():
     def __init__(self):
@@ -48,6 +49,10 @@ class PDFParser():
 
 
 def get_pdf_body(file: UploadFile) -> dict:
+    file_name = file.filename
+    file_metadata = {
+        "filename": file_name
+    }
     pdf_parser = PDFParser()
     temp_file = NamedTemporaryFile(delete=False)
     try:
@@ -58,6 +63,7 @@ def get_pdf_body(file: UploadFile) -> dict:
         return ""
 
     body = pdf_parser.parse(temp_file.name)
+    status = put_pdf_to_database(body, file_metadata, "documents")
     temp_file.close()
     os.remove(temp_file.name)
     return body

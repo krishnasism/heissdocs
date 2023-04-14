@@ -1,12 +1,25 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 from services.pdf.parsing.parser import get_pdf_body
+from services.search.search import get_pdf_by_query
 app = FastAPI()
 
 
 @app.get("/health-check")
 def health_check():
     return {"code": 200, "message": "healthy"}
+
+
+@app.get("/pdf/search")
+def pdf_search(query: str):
+    documents = get_pdf_by_query(query)
+    print(documents)
+    return JSONResponse(
+        content={
+            "documents": documents
+        },
+        status_code=200
+    )
 
 
 @app.post("/pdf/upload/")
