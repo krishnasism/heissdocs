@@ -3,18 +3,21 @@ from .databases import Databases
 from datetime import datetime
 from uuid import uuid4
 import logging
+import os
 
-CONFIGURED_DB = Databases.aws.value  # TODO: This needs to come from config
-TABLE_NAME = "documents"  # TODO: Needs to come from config
+CONFIGURED_DB = os.getenv("DOCUMENT_DB_PROVIDER")  # TODO: This needs to come from config
+AWS_SEARCH_TABLE_NAME = os.getenv("AWS_SEARCH_TABLE_NAME")  # TODO: Needs to come from config
+MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME") # TODO: Needs to come from config
+MONGODB_COLLECTION_NAME = os.getenv("MONGODB_COLLECTION_NAME") # TODO: Needs to come from config
 
 
-def put_pdf_to_database(pdf_body, file_metadata, table_name):
+def put_pdf_to_database(pdf_body, file_metadata):
     database_connection = DatabaseConnection(CONFIGURED_DB)
     match CONFIGURED_DB:
         case Databases.mongodb.value:
-            pass
+            return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=MONGODB_DB_NAME, table_name=MONGODB_COLLECTION_NAME)
         case Databases.aws.value:
-            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name)
+            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=AWS_SEARCH_TABLE_NAME)
         case _:
             pass
 
@@ -31,5 +34,22 @@ def _put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
             })
     except Exception as e:
         logging.error(f"[DB Ops - DynamoDB] Error: {str(e)}")
+        return False
+    return True
+
+
+def _put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name):
+    try:
+        db = mongodb[database_name]
+        collection = db[table_name]
+        for page_num, page_data in pdfbody.items():
+            collection.insert_one({
+                "pdf_body": str(page_data),
+                "file_name":  f"{str(metadata.get('filename'))}_{str(uuid4().hex)}",
+                "made_on": str(datetime.utcnow()),
+                "page_num": str(page_num)
+            })
+    except Exception as e:
+        logging.error(f"[DB Ops - MongoDB] Error: {str(e)}")
         return False
     return True

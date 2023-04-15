@@ -64,7 +64,7 @@ def get_pdf_body(file: UploadFile) -> dict:
         return ""
 
     body = pdf_parser.parse(temp_file.name)
-    status = put_pdf_to_database(body, file_metadata, "documents")
+    status = put_pdf_to_database(body, file_metadata)
     temp_file.close()
     os.remove(temp_file.name)
     return body
