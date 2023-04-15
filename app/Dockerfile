@@ -12,7 +12,8 @@ RUN apt-get install -y poppler-utils \
 RUN pip install --upgrade pip
 RUN pip install pipenv
 RUN pipenv install
-
+RUN pipenv run python -m nltk.downloader punkt
+RUN pipenv run python -m nltk.downloader stopwords
 COPY . /code/
 
 EXPOSE 8000

@@ -7,8 +7,9 @@ import os
 from multiprocessing import Process, Queue, Pool, cpu_count
 from itertools import chain
 
-from services.pdf.utils.helpers import clean_text
+from services.utils.helpers import clean_text
 from services.database.db_ops import put_pdf_to_database
+
 
 class PDFParser():
     def __init__(self):
