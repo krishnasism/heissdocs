@@ -16,6 +16,7 @@ boto3 = "*"
 nltk = "==3.8.1"
 scikit-learn = "==1.2.2"
 pymongo = "==4.3.3"
+psycopg2 = "==2.9.6"
 
 [dev-packages]
 autopep8 = "*"

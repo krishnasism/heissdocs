@@ -1,11 +1,9 @@
-<script setup>
-</script>
-
 <template>
   <div>
-    Settings
-    <p>
-      User will be able to set or modify their settings
-    </p>
+    <SettingsForm></SettingsForm>
   </div>
 </template>
+
+<script setup>
+import SettingsForm from "@/components/SettingsForm.vue";
+</script>
