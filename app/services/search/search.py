@@ -14,12 +14,12 @@ SEARCH_KEY = "pdf_body"
 
 def get_pdf_by_query(query):
     # TODO: Only works with dynamodb now - Implement generic
-    if DOCUMENT_DB_PROVIDER != Databases.aws.value:
+    if os.getenv("DOCUMENT_DB_PROVIDER") != Databases.aws.value:
         return []
 
-    db_connection = DatabaseConnection(DOCUMENT_DB_PROVIDER)
+    db_connection = DatabaseConnection(os.getenv("DOCUMENT_DB_PROVIDER"))
     select_keys = DOCUMENT_TABLE_KEYS
-    table_name = AWS_SEARCH_TABLE_NAME
+    table_name = os.getenv("AWS_SEARCH_TABLE_NAME")
     search_key = SEARCH_KEY
     filter_expression = Attr(search_key).contains(query)
     dynamodb = db_connection.db_client

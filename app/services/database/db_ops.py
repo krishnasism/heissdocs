@@ -10,14 +10,13 @@ AWS_SEARCH_TABLE_NAME = os.getenv("AWS_SEARCH_TABLE_NAME")  # TODO: Needs to com
 MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME") # TODO: Needs to come from config
 MONGODB_COLLECTION_NAME = os.getenv("MONGODB_COLLECTION_NAME") # TODO: Needs to come from config
 
-
 def put_pdf_to_database(pdf_body, file_metadata):
-    database_connection = DatabaseConnection(CONFIGURED_DB)
+    database_connection = DatabaseConnection(os.getenv("DOCUMENT_DB_PROVIDER"))
     match CONFIGURED_DB:
         case Databases.mongodb.value:
             return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=MONGODB_DB_NAME, table_name=MONGODB_COLLECTION_NAME)
         case Databases.aws.value:
-            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=AWS_SEARCH_TABLE_NAME)
+            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=os.getenv("AWS_SEARCH_TABLE_NAME"))
         case _:
             pass
 
