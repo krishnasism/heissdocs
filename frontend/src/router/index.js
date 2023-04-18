@@ -4,6 +4,7 @@ import Settings from '../views/Settings.vue'
 import News from '../views/News.vue'
 import Contact from '../views/Contact.vue'
 import Setup from '../views/Setup.vue'
+import Search from '../views/Search.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/setup',
       name: 'setup',
       component: Setup
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
     },
   ]
 })

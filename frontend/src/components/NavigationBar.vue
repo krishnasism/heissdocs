@@ -34,25 +34,19 @@
                             </RouterLink>
                         </li>
                         <li>
-                        <li>
                             <RouterLink :to="{ name: 'settings' }">
                                 <p>Settings</p>
                             </RouterLink>
                         </li>
-                        </li>
-                        <li>
                         <li>
                             <RouterLink :to="{ name: 'news' }">
                                 <p>News</p>
                             </RouterLink>
                         </li>
-                        </li>
-                        <li>
                         <li>
                             <RouterLink :to="{ name: 'contact' }">
                                 <p>Contact</p>
                             </RouterLink>
-                        </li>
                         </li>
                     </ul>
                 </div>
