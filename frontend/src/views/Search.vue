@@ -27,11 +27,17 @@ export default {
     }
   },
   computed: {
+    baseApiUrl() {
+      return import.meta.env.VITE_BASE_API_URL
+    },
+    pdfSearchApiUrl() {
+      return this.baseApiUrl + "/pdf/search"
+    }
   },
   methods: {
     handleSearch(evt) {
       this.loading = true;
-      fetch("http://localhost:8000/pdf/search?query=" + evt)
+      fetch(this.pdfSearchApiUrl + "?query=" + evt)
         .then(response => response.json())
         .then(data => {
           this.documents = data.documents;

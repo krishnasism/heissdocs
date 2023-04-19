@@ -2,4 +2,9 @@ from pydantic import BaseModel
 
 
 class Settings(BaseModel):
-    key: str
+    awsAccessKey: str
+    awsSecret: str
+    awsRegion: str
+    noSqlProvider: str
+    documentTableName: str
+    parsingApiKey: str

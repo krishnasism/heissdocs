@@ -85,21 +85,19 @@ export default {
     mounted() {
     },
     computed: {
-        baseApiUrl() {
-            return import.meta.env.VITE_BASE_API_URL
-        },
-        settingsApiUrl() {
-            return this.baseApiUrl + "/settings"
-        }
     },
     methods: {
         submitSettings() {
-            console.log(this.awsAccessKey);
-            console.log(this.settingsApiUrl);
+            let settings = {
+                'awsAccessKey': this.awsAccessKey,
+                'awsSecret': this.awsSecret,
+                'awsRegion': this.awsAccessKey,
+                'noSqlProvider': this.noSqlProvider,
+                'documentTableName': this.documentDbName,
+                'parsingApiKey': this.parsingApiKey,
+            }
+            this.$emit('submit', settings);
         },
-        getSettings() {
-            // Get User settings and pre-fill
-        }
     }
 }
 
