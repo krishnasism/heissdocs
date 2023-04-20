@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar/>
+    <NavigationBar v-if="!['login', 'register', 'help'].includes($route.name)"/>
     <RouterView class="p-4 bg-white self-start mt-20"/>
   </div>
 </template>

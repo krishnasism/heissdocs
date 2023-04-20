@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.2.0",
     "@vue-hero-icons/solid": "^1.7.2",
     "flowbite": "^1.6.5",
     "vue": "^3.2.47",
