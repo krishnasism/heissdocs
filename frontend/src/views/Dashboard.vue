@@ -25,6 +25,9 @@ export default {
       isAuthenticated
     };
   },
+  mounted() {
+    console.log(this.user)
+  }
 };
 
 </script>
