@@ -104,7 +104,6 @@ export default {
         },
         setSettings() {
             if (this.settings) {
-                console.log(this.settings)
                 this.awsAccessKey = this.settings.awsAccessKey
                 this.awsSecret = this.settings.awsSecret
                 this.awsRegion = this.settings.awsRegion
