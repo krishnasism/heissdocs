@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 
 class Settings(BaseModel):
+    userEmail: str
     awsAccessKey: str
     awsSecret: str
     awsRegion: str

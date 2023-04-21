@@ -10,7 +10,7 @@ from typing import Annotated
 router = APIRouter()
 
 
-@router.get("/search", tags=["pdf-search"])
+@router.get("/search")
 async def pdf_search(query: str):
     documents = get_pdf_by_query(query)
     return JSONResponse(
@@ -21,7 +21,7 @@ async def pdf_search(query: str):
     )
 
 
-@router.post("/upload", tags=["pdf-upload"])
+@router.post("/upload")
 async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()]):
     try:
         pdf_body = get_pdf_body(file)
@@ -46,7 +46,7 @@ async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()]):
         )
 
 
-@router.post("/process-s3-bucket", tags=["pdf-process-s3-bucket"])
+@router.post("/process-s3-bucket")
 async def process_s3_bucket(bucket_name: str):
     try:
         process_s3_files(bucket_name)

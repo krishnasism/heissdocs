@@ -1,4 +1,4 @@
-def set_settings(user_id: str, settings: dict):
+def set_settings(settings: dict):
     pass
 
 

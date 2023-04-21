@@ -41,12 +41,12 @@
                         </select>
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="documentDbName"
+                        <label for="documentTableName"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Document Table
                             Name</label>
-                        <input type="text" name="documentDbName" id="documentDbName"
+                        <input type="text" name="documentTableName" id="documentTableName"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Name of database where parsed PDF data will be stored in" v-model="documentDbName">
+                            placeholder="Name of database where parsed PDF data will be stored in" v-model="documentTableName">
                     </div>
                     <p class="mt-5 font-black sm:col-span-2">Parsing Engine</p>
                     <p class="sm:col-span-2">In case you are not hosting the Parsing Engine yourself, please provide the
@@ -71,6 +71,9 @@
 export default {
     name: 'SettingsForm',
     props: {
+        settings: {
+            type: Object
+        }
     },
     data() {
         return {
@@ -78,11 +81,12 @@ export default {
             awsSecret: "",
             awsRegion: "",
             noSqlProvider: "default",
-            documentDbName: "",
+            documentTableName: "",
             parsingApiKey: "",
         }
     },
     mounted() {
+        this.setSettings();
     },
     computed: {
     },
@@ -93,11 +97,22 @@ export default {
                 'awsSecret': this.awsSecret,
                 'awsRegion': this.awsAccessKey,
                 'noSqlProvider': this.noSqlProvider,
-                'documentTableName': this.documentDbName,
+                'documentTableName': this.documentTableName,
                 'parsingApiKey': this.parsingApiKey,
             }
             this.$emit('submit', settings);
         },
+        setSettings() {
+            if (this.settings) {
+                console.log(this.settings)
+                this.awsAccessKey = this.settings.awsAccessKey
+                this.awsSecret = this.settings.awsSecret
+                this.awsRegion = this.settings.awsRegion
+                this.noSqlProvider = this.settings.noSqlProvider
+                this.documentTableName = this.settings.documentTableName
+                this.parsingApiKey = this.settings.parsingApiKey
+            }
+        }
     }
 }
 

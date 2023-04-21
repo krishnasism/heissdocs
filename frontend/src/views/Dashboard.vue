@@ -2,7 +2,7 @@
   <div>
     <span>Dashboard</span>
     <div v-if="isAuthenticated">
-      <p>Hello {{ user.nickname }}</p>
+      <p>Hello {{ user }}</p>
     </div>
     <SearchInput class="m-8"></SearchInput>
     <FileUpload class="m-8 w-80"></FileUpload>
