@@ -10,9 +10,30 @@
                 </svg>
                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
                     or drag and drop</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" />
+            <input id="dropzone-file" type="file" class="hidden" accept="application/pdf" @change="fileUpload"/>
         </label>
     </div>
 </template>
+<script>
+export default {
+    name: 'FileUpload',
+    props: {
+    },
+    data() {
+        return {
+        }
+    },
+    mounted() {
+    },
+    computed: {
+    },
+    methods: {
+        fileUpload(evt) {
+            // emit with only the file
+            this.$emit("fileUpload", evt.target.files[0]);
+        }
+    }
+}
+</script>
