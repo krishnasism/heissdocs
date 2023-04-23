@@ -5,13 +5,13 @@
       <p>Hello {{ user }}</p>
     </div>
     <SearchInput class="m-8"></SearchInput>
-    <FileUpload class="m-8 w-80" @fileUpload="fileUploaded"></FileUpload>
+    <FileUpload class="m-8 w-60" @fileUpload="filesUploaded"></FileUpload>
     <FileList class="ml-8 mt-2" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
       class="ml-8 mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
       {{ sendButtonMessage }}
     </button>
-  
+
     <Transition enter-active-class="duration-300 ease-out" enter-from-class="transform opacity-0"
       enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100"
       leave-to-class="transform opacity-0">
@@ -65,9 +65,11 @@ export default {
     }
   },
   methods: {
-    fileUploaded(file) {
-      this.uploadedFileNameList.push(file.name);
-      this.fileList.push(file)
+    filesUploaded(files) {
+      for (let i = 0; i < files.length; i++) {
+        this.uploadedFileNameList.push(files[i].name);
+        this.fileList.push(files[i])
+      }
     },
     async sendFilesForParsing() {
       this.parsing = true;
@@ -81,10 +83,8 @@ export default {
         })
 
         if (!response.ok) {
-          console.log(response)
           throw new Error('Upload failed')
         }
-
         const data = await response.json()
         console.log(data)
       }

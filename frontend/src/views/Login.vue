@@ -5,7 +5,7 @@
                 <div class="mx-auto max-w-screen-sm text-center">
                     <h1
                         class="mb-4 text-md tracking-tight font-extrabold lg:text-9xl text-primary-200 dark:text-primary-200">
-                        PDF Search</h1>
+                        heißdocs</h1>
                     <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">Start
                         getting your PDFs in Order!</p>
                     <a @click="login"

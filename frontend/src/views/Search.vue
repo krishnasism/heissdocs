@@ -18,7 +18,9 @@ export default {
   },
   mounted() {
     const search = this.$route.query.search;
-    this.handleSearch(search);
+    if (search !== undefined || search != null) {
+      this.handleSearch(search);
+    }
   },
   data() {
     return {
