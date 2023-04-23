@@ -2,7 +2,7 @@
   <div>
     <span>Dashboard</span>
     <div v-if="isAuthenticated">
-      <p>Hello {{ user.name }}</p>
+      <p> {{ $t('message.greeting') + " " + user.name}}</p>
     </div>
     <SearchInput class="m-8"></SearchInput>
     <FileUpload class="m-8 w-60" @fileUpload="filesUploaded"></FileUpload>
@@ -26,6 +26,7 @@ import FileUpload from "@/components/FileUpload.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import FileList from "@/components/FileList.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
+
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
