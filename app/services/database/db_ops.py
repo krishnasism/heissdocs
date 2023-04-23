@@ -1,24 +1,22 @@
 from .connectors import DatabaseConnection
+from services.config import get_settings
 from .databases import Databases
 from datetime import datetime
 from uuid import uuid4
 import logging
 import os
 
-# TODO: This needs to come from config
-CONFIGURED_DB = os.getenv("DOCUMENT_DB_PROVIDER")  
-AWS_SEARCH_TABLE_NAME = os.getenv("AWS_SEARCH_TABLE_NAME")  # TODO: Needs to come from config
-MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME") # TODO: Needs to come from config
-MONGODB_COLLECTION_NAME = os.getenv("MONGODB_COLLECTION_NAME") # TODO: Needs to come from config
+settings = get_settings()
+
 
 def put_pdf_to_database(pdf_body, file_metadata):
-    configured_db = os.getenv("DOCUMENT_DB_PROVIDER")  
-    database_connection = DatabaseConnection(os.getenv("DOCUMENT_DB_PROVIDER"))
+    configured_db = settings.document_db_provider
+    database_connection = DatabaseConnection(configured_db)
     match configured_db:
         case Databases.mongodb.value:
-            return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=MONGODB_DB_NAME, table_name=MONGODB_COLLECTION_NAME)
+            return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=settings.mongodb_db_name, table_name=settings.mongodb_collection_name)
         case Databases.aws.value:
-            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=os.getenv("AWS_SEARCH_TABLE_NAME"))
+            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=settings.aws_search_table_name)
         case _:
             logging.error("[DB Ops - Document DB] Undefined provider")
             pass

@@ -4,6 +4,8 @@ import logging
 from .database.tables import settings_table
 import re
 from uuid import uuid4
+from services.config import get_settings
+
 
 SETTINGS_TABLE_NAME = 'settings'
 
@@ -12,6 +14,7 @@ CAMEL_TO_SNAKE_PATTERN = re.compile(r'(?<!^)(?=[A-Z])')
 
 class PostgresManager():
     client = None
+    settings = get_settings()
 
     def __init__(self):
         self._connect()
@@ -23,7 +26,7 @@ class PostgresManager():
         return snake_dict
 
     def _connect(self):
-        connection_string = f"postgresql://{os.getenv('POSTGRES_USERNAME')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('POSTGRES_ENDPOINT')}"
+        connection_string = f"postgresql://{self.settings.postgres_username}:{self.settings.postgres_password}@{self.settings.postgres_endpoint}"
         try:
             self.client = create_engine(connection_string)
         except Exception as e:

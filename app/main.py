@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from apis.api import router as api_router
+
 from settings.env_loader import load_env_file
 from fastapi.middleware.cors import CORSMiddleware
+
 
 load_env_file()
 app = FastAPI()

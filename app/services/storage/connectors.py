@@ -1,7 +1,10 @@
 from .storage_providers import StorageProviders
+from services.config import get_settings
 import logging
 import boto3
 import os
+
+settings = get_settings()
 
 
 class StorageConnection():
@@ -17,8 +20,8 @@ class StorageConnection():
                 logging.error("[Storage Connection] Undefined")
 
     def _connect_to_s3(self):
-        session = boto3.Session(aws_access_key_id=os.getenv('AWS_ACCESS_KEY'), aws_secret_access_key=os.getenv(
-            'AWS_SECRET'), region_name=os.getenv('AWS_REGION'))
+        session = boto3.Session(aws_access_key_id=settings.aws_access_key,
+                                aws_secret_access_key=settings.aws_secret, region_name=settings.aws_region)
         self.storage_client = session.resource('s3')
 
     def _connect_to_az(self):
