@@ -28,7 +28,7 @@
                         class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <RouterLink :to="{ name: 'dashboard' }">
-                                <p>Home</p>
+                                <p>Dashboard</p>
                             </RouterLink>
                         </li>
                         <li>
@@ -36,7 +36,7 @@
                                 <p>Settings</p>
                             </RouterLink>
                         </li>
-                        <li>
+                        <!-- <li>
                             <RouterLink :to="{ name: 'news' }">
                                 <p>News</p>
                             </RouterLink>
@@ -45,7 +45,7 @@
                             <RouterLink :to="{ name: 'contact' }">
                                 <p>Contact</p>
                             </RouterLink>
-                        </li>
+                        </li> -->
                         <li>
                             <RouterLink :to="{ name: 'setup' }">
                                 <p>Setup</p>

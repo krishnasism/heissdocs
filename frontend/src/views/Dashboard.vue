@@ -2,7 +2,7 @@
   <div>
     <span>Dashboard</span>
     <div v-if="isAuthenticated">
-      <p>Hello {{ user }}</p>
+      <p>Hello {{ user.name }}</p>
     </div>
     <SearchInput class="m-8"></SearchInput>
     <FileUpload class="m-8 w-60" @fileUpload="filesUploaded"></FileUpload>
@@ -49,6 +49,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.user)
   },
   computed: {
     baseApiUrl() {

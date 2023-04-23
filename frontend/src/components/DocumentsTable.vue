@@ -18,10 +18,7 @@
                             Page Number
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Size
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Found using
+                            Uploaded On
                         </th>
                         <th scope="col" class="px-6 py-3">
 
@@ -39,16 +36,13 @@
                             </div>
                         </td>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{document.file_name}}
+                            {{ document.file_name.split(".pdf_")[0] + ".pdf" }}
                         </th>
                         <td class="px-6 py-4">
                             {{ document.page_num }}
                         </td>
                         <td class="px-6 py-4">
-                            15 MB
-                        </td>
-                        <td class="px-6 py-4">
-                            Full Text
+                            {{ document.made_on }}
                         </td>
                         <td class="px-6 py-4">
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
@@ -57,7 +51,7 @@
 
                 </tbody>
             </table>
-            <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
+            <!-- <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
                 <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
                         class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span
                         class="font-semibold text-gray-900 dark:text-white">1000</span></span>
@@ -107,30 +101,30 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav> -->
         </div>
     </div>
 </template>
 <script>
-    export default {
-        name: 'DocumentsTable',
-        props: {
-            documents: {
-                type: Array,
-                required: true
-            },
+export default {
+    name: 'DocumentsTable',
+    props: {
+        documents: {
+            type: Array,
+            required: true
         },
-        data() {
-            return {
-            }
-        },
-        mounted(){
-        },
-        computed: {
-           
-        },
-        methods: {
-           
+    },
+    data() {
+        return {
         }
+    },
+    mounted() {
+    },
+    computed: {
+
+    },
+    methods: {
+
     }
+}
 </script>
