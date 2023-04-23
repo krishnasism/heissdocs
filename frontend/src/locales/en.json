@@ -1,5 +1,15 @@
 {
     "message": {
-        "greeting": "Hello World!"
+        "greeting": "Hallo"
+    },
+    "component": {
+        "dashboard": "Dashboard",
+        "settings": "Settings",
+        "setup": "Setup",
+        "search": "Search",
+        "logout": "Logout",
+        "parsing": "Parsing",
+        "sendforparsing": "Send for parsing",
+        "parsed": "Parsed!"
     }
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <span>Dashboard</span>
+    <span>{{ $t('component.dashboard') }}</span>
     <div v-if="isAuthenticated">
-      <p> {{ $t('message.greeting') + " " + user.name}}</p>
+      <p> {{ $t('message.greeting') + " " + user.name }}</p>
     </div>
     <SearchInput class="m-8"></SearchInput>
     <FileUpload class="m-8 w-60" @fileUpload="filesUploaded"></FileUpload>
@@ -61,9 +61,9 @@ export default {
     },
     sendButtonMessage() {
       if (this.parsing) {
-        return "Parsing..."
+        return this.$t('component.parsing')
       }
-      return "Send for parsing"
+      return this.$t('component.sendforparsing')
     }
   },
   methods: {

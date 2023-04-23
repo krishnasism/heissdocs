@@ -1,5 +1,12 @@
 {
     "message": {
-        "greeting": "Hallo Welt!"
+        "greeting": "Hallo"
+    },
+    "component": {
+        "dashboard": "Dashboard",
+        "settings": "Einstellungen",
+        "setup": "Aufstellen",
+        "search": "Suchen",
+        "logout": "Abmeldung"
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      Search
+      {{ $t('component.search') }}
     </p>
     <SearchInput class="m-8" @submit-search="handleSearch"></SearchInput>
     <DocumentsTable :documents="documents" v-if="!loading" class="w-full"></DocumentsTable>
