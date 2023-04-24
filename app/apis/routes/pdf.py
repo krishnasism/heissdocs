@@ -1,18 +1,21 @@
-from fastapi import APIRouter, UploadFile, Form
+from fastapi import APIRouter, UploadFile, Form, Depends
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer
+from typing import Annotated
 from services.pdf.parsing.parser import get_pdf_body
 from services.search.search import get_pdf_by_query
 from services.summarize.summary import summarize_text
 from services.storage.storage_ops import process_s3_files
-
-from typing import Annotated
+from services.security.verify_token import verify_token
 
 router = APIRouter()
+token_auth_scheme = HTTPBearer()
 
 
 @router.get("/search")
-async def pdf_search(query: str):
+async def pdf_search(query: str, authenticated: bool = Depends(verify_token)):
     documents = get_pdf_by_query(query)
+
     return JSONResponse(
         content={
             "documents": documents
@@ -21,8 +24,8 @@ async def pdf_search(query: str):
     )
 
 
-@router.post("/upload")
-async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()]):
+@ router.post("/upload")
+async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()], authenticated: bool = Depends(verify_token)):
     try:
         pdf_body = get_pdf_body(file)
         if summarize == "true":
@@ -46,8 +49,8 @@ async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()]):
         )
 
 
-@router.post("/process-s3-bucket")
-async def process_s3_bucket(bucket_name: str):
+@ router.post("/process-s3-bucket")
+async def process_s3_bucket(bucket_name: str, authenticated: bool = Depends(verify_token)):
     try:
         process_s3_files(bucket_name)
 

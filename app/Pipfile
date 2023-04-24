@@ -20,6 +20,7 @@ psycopg2 = "==2.9.6"
 requests = "*"
 sqlalchemy = "==2.0.9"
 python-dotenv = "*"
+"pyjwt[crypto]" = "*"
 
 [dev-packages]
 autopep8 = "*"

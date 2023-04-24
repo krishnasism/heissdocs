@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
-from services.local.settings import get_settings, set_settings
 from apis.requests.settings import Settings
-from typing import Annotated
 from services.local.postgres import PostgresManager
 from services.utils.helpers import convert_dict_to_camel_case
+from services.security.verify_token import verify_token
 
 router = APIRouter()
 
@@ -12,7 +11,7 @@ pm = PostgresManager()
 
 
 @router.post("/settings")
-def update_settings(settings: Settings):
+def update_settings(settings: Settings, authenticated: bool = Depends(verify_token)):
     pm.update_settings(settings.dict())
     return JSONResponse(
         content={
@@ -23,7 +22,7 @@ def update_settings(settings: Settings):
 
 
 @router.get("/settings")
-def get_settings(userEmail: str):
+def get_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
     settings = convert_dict_to_camel_case(pm.get_settings(userEmail))
     return JSONResponse(
         content={
