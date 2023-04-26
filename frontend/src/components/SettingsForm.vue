@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="bg-white dark:bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+            <div class="px-4 ml-4 max-w-4xl">
                 <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Settings</h2>
                 <p class="mb-4 font-black">Cloud Provider</p>
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">

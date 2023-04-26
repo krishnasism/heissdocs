@@ -1,12 +1,8 @@
 <template>
   <div>
-    <span>{{ $t('component.dashboard') }}</span>
-    <div v-if="isAuthenticated">
-      <p> {{ $t('message.greeting') + " " + user.name }}</p>
-    </div>
-    <SearchInput class="m-8"></SearchInput>
-    <FileUpload class="m-8 w-60" @fileUpload="filesUploaded"></FileUpload>
-    <FileList class="ml-8 mt-2" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"></FileList>
+    <SearchInput class="mb-8"></SearchInput>
+    <FileUpload class="w-60" @fileUpload="filesUploaded"></FileUpload>
+    <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
       class="ml-8 mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
       {{ sendButtonMessage }}
@@ -18,6 +14,9 @@
       <SuccessToast style="position: fixed; bottom: 0; right: 20;" v-if="showSuccessToast" :message="toastMessage"
         @close-toast="closeSuccessToast"></SuccessToast>
     </Transition>
+    <!-- <SuccessToast message="test"></SuccessToast>
+    <FailureToast message="test"></FailureToast>
+    <WarningToast message="test"></WarningToast> -->
   </div>
 </template>
 
@@ -26,12 +25,14 @@ import FileUpload from "@/components/FileUpload.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import FileList from "@/components/FileList.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
-
+import FailureToast from "@/components/FailureToast.vue";
+import WarningToast from "@/components/WarningToast.vue";
+import getApiToken from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
   components: {
-    FileUpload, SearchInput, FileList, SuccessToast
+    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast
   },
   data() {
     return {
@@ -40,17 +41,19 @@ export default {
       parsing: false,
       showSuccessToast: false,
       toastMessage: '',
+      apiToken: ''
     }
   },
   setup() {
     const { user, isAuthenticated } = useAuth0();
     return {
       user,
-      isAuthenticated
+      isAuthenticated,
+      getApiToken
     };
   },
-  mounted() {
-    console.log(this.user)
+  async mounted() {
+    this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
   },
   computed: {
     baseApiUrl() {
@@ -82,13 +85,15 @@ export default {
         const response = await fetch(this.uploadApiUrl, {
           method: 'POST',
           body: formData,
+          headers: {
+            'Authorization': 'Bearer ' + this.apiToken,
+          }
         })
 
         if (!response.ok) {
           throw new Error('Upload failed')
         }
         const data = await response.json()
-        console.log(data)
       }
       this.parsing = false;
       this.uploadedFileNameList = [];

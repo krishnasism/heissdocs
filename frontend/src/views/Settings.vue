@@ -13,6 +13,7 @@
 <script>
 import SettingsForm from "@/components/SettingsForm.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
+import getApiToken from "@/services/auth";
 
 import { useAuth0 } from '@auth0/auth0-vue';
 
@@ -25,17 +26,20 @@ export default {
     return {
       settings: null,
       showSuccessToast: false,
-      toastMessage: ''
+      toastMessage: '',
+      apiToken: ''
     }
   },
   setup() {
     const { user, isAuthenticated } = useAuth0();
     return {
       user,
-      isAuthenticated
+      isAuthenticated,
+      getApiToken
     };
   },
   async mounted() {
+    this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
     this.settings = await this.getSettings();
   },
   computed: {
@@ -54,7 +58,7 @@ export default {
           {
             method: 'POST',
             headers: {
-              'Authorization': 'abcde', //TODO: Add auth here,
+              'Authorization': 'Bearer ' + this.apiToken,
               'Content-Type': 'application/json; charset=utf-8'
             },
             body: JSON.stringify(evt)
@@ -72,8 +76,8 @@ export default {
           {
             method: 'GET',
             headers: {
-              'Authorization': 'abcde', //TODO: Add auth here,
-              'Content-Type': 'application/json; charset=utf-8'
+              'Content-Type': 'application/json; charset=utf-8',
+              'Authorization': 'Bearer ' + this.apiToken
             },
           })
         const data = await response.json();

@@ -1,32 +1,43 @@
 <template>
   <div>
-    <p>
-      {{ $t('component.search') }}
-    </p>
-    <SearchInput class="m-8" @submit-search="handleSearch"></SearchInput>
+    <SearchInput class="mb-8" @submit-search="handleSearch"></SearchInput>
     <DocumentsTable :documents="documents" v-if="!loading" class="w-full"></DocumentsTable>
   </div>
 </template>
 <script>
 import DocumentsTable from "@/components/DocumentsTable.vue";
 import SearchInput from "@/components/SearchInput.vue";
+import getApiToken from "@/services/auth";
+import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
   components: {
     DocumentsTable,
     SearchInput
   },
-  mounted() {
-    const search = this.$route.query.search;
-    if (search !== undefined || search != null) {
-      this.handleSearch(search);
-    }
-  },
   data() {
     return {
       loading: true,
       documents: [],
+      apiToken: null
     }
+  },
+  async mounted() {
+    const search = this.$route.query.search;
+    if (this.isAuthenticated && this.apiToken == null) {
+      this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
+    }
+    if (search !== undefined || search != null) {
+      this.handleSearch(search);
+    }
+  },
+  setup() {
+    const { user, isAuthenticated } = useAuth0();
+    return {
+      user,
+      isAuthenticated,
+      getApiToken
+    };
   },
   computed: {
     baseApiUrl() {
@@ -37,17 +48,26 @@ export default {
     }
   },
   methods: {
-    handleSearch(evt) {
+    async handleSearch(evt) {
       this.loading = true;
-      fetch(this.pdfSearchApiUrl + "?query=" + evt)
-        .then(response => response.json())
-        .then(data => {
-          this.documents = data.documents;
-          this.loading = false;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      if (this.isAuthenticated) {
+        fetch(this.pdfSearchApiUrl + "?query=" + evt,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + this.apiToken,
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+          })
+          .then(response => response.json())
+          .then(data => {
+            this.documents = data.documents;
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
     }
   }
 }
