@@ -1,5 +1,7 @@
 <template>
   <div>
+    <DangerAlert v-if="settingsNotSet" :alert="settingsNotSetAlert"
+      :message="settingsNotSetMessage"></DangerAlert>
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload class="w-60" @fileUpload="filesUploaded"></FileUpload>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"></FileList>
@@ -27,12 +29,14 @@ import FileList from "@/components/FileList.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
 import FailureToast from "@/components/FailureToast.vue";
 import WarningToast from "@/components/WarningToast.vue";
+import DangerAlert from "@/components/DangerAlert.vue";
+import getSettings from "@/services/settings";
 import getApiToken from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
   components: {
-    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast
+    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast, DangerAlert
   },
   data() {
     return {
@@ -41,7 +45,11 @@ export default {
       parsing: false,
       showSuccessToast: false,
       toastMessage: '',
-      apiToken: ''
+      apiToken: '',
+      settingsNotSet: false,
+      settingsNotSetAlert: 'Settings Not Set!',
+      settingsNotSetMessage: 'Please configure your settings before proceeding!',
+      settings: null
     }
   },
   setup() {
@@ -49,11 +57,14 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken
+      getApiToken,
+      getSettings
     };
   },
   async mounted() {
     this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
+    this.settings = await this.getSettings();
+    this.settingsNotSet = this.settings == null;
   },
   computed: {
     baseApiUrl() {
@@ -61,6 +72,9 @@ export default {
     },
     uploadApiUrl() {
       return this.baseApiUrl + "/pdf/upload"
+    },
+    settingsApiUrl() {
+      return this.baseApiUrl + "/settings"
     },
     sendButtonMessage() {
       if (this.parsing) {

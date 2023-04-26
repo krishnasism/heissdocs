@@ -95,7 +95,7 @@ export default {
             let settings = {
                 'awsAccessKey': this.awsAccessKey,
                 'awsSecret': this.awsSecret,
-                'awsRegion': this.awsAccessKey,
+                'awsRegion': this.awsRegion,
                 'noSqlProvider': this.noSqlProvider,
                 'documentTableName': this.documentTableName,
                 'parsingApiKey': this.parsingApiKey,

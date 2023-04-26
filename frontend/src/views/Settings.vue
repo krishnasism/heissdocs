@@ -14,6 +14,8 @@
 import SettingsForm from "@/components/SettingsForm.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
 import getApiToken from "@/services/auth";
+import getSettings from "@/services/settings";
+
 
 import { useAuth0 } from '@auth0/auth0-vue';
 
@@ -35,7 +37,8 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken
+      getApiToken,
+      getSettings
     };
   },
   async mounted() {
@@ -68,20 +71,6 @@ export default {
           this.toastMessage = 'Settings updated!'
           this.showSuccessToast = true;
         }
-      }
-    },
-    async getSettings() {
-      if (this.isAuthenticated) {
-        const response = await fetch(this.settingsApiUrl + "?userEmail=" + this.user.email,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              'Authorization': 'Bearer ' + this.apiToken
-            },
-          })
-        const data = await response.json();
-        return data.settings;
       }
     },
     closeSuccessToast() {
