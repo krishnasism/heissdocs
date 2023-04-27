@@ -6,7 +6,7 @@ import os
 from services.config import get_settings
 
 settings = get_settings()
-DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on"
+DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
 SEARCH_KEY = "pdf_body"
 
 

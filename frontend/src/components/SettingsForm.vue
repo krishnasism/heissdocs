@@ -26,6 +26,13 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="us-east-1" v-model="awsRegion">
                     </div>
+                    <div class="sm:col-span-2">
+                        <label for="bucketsList"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Buckets</label>
+                        <input type="text" name="bucketsList" id="bucketsList"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Name of buckets that you want to be able to upload to (comma separated)" v-model="bucketsList">
+                    </div>
                     <p class="mt-5 font-black">NoSQL Engine Host</p>
                     <div class="sm:col-span-2">
                         <label for="noSqlProvider"
@@ -83,6 +90,7 @@ export default {
             noSqlProvider: "default",
             documentTableName: "",
             parsingApiKey: "",
+            bucketsList: "",
         }
     },
     mounted() {
@@ -99,6 +107,7 @@ export default {
                 'noSqlProvider': this.noSqlProvider,
                 'documentTableName': this.documentTableName,
                 'parsingApiKey': this.parsingApiKey,
+                'bucketsList': this.bucketsList,
             }
             this.$emit('submit', settings);
         },
@@ -110,6 +119,7 @@ export default {
                 this.noSqlProvider = this.settings.noSqlProvider
                 this.documentTableName = this.settings.documentTableName
                 this.parsingApiKey = this.settings.parsingApiKey
+                this.bucketsList = this.settings.bucketsList
             }
         }
     }

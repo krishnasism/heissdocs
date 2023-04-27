@@ -9,3 +9,4 @@ class Settings(BaseModel):
     noSqlProvider: str
     documentTableName: str
     parsingApiKey: str
+    bucketsList: str

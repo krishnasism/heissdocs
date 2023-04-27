@@ -13,6 +13,7 @@ settings_table = sa.Table('settings',
                           sa.Column('no_sql_provider', String),
                           sa.Column('document_table_name', String),
                           sa.Column('parsing_api_key', String),
+                          sa.Column('buckets_list', String),
                           )
 
 # TODO : Add auto migrations from tables -> database

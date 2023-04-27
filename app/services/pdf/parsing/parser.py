@@ -9,7 +9,9 @@ from itertools import chain
 
 from services.utils.helpers import clean_text
 from services.database.db_ops import put_pdf_to_database
+from services.storage.storage_ops import upload_file_to_blob
 
+from uuid import uuid4
 
 class PDFParser():
     def __init__(self):
@@ -49,7 +51,7 @@ class PDFParser():
         return pdf_body
 
 
-def get_pdf_body(file: UploadFile) -> dict:
+def get_pdf_body(file: UploadFile, store_files_in_cloud: bool, bucket_name: str) -> dict:
     file_name = file.filename
     file_metadata = {
         "filename": file_name
@@ -64,6 +66,16 @@ def get_pdf_body(file: UploadFile) -> dict:
         return ""
 
     body = pdf_parser.parse(temp_file.name)
+
+    if store_files_in_cloud:
+        blob_file_name = str(uuid4()) + ".pdf"
+        with open(temp_file.name, "rb") as f:
+            if bucket_name:
+                response = upload_file_to_blob(f, blob_file_name, bucket_name)
+                if response:
+                    file_metadata['s3_blob_file_name'] = blob_file_name
+                    file_metadata['s3_bucket_name'] = bucket_name
+
     status = put_pdf_to_database(body, file_metadata) # TODO: should be configurable 
     temp_file.close()
     os.remove(temp_file.name)

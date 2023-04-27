@@ -30,7 +30,9 @@ def _put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                 "pdf_body": str(page_data),
                 "file_name":  f"{str(metadata.get('filename'))}_{str(uuid4().hex)}",
                 "made_on": str(datetime.utcnow()),
-                "page_num": str(page_num)
+                "page_num": str(page_num),
+                "s3_blob_file_name": str(metadata.get('s3_blob_file_name', '')),
+                "s3_bucket_name": str(metadata.get('s3_bucket_name', ''))
             })
     except Exception as e:
         logging.error(f"[DB Ops - DynamoDB] Error: {str(e)}")

@@ -12,7 +12,7 @@
                     or drag and drop</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" accept="application/pdf" @change="fileUpload" multiple="multiple"/>
+            <input :disabled="disabled" id="dropzone-file" type="file" class="hidden" accept="application/pdf" @change="fileUpload" multiple="multiple"/>
         </label>
     </div>
 </template>
@@ -20,6 +20,7 @@
 export default {
     name: 'FileUpload',
     props: {
+        disabled: false
     },
     data() {
         return {

@@ -9,7 +9,7 @@ settings = get_settings()
 
 class StorageConnection():
     storage_client = None
-
+    storage_low_level_client = None
     def __init__(self, provider_name: str):
         match provider_name:
             case StorageProviders.aws.value:
@@ -23,6 +23,7 @@ class StorageConnection():
         session = boto3.Session(aws_access_key_id=settings.aws_access_key,
                                 aws_secret_access_key=settings.aws_secret, region_name=settings.aws_region)
         self.storage_client = session.resource('s3')
+        self.storage_low_level_client = session.client('s3')
 
     def _connect_to_az(self):
         pass

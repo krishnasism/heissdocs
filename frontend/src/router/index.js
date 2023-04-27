@@ -6,6 +6,7 @@ import Contact from '../views/Contact.vue'
 import Setup from '../views/Setup.vue'
 import Search from '../views/Search.vue'
 import Login from '../views/Login.vue'
+import FileView from '../views/FileView.vue'
 import { createAuth0, authGuard } from '@auth0/auth0-vue';
 
 const router = createRouter({
@@ -51,6 +52,12 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       component: Search,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/view-file',
+      name: 'view-file',
+      component: FileView,
       beforeEnter: authGuard,
     },
     {
