@@ -4,10 +4,10 @@ from pdf2image import convert_from_path, pdfinfo_from_path
 from fastapi import UploadFile
 from tempfile import NamedTemporaryFile
 import os
-from multiprocessing import Process, Queue, Pool, cpu_count
+from multiprocessing import Pool, cpu_count
 from itertools import chain
 
-from services.utils.helpers import clean_text
+from services.utils.helpers import preprocess_parsed_text
 from services.database.db_ops import put_pdf_to_database
 from services.storage.storage_ops import upload_file_to_blob
 
@@ -24,7 +24,7 @@ class PDFParser():
         page_data = []
         for pageNum, imgBlob in enumerate(chunk):
             text = pytesseract.image_to_string(imgBlob, lang='eng')
-            page_data.append((start_page + pageNum, clean_text(text)))
+            page_data.append((start_page + pageNum, preprocess_parsed_text(text)))
         return page_data
 
     def _get_ocr_body(self, path) -> str:

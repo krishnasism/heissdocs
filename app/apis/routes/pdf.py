@@ -7,6 +7,7 @@ from services.search.search import get_pdf_by_query
 from services.summarize.summary import summarize_text
 from services.storage.storage_ops import process_s3_files, get_presigned_url
 from services.security.verify_token import verify_token
+from app.services.queue.rabbit import send_queue_message
 
 router = APIRouter()
 token_auth_scheme = HTTPBearer()
@@ -14,6 +15,7 @@ token_auth_scheme = HTTPBearer()
 
 @router.get("/search")
 async def pdf_search(query: str, authenticated: bool = Depends(verify_token)):
+    query = query.lower()
     documents = get_pdf_by_query(query)
 
     return JSONResponse(
@@ -30,7 +32,9 @@ async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()], user_e
         pdf_body = get_pdf_body(file, store_files_in_cloud, bucket_name)
         if summarize == "true":
             # TODO: Doesn't work as expected - keep False for now
-            pdf_body = summarize_text(pdf_body)
+            # pdf_body = summarize_text(pdf_body)
+            pass
+
         return JSONResponse(
             content={
                 "parse_result": {

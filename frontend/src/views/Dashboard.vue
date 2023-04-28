@@ -3,19 +3,13 @@
     <DangerAlert v-if="settingsNotSet" :alert="settingsNotSetAlert" :message="settingsNotSetMessage"></DangerAlert>
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
-    <div class="flex mt-4 w-30">
-      <div class="flex items-center h-5">
-        <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" :value="storeFilesInCloud" v-model="storeFilesInCloud"
-          :disabled="parsing"
-          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-      </div>
-      <div class="ml-2 text-sm">
-        <label for="helper-checkbox" class="font-medium text-gray-900 dark:text-gray-300">Store in Cloud Storage</label>
-        <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Store file(s) in your
-          configured cloud storage. This will allow you to view your files in the app.</p>
-      </div>
-    </div>
-    <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected"></BucketList>
+  
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document" helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue>
+
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" label="Store in Cloud Storage" helper="Store file(s) in your
+          configured cloud storage. This will allow you to view your files in the app."></CheckBoxWithTipVue>
+    <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
+    </BucketList>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -51,14 +45,14 @@ import FailureToast from "@/components/FailureToast.vue";
 import WarningToast from "@/components/WarningToast.vue";
 import DangerAlert from "@/components/DangerAlert.vue";
 import BucketList from "@/components/BucketList.vue";
-
+import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
 import getSettings from "@/services/settings";
 import getApiToken from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
   components: {
-    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast, DangerAlert, BucketList
+    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast, DangerAlert, BucketList, CheckBoxWithTipVue
   },
   data() {
     return {
@@ -76,7 +70,8 @@ export default {
       showFailureToast: false,
       storeFilesInCloud: false,
       bucketsList: [],
-      bucketName: ''
+      bucketName: '',
+      summaryEnabled: false,
     }
   },
   setup() {
@@ -92,7 +87,7 @@ export default {
     this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
     this.settings = await this.getSettings();
     this.bucketsList = this.settings.bucketsList.split(",");
-    if(this.bucketsList.length > 0){
+    if (this.bucketsList.length > 0) {
       this.bucketName = this.bucketsList[0];
     }
     this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);
@@ -126,7 +121,7 @@ export default {
       for (let i = 0; i < this.fileList.length; i++) {
         const formData = new FormData()
         formData.append('file', this.fileList[i])
-        formData.append('summarize', false);
+        formData.append('summarize', this.summaryEnabled);
         formData.append('user_email', this.user.email);
         formData.append('store_files_in_cloud', this.storeFilesInCloud);
         formData.append('bucket_name', this.bucketName);
@@ -162,8 +157,14 @@ export default {
       this.uploadedFileNameList.splice(idx, 1);
       this.fileList.splice(idx, 1);
     },
-    bucketSelected(bucketName){
+    bucketSelected(bucketName) {
       this.bucketName = bucketName;
+    },
+    toggleStoreInCloud(value) {
+      this.storeFilesInCloud = value;
+    },
+    toggleSummarization(value) {
+      this.summaryEnabled = value;
     }
   }
 };
