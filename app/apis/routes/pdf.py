@@ -7,7 +7,8 @@ from services.search.search import get_pdf_by_query
 from services.summarize.summary import summarize_text
 from services.storage.storage_ops import process_s3_files, get_presigned_url
 from services.security.verify_token import verify_token
-from app.services.queue.rabbit import send_queue_message
+from services.queue.queue import prepare_job
+import logging
 
 router = APIRouter()
 token_auth_scheme = HTTPBearer()
@@ -24,6 +25,32 @@ async def pdf_search(query: str, authenticated: bool = Depends(verify_token)):
         },
         status_code=200
     )
+
+
+@ router.post("/upload-async")
+async def upload_async_pdf(file: UploadFile, summarize: Annotated[str, Form()], user_email: Annotated[str, Form()], store_files_in_cloud: Annotated[bool, Form()], bucket_name: Annotated[str, Form()], authenticated: bool = Depends(verify_token)):
+    try:
+        prepare_job(file, params={
+            'summarize': summarize,
+            'user_email': user_email,
+            'store_files_in_cloud': store_files_in_cloud,
+            'bucket_name': bucket_name
+        })
+
+        return JSONResponse(
+            content={
+                "message": "Created"
+            },
+            status_code=201
+        )
+    except Exception as e:
+        logging.error(e)
+        return JSONResponse(
+            content={
+                "error": str(e)
+            },
+            status_code=500
+        )
 
 
 @ router.post("/upload")

@@ -6,5 +6,6 @@ CREATE TABLE settings (
 	aws_region VARCHAR,
 	no_sql_provider VARCHAR,
 	document_table_name VARCHAR,
-	parsing_api_key VARCHAR
-);
+	parsing_api_key VARCHAR,
+	buckets_list VARCHAR
+)

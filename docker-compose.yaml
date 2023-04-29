@@ -5,10 +5,14 @@ services:
     build: ./app/
     ports:
       - "8000:8000"
+    depends_on:
+      - "sqs"
+      - "parse-engine"
+
   frontend:
     build: ./frontend/
     ports:
-      - "8080:8080"
+      - "8080:80"
   db:
     image: postgres
     restart: always
@@ -18,3 +22,27 @@ services:
     ports:
       - '5432:5432'
 
+  sqs:
+    image: softwaremill/elasticmq
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+
+  parse-engine:
+    build: ./engine/
+    depends_on:
+      - "sqs"
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    command: server /data
+    volumes:
+      - minio_data:/data
+
+volumes:
+  minio_data:
