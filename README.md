@@ -1,4 +1,4 @@
-# pdf-search
+# heißdocs - [heissdocs.com](https://heissdocs.com/)
 
 A document search engine 🔍📄
 
