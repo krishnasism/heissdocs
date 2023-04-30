@@ -3,8 +3,9 @@
     <DangerAlert v-if="settingsNotSet" :alert="settingsNotSetAlert" :message="settingsNotSetMessage"></DangerAlert>
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
-  
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document" helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue>
+
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document"
+      helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue>
 
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" label="Store in Cloud Storage" helper="Store file(s) in your
           configured cloud storage. This will allow you to view your files in the app."></CheckBoxWithTipVue>
@@ -97,7 +98,7 @@ export default {
       return import.meta.env.VITE_BASE_API_URL
     },
     uploadApiUrl() {
-      return this.baseApiUrl + "/pdf/upload"
+      return this.baseApiUrl + "/pdf/upload-async"
     },
     settingsApiUrl() {
       return this.baseApiUrl + "/settings"
@@ -111,6 +112,10 @@ export default {
   },
   methods: {
     filesUploaded(files) {
+      if (this.fileList.length == 0 || this.uploadedFileNameList == 0) {
+        this.fileList = [];
+        this.uploadedFileNameList = [];
+      }
       for (let i = 0; i < files.length; i++) {
         this.uploadedFileNameList.push(files[i].name);
         this.fileList.push(files[i])
@@ -132,19 +137,19 @@ export default {
             'Authorization': 'Bearer ' + this.apiToken,
           }
         })
-        const data = await response.json()
         if (!response.ok) {
           this.showFailureToast = true;
           this.failureToastMessage = 'Failed to Parse';
           this.parsing = false;
+          break;
         }
-        else {
-          this.uploadedFileNameList = [];
-          this.fileList = [];
-          this.showSuccessToast = true;
-          this.toastMessage = 'Parsed!'
-          this.parsing = false;
-        }
+      }
+      if (!this.showFailureToast) {
+        this.uploadedFileNameList = [];
+        this.fileList = [];
+        this.showSuccessToast = true;
+        this.toastMessage = 'Parsed!'
+        this.parsing = false;
       }
     },
     closeSuccessToast() {
@@ -154,6 +159,10 @@ export default {
       this.showFailureToast = false;
     },
     deleteFile(idx) {
+      if (this.uploadedFileNameList.length == 1 || this.fileList.length == 1) {
+        this.uploadedFileNameList = [];
+        this.fileList = [];
+      }
       this.uploadedFileNameList.splice(idx, 1);
       this.fileList.splice(idx, 1);
     },
