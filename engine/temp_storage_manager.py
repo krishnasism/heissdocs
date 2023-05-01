@@ -6,6 +6,11 @@ def get_temp_storage_client():
                         aws_access_key_id='minio', aws_secret_access_key='minio123')
 
 
+def get_temp_storage_resource():
+    return boto3.resource('s3', endpoint_url='http://minio:9000',
+                          aws_access_key_id='minio', aws_secret_access_key='minio123')
+
+
 def create_local_storage():
     s3 = get_temp_storage_client()
     bucket_name = 'tempfiles'
@@ -25,7 +30,7 @@ def get_temp_file_stream(temp_file_name, temp_bucket_name):
 
 
 def delete_file(file_name, bucket_name):
-    s3 = get_temp_file_stream()
+    s3 = get_temp_storage_resource()
     try:
         obj = s3.Object(bucket_name, file_name)
         obj.delete()

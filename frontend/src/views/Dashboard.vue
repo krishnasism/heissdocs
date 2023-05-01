@@ -92,16 +92,20 @@ export default {
       this.bucketName = this.bucketsList[0];
     }
     this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);
+    this.refreshSettings();
   },
   computed: {
     baseApiUrl() {
       return import.meta.env.VITE_BASE_API_URL
     },
     uploadApiUrl() {
-      return this.baseApiUrl + "/pdf/upload-async"
+      return this.baseApiUrl + "/pdf/upload"
     },
     settingsApiUrl() {
       return this.baseApiUrl + "/settings"
+    },
+    refreshSettingsUrl() {
+      return this.baseApiUrl + "/refresh-queue-settings"
     },
     sendButtonMessage() {
       if (this.parsing) {
@@ -148,7 +152,7 @@ export default {
         this.uploadedFileNameList = [];
         this.fileList = [];
         this.showSuccessToast = true;
-        this.toastMessage = 'Parsed!'
+        this.toastMessage = 'Sent to Queue!'
         this.parsing = false;
       }
     },
@@ -174,6 +178,20 @@ export default {
     },
     toggleSummarization(value) {
       this.summaryEnabled = value;
+    },
+    async refreshSettings() {
+      if (this.isAuthenticated) {
+        const response = await fetch(this.refreshSettingsUrl + "?userEmail=" + this.user.email,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Authorization': 'Bearer ' + this.apiToken
+            },
+          })
+        const data = await response.json();
+        return data.message;
+      }
     }
   }
 };

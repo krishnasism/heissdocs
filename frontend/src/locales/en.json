@@ -10,6 +10,7 @@
         "logout": "Logout",
         "parsing": "Parsing",
         "sendforparsing": "Send for parsing",
-        "parsed": "Parsed!"
+        "parsed": "Parsed!",
+        "sentToQueue": "Sent to Queue!"
     }
 }

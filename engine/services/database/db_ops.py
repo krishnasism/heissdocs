@@ -1,22 +1,20 @@
 from .connectors import DatabaseConnection
-from services.config import get_settings
+from services.settings.settings import Settings
 from .databases import Databases
 from datetime import datetime
 from uuid import uuid4
 import logging
 import os
 
-settings = get_settings()
-
-
 def put_pdf_to_database(pdf_body, file_metadata):
-    configured_db = settings.document_db_provider
+    _settings = Settings.get_settings()
+    configured_db = _settings.document_db_provider
     database_connection = DatabaseConnection(configured_db)
     match configured_db:
         case Databases.mongodb.value:
-            return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=settings.mongodb_db_name, table_name=settings.mongodb_collection_name)
+            return _put_pdf_body_mongodb(database_connection.db_client, pdf_body, file_metadata, database_name=_settings.mongodb_db_name, table_name=_settings.mongodb_collection_name)
         case Databases.aws.value:
-            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=settings.aws_search_table_name)
+            return _put_pdf_body_dynamodb(database_connection.db_client, pdf_body, file_metadata, table_name=_settings.aws_search_table_name)
         case _:
             logging.error("[DB Ops - Document DB] Undefined provider")
             pass

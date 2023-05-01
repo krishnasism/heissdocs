@@ -1,17 +1,16 @@
 import logging
 import pytesseract
 from pdf2image import convert_from_path, pdfinfo_from_path
-from fastapi import UploadFile
 from tempfile import NamedTemporaryFile
 import os
 from multiprocessing import Pool, cpu_count
 from itertools import chain
 
 from services.utils.helpers import preprocess_parsed_text
-from services.database.db_ops import put_pdf_to_database
 from services.storage.storage_ops import upload_file_to_blob
 
 from uuid import uuid4
+
 
 class PDFParser():
     def __init__(self):
@@ -24,7 +23,8 @@ class PDFParser():
         page_data = []
         for pageNum, imgBlob in enumerate(chunk):
             text = pytesseract.image_to_string(imgBlob, lang='eng')
-            page_data.append((start_page + pageNum, preprocess_parsed_text(text)))
+            page_data.append(
+                (start_page + pageNum, preprocess_parsed_text(text)))
         return page_data
 
     def _get_ocr_body(self, path) -> str:
@@ -51,32 +51,11 @@ class PDFParser():
         return pdf_body
 
 
-def get_pdf_body(file: UploadFile, store_files_in_cloud: bool, bucket_name: str) -> dict:
-    file_name = file.filename
+def get_pdf_body(pdf_file: NamedTemporaryFile, original_file_name: str, store_files_in_cloud: bool, bucket_name: str) -> dict:
     file_metadata = {
-        "filename": file_name
+        "filename": original_file_name
     }
     pdf_parser = PDFParser()
-    temp_file = NamedTemporaryFile(delete=False)
-    try:
-        file_contents = file.file.read()
-        with temp_file as f:
-            f.write(file_contents)
-    except:
-        return ""
 
-    body = pdf_parser.parse(temp_file.name)
-
-    if store_files_in_cloud:
-        blob_file_name = str(uuid4()) + ".pdf"
-        with open(temp_file.name, "rb") as f:
-            if bucket_name:
-                response = upload_file_to_blob(f, blob_file_name, bucket_name)
-                if response:
-                    file_metadata['s3_blob_file_name'] = blob_file_name
-                    file_metadata['s3_bucket_name'] = bucket_name
-
-    status = put_pdf_to_database(body, file_metadata) # TODO: should be configurable 
-    temp_file.close()
-    os.remove(temp_file.name)
-    return body
+    body = pdf_parser.parse(pdf_file.name)
+    return body, file_metadata

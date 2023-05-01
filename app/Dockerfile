@@ -11,10 +11,13 @@ RUN apt-get install -y poppler-utils \
 
 RUN pip install --upgrade pip
 RUN pip install pipenv
-RUN pipenv install
-RUN pipenv run python -m nltk.downloader punkt
-RUN pipenv run python -m nltk.downloader stopwords
+
+RUN pipenv install --system --deploy --ignore-pipfile
+
+RUN python -m nltk.downloader punkt
+RUN python -m nltk.downloader stopwords
+
 COPY . /code/
 
 EXPOSE 8000
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

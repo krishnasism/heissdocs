@@ -5,6 +5,7 @@ from uuid import uuid4
 import logging
 import json
 from fastapi import UploadFile
+from enums.QueueMessages import QueueMessageTypes
 
 TEMP_BUCKET_NAME = 'tempfiles'  # TODO - Get from config
 
@@ -27,6 +28,7 @@ def prepare_job(file: UploadFile, params):
     params['temp_bucket_name'] = TEMP_BUCKET_NAME
     params['original_file_name'] = file.filename
 
+    params['message_type'] = QueueMessageTypes.PARSING.value
     send_queue_message(json.dumps(params))
 
 

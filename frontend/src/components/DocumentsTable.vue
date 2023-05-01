@@ -44,7 +44,7 @@
                         <td class="px-6 py-4">
                             {{ document.made_on }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4" v-if="document.s3_bucket_name">
                             <a :href="'/view-file?file_name=' + document.s3_blob_file_name + '&s3_bucket=' + document.s3_bucket_name"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                 target="_blank">View</a>
