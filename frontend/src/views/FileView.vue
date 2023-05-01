@@ -34,7 +34,8 @@ export default {
         this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
         const file_name = this.$route.query.file_name;
         const s3_bucket_name = this.$route.query.s3_bucket;
-        this.fileLink = await this.getFileLink(file_name, s3_bucket_name);
+        const page = this.$route.query.page;
+        this.fileLink = await this.getFileLink(file_name, s3_bucket_name, page);
     },
     computed: {
         baseApiUrl() {
@@ -45,7 +46,7 @@ export default {
         },
     },
     methods: {
-        async getFileLink(fileName, bucketName) {
+        async getFileLink(fileName, bucketName, page) {
             if (this.isAuthenticated) {
                 const response = await fetch(this.getFileUrl + "?file_name=" + fileName + '&bucket_name=' + bucketName,
                     {
@@ -56,7 +57,7 @@ export default {
                         },
                     })
                 const data = await response.json();
-                return data.file_url;
+                return data.file_url + '#page=' + String(page);
             }
         }
 

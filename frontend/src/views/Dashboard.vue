@@ -126,6 +126,7 @@ export default {
       }
     },
     async sendFilesForParsing() {
+      await this.refreshSettings();
       this.parsing = true;
       for (let i = 0; i < this.fileList.length; i++) {
         const formData = new FormData()

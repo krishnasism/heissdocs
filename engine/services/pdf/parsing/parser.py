@@ -35,7 +35,7 @@ class PDFParser():
         for page in range(1, max_pages+1, 10):
             pages_chunks.append((page, convert_from_path(
                 path, first_page=page, last_page=min(page+10-1, max_pages))))
-        with Pool(processes=int(cpu_count() * 1.5)) as pool:
+        with Pool(processes=5) as pool:
             page_results = [pool.apply_async(
                 self._parse_pytesseract, (page_chunk,)) for page_chunk in pages_chunks]
             pool.close()
