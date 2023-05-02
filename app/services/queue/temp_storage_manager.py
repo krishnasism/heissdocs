@@ -1,5 +1,5 @@
 import boto3
-
+import logging
 
 def get_temp_storage_client():
     return boto3.resource('s3', endpoint_url='http://minio:9000',
@@ -17,6 +17,6 @@ def upload_file_to_blob(filestream, filename, bucket='tempfiles'):
             pdf_object = s3_client.Object(bucket, filename)
             response = pdf_object.put(Body=filestream)
     except Exception as e:
-        print(f"[AWS - TempFile Manager] Error: {str(e)}")
+        logging.error(f"[AWS - TempFile Manager] Error: {str(e)}")
         return False
     return True

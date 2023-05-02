@@ -1,5 +1,5 @@
 import boto3
-
+import logging
 
 def get_temp_storage_client():
     return boto3.client('s3', endpoint_url='http://minio:9000',
@@ -35,6 +35,6 @@ def delete_file(file_name, bucket_name):
         obj = s3.Object(bucket_name, file_name)
         obj.delete()
     except Exception as e:
-        print(f"[AWS - TempFile Manager] Error: {str(e)}")
+        logging.error(f"[AWS - TempFile Manager] Error: {str(e)}")
         return False
     return True

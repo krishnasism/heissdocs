@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, String
+from sqlalchemy import String, Numeric
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -15,5 +15,17 @@ settings_table = sa.Table('settings',
                           sa.Column('parsing_api_key', String),
                           sa.Column('buckets_list', String),
                           )
+
+
+documents_progress_table = sa.Table('documents_progress',
+                                    Base.metadata,
+                                    sa.Column('id', String),
+                                    sa.Column('user_email', String),
+                                    sa.Column('document_id', String),
+                                    sa.Column('document_name', String),
+                                    sa.Column('stage', String),
+                                    sa.Column('pages_parsed', Numeric),
+                                    sa.Column('total_pages', Numeric),
+                                    )
 
 # TODO : Add auto migrations from tables -> database

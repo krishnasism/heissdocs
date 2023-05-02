@@ -1,9 +1,12 @@
 from queue_manager import get_local_sqs_client, get_queue_url, create_queue
 from temp_storage_manager import create_local_storage
 import logging
-from api_helpers import get_auth_token, process_file, get_settings
+from api_helpers import get_auth_token, get_settings
+from process import process_file
 from enums.QueueMessages import QueueMessageTypes
 from services.settings.settings import Settings
+from services.settings.api_token import APIToken
+
 import json
 
 MAX_RETRIES = 20
@@ -15,6 +18,8 @@ except:
 
 create_local_storage()
 api_token = get_auth_token()
+api_token_obj = APIToken.get_api_token()
+api_token_obj.update_api_token(api_token)
 
 logging.info("[Queue Handler] Token acquired..")
 
@@ -30,11 +35,12 @@ while True:
 
     messages = response.get('Messages', [])
     for message in messages:
+        logging.info("Processing file...")
         message_body = json.loads(message['Body'])
         if message_body.get('message_type') == QueueMessageTypes.PARSING.value:
             process_file(message['Body'])
         elif message_body.get('message_type') == QueueMessageTypes.SETTINGS_UPDATED.value:
-            settings = get_settings(message_body['user_email'], api_token)[
+            settings = get_settings(message_body['user_email'])[
                 'settings']
             settings_obj.update_settings(settings)
 

@@ -1,6 +1,6 @@
 from .connectors import StorageConnection
 from .storage_providers import StorageProviders
-
+import logging
 
 def get_presigned_url(bucket_name, blob_name):
     storage_connection = StorageConnection(StorageProviders.aws.value)
@@ -16,5 +16,5 @@ def get_presigned_url(bucket_name, blob_name):
         )
         return url
     except Exception as e:
-        print(e)
+        logging.error(e)
         return ""

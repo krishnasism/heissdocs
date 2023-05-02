@@ -43,7 +43,7 @@ def upload_file_to_blob(filestream, filename, bucket=None):
             pdf_object = s3_client.Object(bucket, filename)
             response = pdf_object.put(Body=filestream)
     except Exception as e:
-        print(f"[AWSManager] Error: {str(e)}")
+        logging.error(f"[AWSManager] Error: {str(e)}")
         return False
     return True
 
@@ -62,5 +62,5 @@ def get_presigned_url(bucket_name, blob_name):
         )
         return url
     except Exception as e:
-        print(e)
+        logging.error(e)
         return ""

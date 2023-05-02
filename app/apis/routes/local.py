@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from apis.requests.settings import Settings
+from apis.requests.document_progress import DocumentProgressRequest
 from services.local.postgres import PostgresManager
 from services.utils.helpers import convert_dict_to_camel_case
 from services.security.verify_token import verify_token
@@ -49,6 +50,28 @@ def refresh_queue_settings(userEmail: str, authenticated: bool = Depends(verify_
     return JSONResponse(
         content={
             "message": "Queue Refreshed",
+        },
+        status_code=200
+    )
+
+
+@router.get("/documents-progress")
+def get_documents_in_progress(userEmail: str, authenticated: bool = Depends(verify_token)):
+    documents = pm.get_documents_progress(userEmail)
+    return JSONResponse(
+        content={
+            "documents": documents
+        },
+        status_code=200
+    )
+
+
+@router.post("/documents-progress")
+def set_documents_in_progress(documentsProgressRequest: DocumentProgressRequest, authenticated: bool = Depends(verify_token)):
+    pm.update_documents_progress(documentsProgressRequest.dict())
+    return JSONResponse(
+        content={
+            "message": "success"
         },
         status_code=200
     )

@@ -10,7 +10,7 @@ from enums.QueueMessages import QueueMessageTypes
 TEMP_BUCKET_NAME = 'tempfiles'  # TODO - Get from config
 
 
-def prepare_job(file: UploadFile, params):
+def prepare_job(file: UploadFile, params) -> str:
     temp_file = NamedTemporaryFile(delete=False)
     try:
         file_contents = file.file.read()
@@ -29,8 +29,9 @@ def prepare_job(file: UploadFile, params):
     params['original_file_name'] = file.filename
 
     params['message_type'] = QueueMessageTypes.PARSING.value
+    params['document_unique_id'] = blob_file_name
     send_queue_message(json.dumps(params))
-
+    return blob_file_name
 
 def send_queue_message(message: str):
     client = get_local_sqs_client()
