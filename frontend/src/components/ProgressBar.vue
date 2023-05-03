@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+        <div class="relative w-full bg-gray-200 rounded-full dark:bg-gray-700 h-4">
+            <div class="absolute top-0 left-0 bg-blue-600 text-xs font-medium text-blue-100 leading-none rounded-full transition-all duration-500 ease-in-out pl-4 h-4"
                 :style="'width:' + progressPercent + '%'">{{ progressPercent }}%</div>
         </div>
     </div>

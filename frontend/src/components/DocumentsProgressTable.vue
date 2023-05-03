@@ -24,7 +24,7 @@
                         <td class="px-6 py-4 w-5">
                             {{ document.stage }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td>
                             <ProgressBar :progressPercent="document.total_pages > 0 ? Math.trunc((document.pages_parsed / document.total_pages) * 100) : 0"></ProgressBar>
                         </td>
                     </tr>
