@@ -11,6 +11,7 @@
         "parsing": "Parsing",
         "sendforparsing": "Send for parsing",
         "parsed": "Parsed!",
-        "sentToQueue": "Sent to Queue!"
+        "sentToQueue": "Sent to Queue!",
+        "progress": "Progress"
     }
 }

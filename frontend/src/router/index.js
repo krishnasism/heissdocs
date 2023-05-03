@@ -7,6 +7,8 @@ import Setup from '../views/Setup.vue'
 import Search from '../views/Search.vue'
 import Login from '../views/Login.vue'
 import FileView from '../views/FileView.vue'
+import DocumentsProgress from '../views/DocumentsProgress.vue'
+
 import { createAuth0, authGuard } from '@auth0/auth0-vue';
 
 const router = createRouter({
@@ -58,6 +60,12 @@ const router = createRouter({
       path: '/view-file',
       name: 'view-file',
       component: FileView,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/progress',
+      name: 'progress',
+      component: DocumentsProgress,
       beforeEnter: authGuard,
     },
     {

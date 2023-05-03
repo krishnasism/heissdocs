@@ -58,13 +58,18 @@ class PDFParser():
             chain(*[page_result.get() for page_result in page_results]))
         for result in multiple_results:
             body[result[0]] = result[1]
+
+        document_progress['total_pages'] = max_pages
+        document_progress['pages_parsed'] = max_pages
+        document_progress['stage'] = FileStages.COMPLETED.value
+        update_document_progress(document_progress)
+
         return body
 
     def parse(self, path: str, document_progress: dict) -> str:
         global counter
         counter = Value('i', 0)
         pdf_body = self._get_ocr_body(path, document_progress)
-        document_progress['stage'] = FileStages.COMPLETED.value
         return pdf_body
 
 
