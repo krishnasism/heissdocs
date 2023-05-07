@@ -4,7 +4,6 @@ from .databases import Databases
 from datetime import datetime
 from uuid import uuid4
 import logging
-import os
 
 def put_pdf_to_database(pdf_body, file_metadata):
     _settings = Settings.get_settings()

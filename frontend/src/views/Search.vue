@@ -51,7 +51,7 @@ export default {
     async handleSearch(evt) {
       this.loading = true;
       if (this.isAuthenticated) {
-        fetch(this.pdfSearchApiUrl + "?query=" + evt,
+        fetch(this.pdfSearchApiUrl + "?query=" + evt + '&user_email=' + this.user.email,
           {
             method: 'GET',
             headers: {

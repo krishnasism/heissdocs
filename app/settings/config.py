@@ -32,3 +32,10 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings():
     return Settings()
+
+
+def override_settings(settings: Settings, override_settings_dict: dict) -> Settings:
+    for key, value in override_settings_dict.items():
+        if hasattr(settings, key):
+            setattr(settings, key, value)
+    return settings

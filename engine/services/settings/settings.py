@@ -1,3 +1,6 @@
+import logging
+
+
 class Settings():
     _instance = None
     aws_access_key = ''
@@ -17,6 +20,9 @@ class Settings():
             Settings._instance = self
 
     def update_settings(self, settings: dict):
+        if len(settings) == 0:
+            logging.error("[Queue - Settings] Settings not yet set, passing...")
+            return None
         # TODO : Remove dup settings
         self.aws_access_key = settings['awsAccessKey']
         self.aws_secret = settings['awsSecret']

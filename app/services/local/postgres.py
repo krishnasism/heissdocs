@@ -1,10 +1,9 @@
 from sqlalchemy import create_engine, insert, update, and_
-import os
 import logging
 from .database.tables import settings_table, documents_progress_table
 import re
 from uuid import uuid4
-from services.config import get_settings
+from settings.config import get_settings
 
 
 SETTINGS_TABLE_NAME = 'settings'
@@ -14,9 +13,9 @@ CAMEL_TO_SNAKE_PATTERN = re.compile(r'(?<!^)(?=[A-Z])')
 
 class PostgresManager():
     client = None
-    settings = get_settings()
 
     def __init__(self):
+        self.settings = get_settings()
         self._connect()
 
     def _convert_dict_to_snake_case(self, camel_dict: dict):

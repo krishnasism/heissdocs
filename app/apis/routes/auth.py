@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from services.local.postgres import PostgresManager
 import http.client
-from services.config import get_settings
+from settings.config import get_settings
 import json
 
 

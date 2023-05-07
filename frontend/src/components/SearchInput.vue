@@ -21,6 +21,8 @@ export default {
     name: 'SearchInput',
     props: {
     },
+    setup() {
+    },
     data() {
         return {
             searchText: '',

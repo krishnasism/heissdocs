@@ -48,7 +48,7 @@ export default {
     methods: {
         async getFileLink(fileName, bucketName, page) {
             if (this.isAuthenticated) {
-                const response = await fetch(this.getFileUrl + "?file_name=" + fileName + '&bucket_name=' + bucketName,
+                const response = await fetch(this.getFileUrl + "?file_name=" + fileName + '&bucket_name=' + bucketName + '&user_email=' + this.user.email,
                     {
                         method: 'GET',
                         headers: {

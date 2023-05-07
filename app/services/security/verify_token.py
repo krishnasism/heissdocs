@@ -1,4 +1,4 @@
-from services.config import get_settings
+from settings.config import get_settings
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer

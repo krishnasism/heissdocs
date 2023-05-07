@@ -2,8 +2,8 @@ from .connectors import StorageConnection
 from .storage_providers import StorageProviders
 import logging
 
-def get_presigned_url(bucket_name, blob_name):
-    storage_connection = StorageConnection(StorageProviders.aws.value)
+def get_presigned_url(bucket_name, blob_name, user_email):
+    storage_connection = StorageConnection(StorageProviders.aws.value, user_email)
     s3_client = storage_connection.storage_low_level_client
     try:
         url = s3_client.generate_presigned_url(

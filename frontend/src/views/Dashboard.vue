@@ -87,11 +87,14 @@ export default {
   async mounted() {
     this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
     this.settings = await this.getSettings();
-    this.bucketsList = this.settings.bucketsList.split(",");
+    this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);
+
+    if (!(this.settings.bucketsList == null || this.settings.bucketsList == undefined)) {
+      this.bucketsList = this.settings.bucketsList.split(",");
+    }
     if (this.bucketsList.length > 0) {
       this.bucketName = this.bucketsList[0];
     }
-    this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);
     this.refreshSettings();
   },
   computed: {

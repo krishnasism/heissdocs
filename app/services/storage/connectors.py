@@ -1,16 +1,17 @@
 from .storage_providers import StorageProviders
-from services.config import get_settings
+from settings.config import get_settings, override_settings
+from settings.override_config import get_override_settings
 import logging
 import boto3
-import os
-
-settings = get_settings()
 
 
 class StorageConnection():
     storage_client = None
     storage_low_level_client = None
-    def __init__(self, provider_name: str):
+
+    def __init__(self, provider_name: str, user_email: None):
+        self.settings = override_settings(
+            get_settings(), get_override_settings(user_email))
         match provider_name:
             case StorageProviders.aws.value:
                 self._connect_to_s3()
@@ -20,8 +21,8 @@ class StorageConnection():
                 logging.error("[Storage Connection] Undefined")
 
     def _connect_to_s3(self):
-        session = boto3.Session(aws_access_key_id=settings.aws_access_key,
-                                aws_secret_access_key=settings.aws_secret, region_name=settings.aws_region)
+        session = boto3.Session(aws_access_key_id=self.settings.aws_access_key,
+                                aws_secret_access_key=self.settings.aws_secret, region_name=self.settings.aws_region)
         self.storage_client = session.resource('s3')
         self.storage_low_level_client = session.client('s3')
 

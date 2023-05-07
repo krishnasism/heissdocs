@@ -2,17 +2,17 @@
 import logging
 import boto3
 import pymongo
-import os
 
 from .databases import Databases
-from services.config import get_settings
+from settings.config import get_settings, override_settings
+from settings.override_config import get_override_settings
 
 
 class DatabaseConnection():
     db_client = None
-    settings = get_settings()
 
-    def __init__(self, db_name: str):
+    def __init__(self, db_name: str, user_email: None):
+        self.settings = override_settings(get_settings(), get_override_settings(user_email))
         match db_name:
             case Databases.mongodb.value:
                 self._connect_to_mongodb()
@@ -26,5 +26,6 @@ class DatabaseConnection():
         self.db_client = pymongo.MongoClient(mongo_db_full_endpoint_url)
 
     def _connect_to_aws(self):
-        session = boto3.Session(aws_access_key_id=self.settings.aws_access_key, aws_secret_access_key=self.settings.aws_secret, region_name=self.settings.aws_region)
+        session = boto3.Session(aws_access_key_id=self.settings.aws_access_key,
+                                aws_secret_access_key=self.settings.aws_secret, region_name=self.settings.aws_region)
         self.db_client = session.resource('dynamodb')
