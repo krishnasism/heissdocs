@@ -51,13 +51,18 @@ def process_file(message):
                     file_metadata['s3_bucket_name'] = bucket_name
 
     status = put_pdf_to_database(pdf_body, file_metadata)
+
+    if not status:
+        document_progress['stage'] = FileStages.ERROR.value
+        update_document_progress(document_progress)
+
     temp_file.close()
     os.remove(temp_file.name)
     try:
         delete_file(file_params['temp_file_name'],
                     file_params['temp_bucket_name'])
     except:
-        logging.warning('[Process] File could not be deleted from S3')
+        logging.warning('[Process] Temp file could not be deleted from S3')
 
     if status:
         return True
