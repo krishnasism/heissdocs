@@ -2,6 +2,11 @@
 
 A Document Search Engine 🔍📄
 
+Add a searchable layer on top of your PDFs!
+
+Fully open-source and ready to be deployed.
+You store, own, and control the data. 100% private!
+
 ### Note:
 > This is a project at its infancy, so please expect things to break as it moves forward.
 But the vision of this project is to allow the user to NOT be locked into an ecosystem, so your data is governed and stored by you - therefore even if the app breaks, your data should be supported and can be accessed using tools already at your disposal.
