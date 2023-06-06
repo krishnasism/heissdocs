@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class Settings(BaseModel):
     userEmail: str
@@ -8,5 +8,5 @@ class Settings(BaseModel):
     awsRegion: str
     noSqlProvider: str
     documentTableName: str
-    parsingApiKey: str
+    parsingApiKey: Optional[str]
     bucketsList: str
