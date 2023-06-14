@@ -1,4 +1,4 @@
-CREATE TABLE documents_progress (
+CREATE TABLE IF NOT EXISTS documents_progress (
     id VARCHAR PRIMARY KEY,
     user_email VARCHAR NOT NULL,
     document_id VARCHAR NOT NULL UNIQUE,

@@ -1,4 +1,4 @@
-CREATE TABLE settings (
+CREATE TABLE IF NOT EXISTS settings (
 	id VARCHAR PRIMARY KEY,
 	user_email VARCHAR unique not null,
 	aws_access_key VARCHAR,

@@ -17,10 +17,10 @@ nltk = "==3.8.1"
 scikit-learn = "==1.2.2"
 pymongo = "==4.3.3"
 psycopg2 = "==2.9.6"
-requests = "*"
 sqlalchemy = "==2.0.9"
 python-dotenv = "*"
 "pyjwt[crypto]" = "*"
+"httpx" = "*"
 
 [dev-packages]
 autopep8 = "*"

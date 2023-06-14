@@ -15,7 +15,7 @@ pm = PostgresManager()
 
 
 @router.post("/settings")
-def update_settings(settings: Settings, authenticated: bool = Depends(verify_token)):
+async def update_settings(settings: Settings, authenticated: bool = Depends(verify_token)):
     pm.update_settings(settings.dict())
     q_params = {}
     q_params['message_type'] = QueueMessageTypes.SETTINGS_UPDATED.value
@@ -31,7 +31,7 @@ def update_settings(settings: Settings, authenticated: bool = Depends(verify_tok
 
 
 @router.get("/settings")
-def get_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
+async def get_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
     settings = convert_dict_to_camel_case(pm.get_settings(userEmail))
     return JSONResponse(
         content={
@@ -42,7 +42,7 @@ def get_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
 
 
 @router.get("/refresh-queue-settings")
-def refresh_queue_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
+async def refresh_queue_settings(userEmail: str, authenticated: bool = Depends(verify_token)):
     q_params = {}
     q_params['message_type'] = QueueMessageTypes.SETTINGS_UPDATED.value
     q_params['user_email'] = userEmail
@@ -56,7 +56,7 @@ def refresh_queue_settings(userEmail: str, authenticated: bool = Depends(verify_
 
 
 @router.get("/documents-progress")
-def get_documents_in_progress(userEmail: str, authenticated: bool = Depends(verify_token)):
+async def get_documents_in_progress(userEmail: str, authenticated: bool = Depends(verify_token)):
     documents = pm.get_documents_progress(userEmail)
     return JSONResponse(
         content={
@@ -67,7 +67,7 @@ def get_documents_in_progress(userEmail: str, authenticated: bool = Depends(veri
 
 
 @router.post("/documents-progress")
-def set_documents_in_progress(documentsProgressRequest: DocumentProgressRequest, authenticated: bool = Depends(verify_token)):
+async def set_documents_in_progress(documentsProgressRequest: DocumentProgressRequest, authenticated: bool = Depends(verify_token)):
     pm.update_documents_progress(documentsProgressRequest.dict())
     return JSONResponse(
         content={

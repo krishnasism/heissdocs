@@ -11,7 +11,7 @@ settings = get_settings()
 
 
 @router.post("/get-token")
-def get_token():
+async def get_token():
     conn = http.client.HTTPSConnection(settings.auth0_domain)
 
     payload = {

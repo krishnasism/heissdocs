@@ -5,7 +5,7 @@ router = APIRouter()
 
 
 @router.get("/health-check/")
-def health_check():
+async def health_check():
     return JSONResponse(
         content={
             "message": "healthy",
@@ -15,7 +15,7 @@ def health_check():
 
 
 @router.get("/auth-check/")
-def auth_check(authenticated: bool = Depends(verify_token)):
+async def auth_check(authenticated: bool = Depends(verify_token)):
     return JSONResponse(
         content={
             "message": "success",

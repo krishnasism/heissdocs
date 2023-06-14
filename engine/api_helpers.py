@@ -1,13 +1,12 @@
-import requests
 import logging
 import time
 from services.settings.api_token import APIToken
+import httpx
 
 MAX_RETRIES = 20
 
 
 def get_auth_token():
-    apitoken_obj = APIToken.get_api_token()
     retries = 0
     access_token = ''
     auth_endpoint = 'http://app:8000/auth/get-token'  # TODO: Config
@@ -18,8 +17,8 @@ def get_auth_token():
                 'userEmail': 'xxx',
                 'userKey': 'yyy'
             }
-            auth_res = requests.post(
-                auth_endpoint, data=auth_payload).json()
+
+            auth_res = httpx.post(auth_endpoint, data=auth_payload).json()
             access_token = auth_res.get('access_token')
             if not access_token:
                 raise Exception('[Queue Handler] Unable to auth')
@@ -43,8 +42,8 @@ def get_settings(user_email):
     payload = {
         'userEmail': user_email
     }
-    response = requests.request(
-        "GET", settings_endpoint, headers=headers, params=payload)
+    response = httpx.get(
+        settings_endpoint, headers=headers, params=payload)
     if response.status_code == 200:
         return response.json()
     else:
@@ -63,10 +62,10 @@ def update_document_progress(document_progress: dict):
         'documentName': document_progress['document_name'],
         'stage': document_progress['stage'],
         'pagesParsed': str(document_progress['pages_parsed']),
-        'totalPages': str(document_progress['total_pages'])
+        'totalPages': str(document_progress['total_pages']),
     }
-    response = requests.request(
-        'POST', documents_progress_endpoint, headers=headers, json=payload)
+    response = httpx.post(
+        documents_progress_endpoint, headers=headers, json=payload)
     if response.status_code == 200:
         return response.json()
     else:
