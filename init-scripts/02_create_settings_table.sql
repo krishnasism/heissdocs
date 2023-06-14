@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS settings (
 	document_table_name VARCHAR,
 	parsing_api_key VARCHAR,
 	buckets_list VARCHAR
-)
+);
