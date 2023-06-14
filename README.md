@@ -1,5 +1,6 @@
 # heißdocs - [heissdocs.com](https://heissdocs.com/)
-WORK IN PROGRESS
+
+# ## UNDER ACTIVE DEVELOPMENT ##
 
 A Document Search Engine 🔍📄
 
