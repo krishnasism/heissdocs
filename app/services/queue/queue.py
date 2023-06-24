@@ -9,6 +9,9 @@ from enums.QueueMessages import QueueMessageTypes
 
 TEMP_BUCKET_NAME = 'tempfiles'  # TODO - Get from config
 
+def prepare_s3_job(bucket_name: str, key_name: str) -> str:
+    # TODO: Create entry in database
+    pass
 
 def prepare_job(file: UploadFile, params) -> str:
     temp_file = NamedTemporaryFile(delete=False)

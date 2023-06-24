@@ -12,6 +12,7 @@ class Settings():
     parsing_api_key = ''
     buckets_list = ''
     aws_search_table_name = ''
+    scan_bucket = ''
 
     def __init__(self):
         if Settings._instance is not None:
@@ -33,6 +34,7 @@ class Settings():
         self.aws_search_table_name = settings['documentTableName']
         self.parsing_api_key = settings['parsingApiKey']
         self.buckets_list = settings['bucketsList']
+        self.scan_bucket = settings['scanBucket']
 
     @classmethod
     def get_settings(cls):

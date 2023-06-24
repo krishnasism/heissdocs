@@ -8,6 +8,7 @@ import Search from '../views/Search.vue'
 import Login from '../views/Login.vue'
 import FileView from '../views/FileView.vue'
 import DocumentsProgress from '../views/DocumentsProgress.vue'
+import CloudInterface from '../views/CloudInterface.vue'
 
 import { createAuth0, authGuard } from '@auth0/auth0-vue';
 
@@ -66,6 +67,12 @@ const router = createRouter({
       path: '/progress',
       name: 'progress',
       component: DocumentsProgress,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/cloud-interface',
+      name: 'cloud-interface',
+      component: CloudInterface,
       beforeEnter: authGuard,
     },
     {

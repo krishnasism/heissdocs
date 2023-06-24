@@ -30,7 +30,7 @@ async def pdf_search(query: str, user_email: str, authenticated: bool = Depends(
     )
 
 
-@ router.post("/upload")
+@router.post("/upload")
 async def upload_pdf(file: UploadFile, summarize: Annotated[str, Form()], user_email: Annotated[str, Form()], store_files_in_cloud: Annotated[bool, Form()], bucket_name: Annotated[str, Form()], authenticated: bool = Depends(verify_token)):
     try:
         document_id = prepare_job(file, params={

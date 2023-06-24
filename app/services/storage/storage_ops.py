@@ -18,3 +18,19 @@ def get_presigned_url(bucket_name, blob_name, user_email):
     except Exception as e:
         logging.error(e)
         return ""
+
+def get_all_s3_files(bucket_name: str, user_email: str):
+    try:
+        storage_connection = StorageConnection(StorageProviders.aws.value, user_email)
+        s3_client = storage_connection.storage_client
+        bucket = s3_client.Bucket(bucket_name)
+        return {
+            "files": [bucket_obj.key for bucket_obj in bucket.objects.all()],
+            "error": None
+        }
+    except Exception as e:
+        logging.error("[Storage S3] Something went wrong", str(e))
+        return {
+            "files": None,
+            "error": str(e)
+        }
