@@ -10,11 +10,6 @@ services:
       - "parse-engine"
       - "db"
 
-  frontend:
-    build: ./frontend/
-    ports:
-      - "8080:80"
-
   db:
     image: postgres
     restart: always
