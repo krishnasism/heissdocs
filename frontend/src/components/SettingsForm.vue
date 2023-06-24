@@ -42,9 +42,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected value="default">Select provider</option>
                             <option value="aws">Amazon Web Services</option>
-                            <option value="mongodb">MongoDB</option>
-                            <option value="azure">MS Azure</option>
-                            <option value="other">Other</option>
+                            <option value="mongodb">MongoDB [Unsupported]</option>
+                            <option value="azure">MS Azure [Unsupported]</option>
+                            <option value="other">Other  [Unsupported]</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2">
@@ -55,14 +55,16 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of database where parsed PDF data will be stored in" v-model="documentTableName">
                     </div>
-                    <p class="mt-5 font-black sm:col-span-2">Parsing Engine</p>
+                    <p class="mt-5 font-black sm:col-span-2">Parsing Engine [Unsupported]</p>
                     <p class="sm:col-span-2">In case you are not hosting the Parsing Engine yourself, please provide the
                         API key that you got from our <a class="text-blue-700" href="#">portal.</a></p>
                     <div class="sm:col-span-2">
                         <label for="parsingAPIKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Parsing API Key</label>
                         <input type="password" name="parsingAPIKey" id="parsingAPIKey"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            disabled
+                            value="PLACEHOLDER"
+                            class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Enter your Parsing API Key" v-model="parsingApiKey">
                     </div>
                 </div>
