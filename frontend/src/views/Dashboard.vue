@@ -4,8 +4,9 @@
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
 
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document"
-      helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue>
+    <!--TODO: Enable this-->
+    <!-- <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document [Coming Soon]"
+      helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue> -->
 
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" label="Store in Cloud Storage" helper="Store file(s) in your
           configured cloud storage. This will allow you to view your files in the app."></CheckBoxWithTipVue>
