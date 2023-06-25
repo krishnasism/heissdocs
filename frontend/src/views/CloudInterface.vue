@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p v-if="scanBucket">Reading files from bucket: {{ scanBucket }}</p>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
     <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError" class="w-full"
       @parse-document="sendToParse"></S3DocumentsTable>
