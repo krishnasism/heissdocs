@@ -5,7 +5,7 @@
     </div>
 </template>
 <script>
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 import DocumentsProgressTable from "@/components/DocumentsProgressTable.vue";
 
@@ -18,10 +18,12 @@ export default {
             apiToken: String,
             documents: Array,
             timer: '',
+            authService: null,
         }
     },
     async mounted() {
-        this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
+        this.authService = new AuthService(this.user.email, this.user.sub);
+        this.apiToken = await this.authService.getApiToken();
         this.documents = await this.getDocumentsProgress();
         this.timer = setInterval(this.getDocumentsProgress, 10000);
     },
@@ -30,11 +32,10 @@ export default {
         return {
             user,
             isAuthenticated,
-            getApiToken
         };
     },
-    beforeUnmount () {
-      this.cancelAutoUpdate();
+    beforeUnmount() {
+        this.cancelAutoUpdate();
     },
     computed: {
         baseApiUrl() {
@@ -45,7 +46,7 @@ export default {
         }
     },
     methods: {
-        cancelAutoUpdate () {
+        cancelAutoUpdate() {
             clearInterval(this.timer);
         },
         async getDocumentsProgress() {

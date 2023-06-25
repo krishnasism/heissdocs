@@ -49,7 +49,7 @@ import DangerAlert from "@/components/DangerAlert.vue";
 import BucketList from "@/components/BucketList.vue";
 import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
 import SettingsService from "@/services/settings";
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 export default {
   components: {
@@ -74,6 +74,7 @@ export default {
       bucketName: '',
       summaryEnabled: false,
       settingsService: null,
+      authService: null,
     }
   },
   setup() {
@@ -81,12 +82,13 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken,
       SettingsService,
+      AuthService,
     };
   },
   async mounted() {
-    this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
+    this.authService = new AuthService(this.user.email, this.user.sub);
+    this.apiToken = await this.authService.getApiToken(this.user.email, this.user.sub)
     this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
     this.settings = await this.settingsService.getSettings();
     this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);

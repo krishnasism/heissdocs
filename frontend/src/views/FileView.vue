@@ -8,7 +8,7 @@
 <script>
 import FileEmbed from "@/components/FileEmbed.vue";
 
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
@@ -19,7 +19,8 @@ export default {
         return {
             uploadedFileNameList: [],
             bucketName: '',
-            fileLink: ''
+            fileLink: '',
+            authService: null,
         }
     },
     setup() {
@@ -27,11 +28,12 @@ export default {
         return {
             user,
             isAuthenticated,
-            getApiToken
+            AuthService,
         };
     },
     async mounted() {
-        this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
+        this.authService = new AuthService(this.user.email, this.user.sub);
+        this.apiToken = await this.authService.getApiToken();
         const file_name = this.$route.query.file_name;
         const s3_bucket_name = this.$route.query.s3_bucket;
         const page = this.$route.query.page;

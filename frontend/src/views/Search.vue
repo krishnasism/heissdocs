@@ -7,7 +7,7 @@
 <script>
 import DocumentsTable from "@/components/DocumentsTable.vue";
 import SearchInput from "@/components/SearchInput.vue";
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
@@ -19,13 +19,15 @@ export default {
     return {
       loading: true,
       documents: [],
-      apiToken: null
+      apiToken: null,
+      authService: null,
     }
   },
   async mounted() {
     const search = this.$route.query.search;
     if (this.isAuthenticated && this.apiToken == null) {
-      this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
+      this.authService = new AuthService(this.user.email, this.user.sub);
+      this.apiToken = await this.authService.getApiToken();
     }
     if (search !== undefined || search != null) {
       this.handleSearch(search);
@@ -36,7 +38,7 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken
+      AuthService,
     };
   },
   computed: {

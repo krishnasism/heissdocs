@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 import SettingsService from "@/services/settings";
 import DangerAlert from "@/components/DangerAlert.vue";
@@ -40,11 +40,13 @@ export default {
       settingsService: null,
       bucketName: null,
       toasts: [],
+      authService: null,
     }
   },
   async mounted() {
     if (this.isAuthenticated && this.apiToken == null) {
-      this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
+      this.authService = new AuthService(this.user.email, this.user.sub);
+      this.apiToken = await this.authService.getApiToken();
       this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
       this.settings = await this.settingsService.getSettings();
       this.scanBucket = this.settings.scanBucket;
@@ -64,8 +66,8 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken,
       SettingsService,
+      AuthService,
     };
   },
   computed: {

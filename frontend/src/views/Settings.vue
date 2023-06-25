@@ -13,7 +13,7 @@
 <script>
 import SettingsForm from "@/components/SettingsForm.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
-import getApiToken from "@/services/auth";
+import AuthService from "@/services/auth";
 import SettingsService from "@/services/settings";
 
 
@@ -29,7 +29,8 @@ export default {
       settings: null,
       showSuccessToast: false,
       toastMessage: '',
-      apiToken: ''
+      apiToken: '',
+      authService: null,
     }
   },
   setup() {
@@ -37,12 +38,13 @@ export default {
     return {
       user,
       isAuthenticated,
-      getApiToken,
+      AuthService,
       SettingsService,
     };
   },
   async mounted() {
-    this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
+    this.authService = new AuthService(this.user.email, this.user.sub);
+    this.apiToken = await this.authService.getApiToken();
     this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
     this.settings = await this.settingsService.getSettings();
   },
