@@ -28,10 +28,17 @@
                     </div>
                     <div class="sm:col-span-2">
                         <label for="bucketsList"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Buckets</label>
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destination Buckets</label>
                         <input type="text" name="bucketsList" id="bucketsList"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of buckets that you want to be able to upload to (comma separated)" v-model="bucketsList">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="scanBucket"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">S3 Bucket [Source - Parsing]</label>
+                        <input type="text" name="scanBucket" id="scanBucket"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Name of bucket that has PDFs to be parsed in the Cloud Interface" v-model="scanBucket">
                     </div>
                     <p class="mt-5 font-black">NoSQL Engine Host</p>
                     <div class="sm:col-span-2">
@@ -55,14 +62,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of database where parsed PDF data will be stored in" v-model="documentTableName">
                     </div>
-                    <div class="sm:col-span-2">
-                        <label for="scanBucket"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">S3 Bucket (To Scan)</label>
-                        <input type="text" name="scanBucket" id="scanBucket"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Name of bucket that has PDFs to be parsed" v-model="scanBucket">
-                    </div>
-                    <p class="mt-5 font-black sm:col-span-2">Parsing Engine [Unsupported]</p>
+                    <!-- <p class="mt-5 font-black sm:col-span-2">Parsing Engine [Unsupported]</p>
                     <p class="sm:col-span-2">In case you are not hosting the Parsing Engine yourself, please provide the
                         API key that you got from our <a class="text-blue-700" href="#">portal.</a></p>
                     <div class="sm:col-span-2">
@@ -72,7 +72,7 @@
                             disabled
                             class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Enter your Parsing API Key" v-model="parsingApiKey">
-                    </div>
+                    </div> -->
                 </div>
                 <button type="submit" @click="submitSettings"
                     class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
