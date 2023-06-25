@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from services.security.verify_token import verify_token
+
 router = APIRouter()
 
 
@@ -10,7 +11,7 @@ async def health_check():
         content={
             "message": "healthy",
         },
-        status_code=200
+        status_code=200,
     )
 
 
@@ -20,5 +21,5 @@ async def auth_check(authenticated: bool = Depends(verify_token)):
         content={
             "message": "success",
         },
-        status_code=200
+        status_code=200,
     )

@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     mongodb_db_username: str
     mongodb_db_password: str
     postgres_username: str
-    postgres_password:  str
+    postgres_password: str
     postgres_endpoint: str
     auth0_domain: str
     auth0_api_audience: str

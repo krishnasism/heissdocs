@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class Settings(BaseModel):
     userEmail: str
     awsAccessKey: str

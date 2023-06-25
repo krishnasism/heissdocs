@@ -18,10 +18,10 @@ async def get_token():
         "client_id": settings.auth0_client_id,
         "client_secret": settings.auth0_client_secret,
         "audience": settings.auth0_api_audience,
-        "grant_type": "client_credentials"
+        "grant_type": "client_credentials",
     }
 
-    headers = {'content-type': "application/json"}
+    headers = {"content-type": "application/json"}
 
     conn.request("POST", "/oauth/token", json.dumps(payload), headers)
 
