@@ -1,18 +1,18 @@
 import logging
 
 
-class Settings():
+class Settings:
     _instance = None
-    aws_access_key = ''
-    aws_secret = ''
-    aws_region = ''
-    no_sql_provider = ''
-    document_db_provider = ''
-    document_table_name = ''
-    parsing_api_key = ''
-    buckets_list = ''
-    aws_search_table_name = ''
-    scan_bucket = ''
+    aws_access_key = ""
+    aws_secret = ""
+    aws_region = ""
+    no_sql_provider = ""
+    document_db_provider = ""
+    document_table_name = ""
+    parsing_api_key = ""
+    buckets_list = ""
+    aws_search_table_name = ""
+    scan_bucket = ""
 
     def __init__(self):
         if Settings._instance is not None:
@@ -25,16 +25,16 @@ class Settings():
             logging.error("[Queue - Settings] Settings not yet set, passing...")
             return None
         # TODO : Remove dup settings
-        self.aws_access_key = settings['awsAccessKey']
-        self.aws_secret = settings['awsSecret']
-        self.aws_region = settings['awsRegion']
-        self.no_sql_provider = settings['noSqlProvider']
-        self.document_db_provider = settings['noSqlProvider']
-        self.document_table_name = settings['documentTableName']
-        self.aws_search_table_name = settings['documentTableName']
-        self.parsing_api_key = settings['parsingApiKey']
-        self.buckets_list = settings['bucketsList']
-        self.scan_bucket = settings['scanBucket']
+        self.aws_access_key = settings["awsAccessKey"]
+        self.aws_secret = settings["awsSecret"]
+        self.aws_region = settings["awsRegion"]
+        self.no_sql_provider = settings["noSqlProvider"]
+        self.document_db_provider = settings["noSqlProvider"]
+        self.document_table_name = settings["documentTableName"]
+        self.aws_search_table_name = settings["documentTableName"]
+        self.parsing_api_key = settings["parsingApiKey"]
+        self.buckets_list = settings["bucketsList"]
+        self.scan_bucket = settings["scanBucket"]
 
     @classmethod
     def get_settings(cls):

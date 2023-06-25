@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DocumentsProgressTable :documents="documents" v-if="documents.length > 0"></DocumentsProgressTable>
+        <DocumentsProgressTable :documents="documents" v-if="documents"></DocumentsProgressTable>
         <p v-else>No files in progress...</p>
     </div>
 </template>

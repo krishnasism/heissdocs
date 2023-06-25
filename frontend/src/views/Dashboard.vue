@@ -48,10 +48,9 @@ import WarningToast from "@/components/WarningToast.vue";
 import DangerAlert from "@/components/DangerAlert.vue";
 import BucketList from "@/components/BucketList.vue";
 import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
-import getSettings from "@/services/settings";
+import SettingsService from "@/services/settings";
 import getApiToken from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
-
 export default {
   components: {
     FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast, DangerAlert, BucketList, CheckBoxWithTipVue
@@ -74,6 +73,7 @@ export default {
       bucketsList: [],
       bucketName: '',
       summaryEnabled: false,
+      settingsService: null,
     }
   },
   setup() {
@@ -82,12 +82,13 @@ export default {
       user,
       isAuthenticated,
       getApiToken,
-      getSettings
+      SettingsService,
     };
   },
   async mounted() {
     this.apiToken = await this.getApiToken(this.user.email, this.user.sub)
-    this.settings = await this.getSettings();
+    this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
+    this.settings = await this.settingsService.getSettings();
     this.settingsNotSet = (this.settings == null) || (Object.keys(this.settings).length == 0);
 
     if (!(this.settings.bucketsList == null || this.settings.bucketsList == undefined)) {
@@ -96,7 +97,7 @@ export default {
     if (this.bucketsList.length > 0) {
       this.bucketName = this.bucketsList[0];
     }
-    this.refreshSettings();
+    this.settingsService.refreshSettings();
   },
   computed: {
     baseApiUrl() {
@@ -104,12 +105,6 @@ export default {
     },
     uploadApiUrl() {
       return this.baseApiUrl + "/pdf/upload"
-    },
-    settingsApiUrl() {
-      return this.baseApiUrl + "/settings"
-    },
-    refreshSettingsUrl() {
-      return this.baseApiUrl + "/refresh-queue-settings"
     },
     sendButtonMessage() {
       if (this.parsing) {
@@ -130,7 +125,7 @@ export default {
       }
     },
     async sendFilesForParsing() {
-      await this.refreshSettings();
+      await this.settingsService.refreshSettings();
       this.parsing = true;
       for (let i = 0; i < this.fileList.length; i++) {
         const formData = new FormData()
@@ -184,20 +179,6 @@ export default {
     toggleSummarization(value) {
       this.summaryEnabled = value;
     },
-    async refreshSettings() {
-      if (this.isAuthenticated) {
-        const response = await fetch(this.refreshSettingsUrl + "?userEmail=" + this.user.email,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              'Authorization': 'Bearer ' + this.apiToken
-            },
-          })
-        const data = await response.json();
-        return data.message;
-      }
-    }
   }
 };
 
