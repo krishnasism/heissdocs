@@ -8,7 +8,7 @@ import os
 from ..utils.helpers import clean_text
 
 
-class SummaryEngine():
+class SummaryEngine:
     def __init__(self):
         # initialize_nltk()
         pass
@@ -24,13 +24,12 @@ class SummaryEngine():
         for stops in f.read().split():
             stop_words.add(stops)
 
-        vectorizer = TfidfVectorizer(stop_words='english')
+        vectorizer = TfidfVectorizer(stop_words="english")
         X = vectorizer.fit_transform(sentences)
 
         # Fit data into 2 clusters
         true_k = 2
-        model = KMeans(n_clusters=true_k, init='k-means++',
-                       max_iter=100, n_init=1)
+        model = KMeans(n_clusters=true_k, init="k-means++", max_iter=100, n_init=1)
         model.fit(X)
 
         # Score each cluster
@@ -40,7 +39,7 @@ class SummaryEngine():
         terms = vectorizer.get_feature_names_out()
         for i in range(true_k):
             for ind in order_centroids[i, :10]:
-                if (i == 0):
+                if i == 0:
                     c1.append(terms[ind])
                 else:
                     c2.append(terms[ind])
@@ -55,22 +54,25 @@ class SummaryEngine():
                         sc = 0
                     if sentence in sentence_score.keys():
                         sentence_score[sentence] += sc
-                        sc = sc-0.05
+                        sc = sc - 0.05
                     else:
                         sentence_score[sentence] = sc
-                        sc = sc-0.05
+                        sc = sc - 0.05
 
         sum_total = 0
         for sentence in sentences:
-            if (sentence in sentence_score.keys()):
+            if sentence in sentence_score.keys():
                 sum_total += sentence_score[sentence]
 
-        average_score = int(sum_total/len(sentence_score))
+        average_score = int(sum_total / len(sentence_score))
 
         summary = []
 
         for sentence in sentences:
-            if sentence in sentence_score.keys() and sentence_score[sentence] > 2.2 * average_score:
+            if (
+                sentence in sentence_score.keys()
+                and sentence_score[sentence] > 2.2 * average_score
+            ):
                 summary.append(clean_text(sentence))
 
         sentence_score2 = {}
@@ -83,21 +85,24 @@ class SummaryEngine():
                         sc = 0
                     if sentence in sentence_score2.keys():
                         sentence_score2[sentence] += sc
-                        sc = sc-0.05
+                        sc = sc - 0.05
                     else:
                         sentence_score2[sentence] = sc
-                        sc = sc-0.05
+                        sc = sc - 0.05
 
         sum_total = 0
         for sentence in sentences:
-            if (sentence in sentence_score2.keys()):
+            if sentence in sentence_score2.keys():
                 sum_total += sentence_score2[sentence]
 
-        average_score = int(sum_total/len(sentence_score2))
+        average_score = int(sum_total / len(sentence_score2))
 
         for sentence in sentences:
             # Multiply with best factor - Determined 2.2 after trial & error
-            if sentence in sentence_score2.keys() and sentence_score2[sentence] > 2.2 * average_score:
+            if (
+                sentence in sentence_score2.keys()
+                and sentence_score2[sentence] > 2.2 * average_score
+            ):
                 summary.append(clean_text(sentence))
 
         return summary

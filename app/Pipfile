@@ -24,3 +24,4 @@ python-dotenv = "*"
 
 [dev-packages]
 autopep8 = "*"
+black = "*"

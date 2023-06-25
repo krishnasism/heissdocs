@@ -15,8 +15,7 @@ def get_pdf_by_query(query, user_email):
     if settings.document_db_provider != Databases.aws.value:
         return []
 
-    db_connection = DatabaseConnection(
-        settings.document_db_provider, user_email)
+    db_connection = DatabaseConnection(settings.document_db_provider, user_email)
     select_keys = DOCUMENT_TABLE_KEYS
     table_name = settings.aws_search_table_name
     search_key = SEARCH_KEY
@@ -26,15 +25,16 @@ def get_pdf_by_query(query, user_email):
         if table_name:
             table = dynamodb.Table(table_name)
             response = table.scan(
-                FilterExpression=filter_expression,
-                ProjectionExpression=select_keys
+                FilterExpression=filter_expression, ProjectionExpression=select_keys
             )
-            documents = response['Items']
-            while 'LastEvaluatedKey' in response:
-                response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'],
-                                      FilterExpression=filter_expression,
-                                      ProjectionExpression=select_keys)
-                documents.extend(response.get('Items'))
+            documents = response["Items"]
+            while "LastEvaluatedKey" in response:
+                response = table.scan(
+                    ExclusiveStartKey=response["LastEvaluatedKey"],
+                    FilterExpression=filter_expression,
+                    ProjectionExpression=select_keys,
+                )
+                documents.extend(response.get("Items"))
         else:
             raise Exception("No table name was defined")
     except Exception as e:

@@ -1,6 +1,6 @@
-class APIToken():
+class APIToken:
     _instance = None
-    api_token = ''
+    api_token = ""
 
     def __init__(self):
         if APIToken._instance is not None:

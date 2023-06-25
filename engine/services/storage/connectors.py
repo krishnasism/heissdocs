@@ -4,7 +4,7 @@ import logging
 import boto3
 
 
-class StorageConnection():
+class StorageConnection:
     storage_client = None
     storage_low_level_client = None
 
@@ -19,10 +19,13 @@ class StorageConnection():
 
     def _connect_to_s3(self):
         _settings = Settings.get_settings()
-        session = boto3.Session(aws_access_key_id=_settings.aws_access_key,
-                                aws_secret_access_key=_settings.aws_secret, region_name=_settings.aws_region)
-        self.storage_client = session.resource('s3')
-        self.storage_low_level_client = session.client('s3')
+        session = boto3.Session(
+            aws_access_key_id=_settings.aws_access_key,
+            aws_secret_access_key=_settings.aws_secret,
+            region_name=_settings.aws_region,
+        )
+        self.storage_client = session.resource("s3")
+        self.storage_low_level_client = session.client("s3")
 
     def _connect_to_az(self):
         pass
