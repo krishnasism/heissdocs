@@ -14,7 +14,7 @@
 import SettingsForm from "@/components/SettingsForm.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
 import getApiToken from "@/services/auth";
-import getSettings from "@/services/settings";
+import SettingsService from "@/services/settings";
 
 
 import { useAuth0 } from '@auth0/auth0-vue';
@@ -38,12 +38,13 @@ export default {
       user,
       isAuthenticated,
       getApiToken,
-      getSettings
+      SettingsService,
     };
   },
   async mounted() {
     this.apiToken = await this.getApiToken(this.user.email, this.user.sub);
-    this.settings = await this.getSettings();
+    this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
+    this.settings = await this.settingsService.getSettings();
   },
   computed: {
     baseApiUrl() {

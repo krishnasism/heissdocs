@@ -10,3 +10,4 @@ class Settings(BaseModel):
     documentTableName: str
     parsingApiKey: Optional[str]
     bucketsList: str
+    scanBucket: str
