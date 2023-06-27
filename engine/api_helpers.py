@@ -2,6 +2,7 @@ import logging
 import time
 from services.settings.api_token import APIToken
 import httpx
+import os
 
 MAX_RETRIES = 20
 
@@ -9,7 +10,7 @@ MAX_RETRIES = 20
 def get_auth_token():
     retries = 0
     access_token = ""
-    auth_endpoint = "http://app:8000/auth/get-token"  # TODO: Config
+    auth_endpoint = f"{os.environ['LOCAL_API_ENDPOINT']}/auth/get-token"  # TODO: Config
 
     while retries < MAX_RETRIES:
         try:
@@ -33,7 +34,7 @@ def get_auth_token():
 
 def get_settings(user_email):
     apitoken_obj = APIToken.get_api_token()
-    settings_endpoint = "http://app:8000/settings"
+    settings_endpoint = f"{os.environ['LOCAL_API_ENDPOINT']}/settings"
     headers = {"Authorization": "Bearer " + apitoken_obj.api_token}
     payload = {"userEmail": user_email}
     response = httpx.get(settings_endpoint, headers=headers, params=payload)
@@ -45,7 +46,7 @@ def get_settings(user_email):
 
 def update_document_progress(document_progress: dict):
     apitoken_obj = APIToken.get_api_token()
-    documents_progress_endpoint = "http://app:8000/documents-progress"
+    documents_progress_endpoint = f"{os.environ['LOCAL_API_ENDPOINT']}/documents-progress"
     headers = {"Authorization": "Bearer " + apitoken_obj.api_token}
     payload = {
         "userEmail": document_progress["user_email"],

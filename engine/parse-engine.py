@@ -6,9 +6,10 @@ from process import process_file
 from enums.QueueMessages import QueueMessageTypes
 from services.settings.settings import Settings
 from services.settings.api_token import APIToken
-
+from services.settings.env_loader import load_env_file
 import json
 
+load_env_file()
 MAX_RETRIES = 20
 sqs = get_local_sqs_client()
 try:

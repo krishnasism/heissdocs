@@ -9,7 +9,6 @@ from api_helpers import update_document_progress
 import os
 import logging
 
-
 def process_file(message):
     file_params = json.loads(message)
     file_stream = get_temp_file_stream(

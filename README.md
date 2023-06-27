@@ -13,8 +13,22 @@ You store, own, and control the data. 100% private!
 > This is a project at its infancy, so please expect things to break as it moves forward.
 But the vision of this project is to allow the user to NOT be locked into an ecosystem, so your data is governed and stored by you - therefore even if the app breaks, your data should be supported and can be accessed using tools already at your disposal.
 
+# Usage
+## What is the purpose of this project?
 
-# Pre-requisites
+Well it is to allow an user or an organization to keep track of their PDF files. The complicated thing about PDFs are that they aren't searchable by content.
+
+**heißdocs** aims to solve this problem by creating a search layer for your PDFs, down to the exact page (Working on pointing to the exact word!),
+
+1. Set up according to the instructions under `Setup`
+1. Upload a file on the Dashboard
+1. Start searching!
+
+Keep an eye on the `Vision` tab to take a look at what is in stock for the future!
+
+---
+# Setup
+## Pre-requisites
 You need the following resources to be able to set up the app without any hassle.
 1. AWS resources
     1. DynamoDB
@@ -29,7 +43,9 @@ These can remain unchanged unless you are planning on hosting each of the servic
 In that case, please follow the documentation [here](#).
 
 
-Similarly, create a `.env` file inside the `backend` and `frontend` folders and fill them in following the instructions in the respective `.env.example` files. 
+Similarly, create a `.env` file inside the `backend`, `frontend` and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
+
+Most of the values except private keys can be left as is!
 
 > Promise I'll make this easier!
 
@@ -49,6 +65,7 @@ Before using the application, navigate to the `Settings` page by clicking on the
 ## Ready!
 You are all set!
 
+
 ---
 # About the Project:
 
@@ -57,6 +74,7 @@ You are all set!
 - Bring your own Compute, Storage, & Search providers
 - Govern your own data
 - Easily deployable to everywhere
+- Add ChatGPT support (preferably something like [privateGPT](https://github.com/imartinez/privateGPT))
 
 ---
 In progress for the community - by [Krishnasis](https://www.linkedin.com/in/krishnasis/) 👨🏽‍💻
