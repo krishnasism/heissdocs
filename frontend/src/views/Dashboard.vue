@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <LoadingCircle v-if="loading"></LoadingCircle>
+  <div v-else>
     <DangerAlert v-if="settingsNotSet" :alert="settingsNotSetAlert" :message="settingsNotSetMessage"></DangerAlert>
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
@@ -51,9 +52,20 @@ import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
 import SettingsService from "@/services/settings";
 import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
+import LoadingCircle from "@/components/LoadingCircle.vue";
+
 export default {
   components: {
-    FileUpload, SearchInput, FileList, SuccessToast, FailureToast, WarningToast, DangerAlert, BucketList, CheckBoxWithTipVue
+    FileUpload,
+    SearchInput, 
+    FileList,
+    SuccessToast,
+    FailureToast,
+    WarningToast,
+    DangerAlert,
+    BucketList,
+    CheckBoxWithTipVue,
+    LoadingCircle,
   },
   data() {
     return {
@@ -75,6 +87,7 @@ export default {
       summaryEnabled: false,
       settingsService: null,
       authService: null,
+      loading: false,
     }
   },
   setup() {
@@ -87,6 +100,7 @@ export default {
     };
   },
   async mounted() {
+    this.loading = true;
     this.authService = new AuthService(this.user.email, this.user.sub);
     this.apiToken = await this.authService.getApiToken(this.user.email, this.user.sub)
     this.settingsService = new SettingsService(this.user.email, this.isAuthenticated, this.apiToken);
@@ -100,6 +114,7 @@ export default {
       this.bucketName = this.bucketsList[0];
     }
     this.settingsService.refreshSettings();
+    this.loading = false;
   },
   computed: {
     baseApiUrl() {

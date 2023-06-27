@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <LoadingCircle v-if="loading"></LoadingCircle>
+  <div v-else>
     <p v-if="scanBucket">Reading files from bucket: {{ scanBucket }}</p>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
     <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError" class="w-full"
@@ -21,16 +22,18 @@ import SettingsService from "@/services/settings";
 import DangerAlert from "@/components/DangerAlert.vue";
 import S3DocumentsTable from "../components/S3DocumentsTable.vue";
 import SuccessToast from "@/components/SuccessToast.vue";
+import LoadingCircle from '@/components/LoadingCircle.vue';
 
 export default {
   components: {
     DangerAlert,
     S3DocumentsTable,
     SuccessToast,
+    LoadingCircle,
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       s3Documents: null,
       apiToken: null,
       scanBucket: null,
@@ -44,6 +47,7 @@ export default {
     }
   },
   async mounted() {
+    this.loading = true;
     if (this.isAuthenticated && this.apiToken == null) {
       this.authService = new AuthService(this.user.email, this.user.sub);
       this.apiToken = await this.authService.getApiToken();
@@ -60,6 +64,7 @@ export default {
         this.bucketName = this.bucketsList[0];
       }
     }
+    this.loading = false;
   },
   setup() {
     const { user, isAuthenticated } = useAuth0();
@@ -122,7 +127,6 @@ export default {
       }
     },
     async loadS3Files(bucket_name) {
-      this.loading = true;
       if (this.isAuthenticated) {
         fetch(this.s3BucketAllFilesUrl + "?bucket_name=" + bucket_name + '&user_email=' + this.user.email,
           {
@@ -140,7 +144,6 @@ export default {
             else {
               this.pageError = data.s3_response.error;
             }
-            this.loading = false;
           })
           .catch(error => {
             console.error(error);

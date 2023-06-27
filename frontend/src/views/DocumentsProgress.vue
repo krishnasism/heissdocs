@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <LoadingCircle v-if="loading"></LoadingCircle>
+    <div v-else>
         <DocumentsProgressTable :documents="documents" v-if="documents"></DocumentsProgressTable>
         <p v-else>No files in progress...</p>
     </div>
@@ -8,10 +9,12 @@
 import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 import DocumentsProgressTable from "@/components/DocumentsProgressTable.vue";
+import LoadingCircle from '@/components/LoadingCircle.vue';
 
 export default {
     components: {
-        DocumentsProgressTable
+        DocumentsProgressTable,
+        LoadingCircle,
     },
     data() {
         return {
@@ -19,13 +22,16 @@ export default {
             documents: Array,
             timer: '',
             authService: null,
+            loading: false,
         }
     },
     async mounted() {
+        this.loading = true;
         this.authService = new AuthService(this.user.email, this.user.sub);
         this.apiToken = await this.authService.getApiToken();
         this.documents = await this.getDocumentsProgress();
         this.timer = setInterval(this.getDocumentsProgress, 10000);
+        this.loading = false;
     },
     setup() {
         const { user, isAuthenticated } = useAuth0();
