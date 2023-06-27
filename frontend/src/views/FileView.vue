@@ -1,19 +1,24 @@
 <template>
     <div>
-        <FileEmbed :link="fileLink" height="1000" width="800">
-        </FileEmbed>
+        <LoadingCircle v-if="loading"></LoadingCircle>
+        <div v-else>
+            <FileEmbed :link="fileLink" height="1000" width="800">
+            </FileEmbed>
+        </div>
     </div>
 </template>
 
 <script>
 import FileEmbed from "@/components/FileEmbed.vue";
+import LoadingCircle from '@/components/LoadingCircle.vue';
 
 import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 
 export default {
     components: {
-        FileEmbed
+        FileEmbed,
+        LoadingCircle,
     },
     data() {
         return {
@@ -21,6 +26,7 @@ export default {
             bucketName: '',
             fileLink: '',
             authService: null,
+            loading: false,
         }
     },
     setup() {
@@ -32,12 +38,14 @@ export default {
         };
     },
     async mounted() {
+        this.loading = true;
         this.authService = new AuthService(this.user.email, this.user.sub);
         this.apiToken = await this.authService.getApiToken();
         const file_name = this.$route.query.file_name;
         const s3_bucket_name = this.$route.query.s3_bucket;
         const page = this.$route.query.page;
         this.fileLink = await this.getFileLink(file_name, s3_bucket_name, page);
+        this.loading = false;
     },
     computed: {
         baseApiUrl() {

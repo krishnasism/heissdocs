@@ -9,6 +9,7 @@ from api_helpers import update_document_progress
 import os
 import logging
 
+
 def process_file(message):
     file_params = json.loads(message)
     file_stream = get_temp_file_stream(
@@ -34,8 +35,6 @@ def process_file(message):
     pdf_body, file_metadata = get_pdf_body(
         pdf_file=temp_file,
         original_file_name=(file_params["original_file_name"]),
-        store_files_in_cloud=file_params.get("store_files_in_cloud", False),
-        bucket_name=file_params["bucket_name"],
         document_progress=document_progress,
     )
 

@@ -39,5 +39,9 @@ def get_pdf_by_query(query, user_email):
             raise Exception("No table name was defined")
     except Exception as e:
         logging.error(f"[AWSManager] Error: {str(e)}")
-        return None
-    return documents
+        return {
+            "error": str(e)
+        }
+    return {
+        "documents": documents
+    }

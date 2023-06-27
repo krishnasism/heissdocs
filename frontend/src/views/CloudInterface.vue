@@ -3,7 +3,7 @@
   <div v-else>
     <p v-if="scanBucket">Reading files from bucket: {{ scanBucket }}</p>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
-    <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError" class="w-full"
+    <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError && s3Documents" class="w-full"
       @parse-document="sendToParse"></S3DocumentsTable>
 
     <TransitionGroup enter-active-class="duration-300 ease-out" enter-from-class="transform opacity-0"

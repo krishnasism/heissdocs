@@ -46,7 +46,9 @@ def get_settings(user_email):
 
 def update_document_progress(document_progress: dict):
     apitoken_obj = APIToken.get_api_token()
-    documents_progress_endpoint = f"{os.environ['LOCAL_API_ENDPOINT']}/documents-progress"
+    documents_progress_endpoint = (
+        f"{os.environ['LOCAL_API_ENDPOINT']}/documents-progress"
+    )
     headers = {"Authorization": "Bearer " + apitoken_obj.api_token}
     payload = {
         "userEmail": document_progress["user_email"],

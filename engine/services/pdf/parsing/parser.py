@@ -2,15 +2,12 @@ import logging
 import pytesseract
 from pdf2image import convert_from_path, pdfinfo_from_path
 from tempfile import NamedTemporaryFile
-import os
-from multiprocessing import Pool, cpu_count, Value
+from multiprocessing import Pool, Value
 from itertools import chain
 from api_helpers import update_document_progress
 from services.utils.helpers import preprocess_parsed_text
 from services.storage.storage_ops import upload_file_to_blob
 from enums.FileStages import FileStages
-
-from uuid import uuid4
 
 
 class PDFParser:
@@ -19,10 +16,6 @@ class PDFParser:
 
     def _parse_pytesseract(self, page_chunk, document_progress):
         global counter
-        if "nt" in os.name:
-            pytesseract.pytesseract.tesseract_cmd = (
-                "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-            )
         start_page, chunk = page_chunk
         page_data = []
         for pageNum, imgBlob in enumerate(chunk):
@@ -92,8 +85,6 @@ class PDFParser:
 def get_pdf_body(
     pdf_file: NamedTemporaryFile,
     original_file_name: str,
-    store_files_in_cloud: bool,
-    bucket_name: str,
     document_progress: dict,
 ) -> dict:
     file_metadata = {"filename": original_file_name}

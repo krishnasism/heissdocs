@@ -22,9 +22,18 @@ async def pdf_search(
     query: str, user_email: str, authenticated: bool = Depends(verify_token)
 ):
     query = query.lower()
-    documents = get_pdf_by_query(query, user_email)
+    response = get_pdf_by_query(query, user_email)
 
-    return JSONResponse(content={"documents": documents}, status_code=200)
+    documents = response.get("documents")
+    error = response.get("error")
+
+    return JSONResponse(
+        content={
+            "documents": documents if documents else None,
+            "error": error if error else None,
+        },
+        status_code=200 if documents else 500,
+    )
 
 
 @router.post("/upload")
