@@ -70,6 +70,19 @@ Once your `.env` files are ready, navigate to the root directory and run:
 
 Then go to `localhost:8080` and log in.
 
+---
+[Optional]
+*In case you want hot-reload on your `frontend`, you can choose to run the services separately*
+
+Run the `backend` services:
+> docker compose -f .\docker-compose.yaml up --build
+
+Run the `frontend`:
+```
+cd frontend
+npm run dev -- --port 8080
+```
+
 ## Settings
 Before using the application, navigate to the `Settings` page by clicking on the left-side dashboard button, and configure the settings.
 
