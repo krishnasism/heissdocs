@@ -33,7 +33,18 @@ You need the following resources to be able to set up the app without any hassle
 1. AWS resources
     1. DynamoDB
     1. S3
-1. Auth0
+1. Auth0:
+
+For Auth0 you will need to get the following values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` file.
+
+    ```
+    AUTH0_DOMAIN=
+    AUTH0_API_AUDIENCE=http://localhost:8000
+    AUTH0_ALGORITHMS=RS256
+    AUTH0_ISSUER=
+    AUTH0_CLIENT_ID=
+    AUTH0_CLIENT_SECRET=
+    ```
 
 ---
 ## Setting up
