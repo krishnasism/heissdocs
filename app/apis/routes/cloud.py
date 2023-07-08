@@ -53,7 +53,7 @@ async def s3_parsing_job(
                 stage=FileStages.QUEUED.value,
                 pagesParsed=0,
                 totalPages=0,
-            ).dict()
+            ).model_dump()
         )
 
         return JSONResponse(content={"message": "Created"}, status_code=201)

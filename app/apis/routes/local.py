@@ -18,7 +18,7 @@ pm = PostgresManager()
 async def update_settings(
     settings: Settings, authenticated: bool = Depends(verify_token)
 ):
-    pm.update_settings(settings.dict())
+    pm.update_settings(settings.model_dump())
     q_params = {}
     q_params["message_type"] = QueueMessageTypes.SETTINGS_UPDATED.value
     q_params["user_email"] = settings.userEmail
@@ -72,5 +72,5 @@ async def set_documents_in_progress(
     documentsProgressRequest: DocumentProgressRequest,
     authenticated: bool = Depends(verify_token),
 ):
-    pm.update_documents_progress(documentsProgressRequest.dict())
+    pm.update_documents_progress(documentsProgressRequest.model_dump())
     return JSONResponse(content={"message": "success"}, status_code=200)
