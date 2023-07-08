@@ -21,6 +21,7 @@ def get_auth_token():
             if not access_token:
                 raise Exception("[Queue Handler] Unable to auth")
             else:
+                logging.info("[Queue Handler] Auth successful")
                 return access_token
         except:
             logging.error("[Queue Handler] Unable to auth, please wait..")

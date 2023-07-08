@@ -9,14 +9,16 @@ python_version = '3.11'
 [packages]
 pytesseract = "==0.3.10"
 pdf2image = "==1.16.3"
-boto3 = "*"
+boto3 = "==1.28.1"
 nltk = "==3.8.1"
 scikit-learn = "==1.2.2"
 pymongo = "==4.3.3"
 psycopg2 = "==2.9.6"
 sqlalchemy = "==2.0.9"
-python-dotenv = "*"
-"httpx" = "*"
+python-dotenv = "==1.0.0"
+"httpx" = "==0.24.1"
+elasticsearch = "==8.8.2"
+pydantic-settings = "==2.0.1"
 
 [dev-packages]
 autopep8 = "*"

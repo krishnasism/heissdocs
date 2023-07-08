@@ -1,6 +1,6 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from functools import lru_cache
-
+from typing import Optional
 
 class Settings(BaseSettings):
     aws_access_key: str
@@ -24,6 +24,16 @@ class Settings(BaseSettings):
     auth0_issuer: str
     auth0_client_id: str
     auth0_client_secret: str
+    parsing_queue_endpoint: str
+    parsing_queue_name: str
+    temp_storage_endpoint: str
+    temp_storage_bucket_name: str
+    minio_access_key: str
+    minio_secret_key: str
+    minio_endpoint: str
+    minio_secure: str
+    elasticsearch_host: str
+    elasticsearch_port: int
 
     class Config:
         env_file = ".env"

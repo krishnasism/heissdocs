@@ -4,11 +4,14 @@ from typing import Optional
 
 class Settings(BaseModel):
     userEmail: str
-    awsAccessKey: str
-    awsSecret: str
-    awsRegion: str
-    noSqlProvider: str
-    documentTableName: str
+    awsAccessKey: Optional[str]
+    awsSecret: Optional[str]
+    awsRegion: Optional[str]
+    noSqlProvider: Optional[str]
+    documentTableName: Optional[str]
     parsingApiKey: Optional[str]
-    bucketsList: str
-    scanBucket: str
+    bucketsList: Optional[str]
+    scanBucket: Optional[str]
+    elasticSearchHost: Optional[str]
+    elasticSearchPort: Optional[int]
+    elasticSearchApiKey: Optional[str]
