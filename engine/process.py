@@ -61,15 +61,10 @@ def process_file(message):
     if not (status and elasticsearch_status):
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
-
     temp_file.close()
     os.remove(temp_file.name)
     try:
         delete_file(file_params["temp_file_name"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
-
-    if status:
-        return True
-    else:
-        return False
+    return status and elasticsearch_status
