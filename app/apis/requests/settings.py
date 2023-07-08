@@ -12,6 +12,7 @@ class Settings(BaseModel):
     parsingApiKey: Optional[str]
     bucketsList: Optional[str]
     scanBucket: Optional[str]
+    elasticSearchIndex: Optional[str]
     elasticSearchHost: Optional[str]
     elasticSearchPort: Optional[int]
     elasticSearchApiKey: Optional[str]

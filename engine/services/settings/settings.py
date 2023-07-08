@@ -13,6 +13,7 @@ class Settings:
     buckets_list = ""
     aws_search_table_name = ""
     scan_bucket = ""
+    elastic_search_index = ""
     elastic_search_host = ""
     elastic_search_port = ""
     elastic_search_api_key = ""
@@ -39,6 +40,7 @@ class Settings:
         self.buckets_list = settings["bucketsList"]
         self.scan_bucket = settings["scanBucket"]
         # Not implemented yet
+        self.elastic_search_index = "xxx"
         self.elastic_search_host = "xxx"
         self.elastic_search_port = 9200
         self.elastic_search_api_key = "xxx"
