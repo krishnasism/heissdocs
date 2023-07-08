@@ -11,7 +11,7 @@ def get_temp_storage_client():
     )
 
 
-def upload_file_to_blob(filestream, filename, bucket="tempfiles"):
+def upload_file_to_s3_bucket(filestream, filename, bucket="tempfiles"):
     s3_client = get_temp_storage_client()
     try:
         if ".pdf" in filename:

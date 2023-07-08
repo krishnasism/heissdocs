@@ -1,12 +1,12 @@
 from .manager import get_local_sqs_client, get_queue_url
-from .temp_storage_manager import upload_file_to_blob
+from .temp_storage_manager import upload_file_to_s3_bucket
 from tempfile import NamedTemporaryFile
 from uuid import uuid4
 import logging
 import json
 from fastapi import UploadFile
 from enums.QueueMessages import QueueMessageTypes
-from services.storage.storage_ops import get_presigned_url, load_file_from_presigned_url
+from services.storage.storage_ops import get_s3_presigned_url, load_file_from_presigned_url
 from tempfile import NamedTemporaryFile
 
 TEMP_BUCKET_NAME = "tempfiles"  # TODO - Get from config
@@ -17,7 +17,7 @@ async def prepare_s3_job(
 ) -> str:
     document_id = str(uuid4())
     blob_file_name = document_id + ".pdf"
-    file_to_parse_url = get_presigned_url(
+    file_to_parse_url = get_s3_presigned_url(
         bucket_name=bucket_name,
         blob_name=key_name,
         user_email=user_email,
@@ -29,7 +29,7 @@ async def prepare_s3_job(
             temp_file.write(file_to_parse)
             temp_file.flush()
             with open(temp_file.name, "rb") as f:
-                response = upload_file_to_blob(f, blob_file_name)
+                response = upload_file_to_s3_bucket(f, blob_file_name)
                 if response:
                     logging.info("[Queue] File uploaded to temp bucket")
 
@@ -58,7 +58,7 @@ def prepare_job(file: UploadFile, params) -> str:
         return ""
     blob_file_name = str(uuid4()) + ".pdf"
     with open(temp_file.name, "rb") as f:
-        response = upload_file_to_blob(f, blob_file_name)
+        response = upload_file_to_s3_bucket(f, blob_file_name)
         if response:
             logging.info("[Queue] File uploaded to temp bucket")
 
@@ -77,5 +77,5 @@ def send_queue_message(message: str):
 
     queue_url = get_queue_url(client, "parse_task")
 
-    res = client.send_message(QueueUrl=queue_url, MessageBody=message)
+    _ = client.send_message(QueueUrl=queue_url, MessageBody=message)
     return True

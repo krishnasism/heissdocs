@@ -19,7 +19,7 @@ class VerifyToken:
         self.jwks_client = jwt.PyJWKClient(jwks_url)
 
     def verify(self):
-        # This gets the 'kid' from the passed token
+        # This gets the key id from the token
         try:
             self.signing_key = self.jwks_client.get_signing_key_from_jwt(self.token).key
         except jwt.exceptions.PyJWKClientError as error:
@@ -41,6 +41,7 @@ class VerifyToken:
         return payload
 
 
+# This is the function that FastAPI will use to verify the token
 def verify_token(token: str = Depends(token_auth_scheme)):
     auth_res = VerifyToken(token.credentials).verify()
     if "status" in auth_res:

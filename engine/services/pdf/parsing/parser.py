@@ -6,7 +6,6 @@ from multiprocessing import Pool, Value
 from itertools import chain
 from api_helpers import update_document_progress
 from services.utils.helpers import preprocess_parsed_text
-from services.storage.storage_ops import upload_file_to_blob
 from enums.FileStages import FileStages
 
 

@@ -3,7 +3,7 @@ from .storage_providers import StorageProviders
 import logging
 
 
-def upload_file_to_blob(filestream, filename, bucket=None):
+def upload_file_to_s3_bucket(filestream, filename, bucket=None):
     storage_connection = StorageConnection(StorageProviders.aws.value)
     s3_client = storage_connection.storage_client
     if not bucket:
@@ -21,7 +21,8 @@ def upload_file_to_blob(filestream, filename, bucket=None):
     return True
 
 
-def get_presigned_url(bucket_name, blob_name):
+
+def get_s3_presigned_url(bucket_name, blob_name):
     storage_connection = StorageConnection(StorageProviders.aws.value)
     s3_client = storage_connection.storage_low_level_client
     try:

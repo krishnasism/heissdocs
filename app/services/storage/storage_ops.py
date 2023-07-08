@@ -15,7 +15,7 @@ async def load_file_from_presigned_url(url):
         return None
 
 
-def get_presigned_url(bucket_name, blob_name, user_email):
+def get_s3_presigned_url(bucket_name, blob_name, user_email):
     storage_connection = StorageConnection(StorageProviders.aws.value, user_email)
     s3_client = storage_connection.storage_low_level_client
     try:
