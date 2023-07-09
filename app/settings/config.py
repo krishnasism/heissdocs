@@ -32,8 +32,12 @@ class Settings(BaseSettings):
     minio_secret_key: str
     minio_endpoint: str
     minio_secure: str
-    elasticsearch_host: str
-    elasticsearch_port: int
+    elastic_search_index: str
+    elastic_search_host: str
+    elastic_search_port: int
+    elastic_search_api_key: str
+    search_elastic_search: Optional[bool] = False
+    search_document_db: Optional[bool] = False
 
     class Config:
         env_file = ".env"

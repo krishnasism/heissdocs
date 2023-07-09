@@ -4,10 +4,12 @@ from services.pdf.parsing.parser import get_pdf_body
 from tempfile import NamedTemporaryFile
 from services.storage.storage_ops import upload_file_to_s3_bucket
 from services.database.db_ops import put_pdf_to_database
+from services.elasticsearch.elasticsearch_client import insert_document_to_elasticsearch
 from enums.FileStages import FileStages
 from api_helpers import update_document_progress
 import os
 import logging
+from uuid import uuid4
 
 
 def process_file(message):
@@ -47,12 +49,19 @@ def process_file(message):
                 if response:
                     file_metadata["s3_blob_file_name"] = blob_file_name
                     file_metadata["s3_bucket_name"] = bucket_name
+    file_metadata[
+        "file_name"
+    ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
 
     status = put_pdf_to_database(pdf_body, file_metadata)
+    elasticsearch_status = insert_document_to_elasticsearch(
+        document=pdf_body, file_metadata=file_metadata
+    )
 
-    if not status:
+    if not (status and elasticsearch_status):
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
+        logging.error("[Process] Error while processing file")
 
     temp_file.close()
     os.remove(temp_file.name)
@@ -60,8 +69,4 @@ def process_file(message):
         delete_file(file_params["temp_file_name"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
-
-    if status:
-        return True
-    else:
-        return False
+    return status and elasticsearch_status

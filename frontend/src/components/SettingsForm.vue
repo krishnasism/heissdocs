@@ -31,14 +31,16 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destination Buckets</label>
                         <input type="text" name="bucketsList" id="bucketsList"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Name of buckets that you want to be able to upload to (comma separated)" v-model="bucketsList">
+                            placeholder="Name of buckets that you want to be able to upload to (comma separated)"
+                            v-model="bucketsList">
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="scanBucket"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">S3 Bucket [Source - Parsing]</label>
+                        <label for="scanBucket" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">S3
+                            Bucket [Source - Parsing]</label>
                         <input type="text" name="scanBucket" id="scanBucket"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Name of bucket that has PDFs to be parsed in the Cloud Interface" v-model="scanBucket">
+                            placeholder="Name of bucket that has PDFs to be parsed in the Cloud Interface"
+                            v-model="scanBucket">
                     </div>
                     <p class="mt-5 font-black">NoSQL Engine Host</p>
                     <div class="sm:col-span-2">
@@ -51,7 +53,7 @@
                             <option value="aws">Amazon Web Services</option>
                             <option value="mongodb">MongoDB [Unsupported]</option>
                             <option value="azure">MS Azure [Unsupported]</option>
-                            <option value="other">Other  [Unsupported]</option>
+                            <option value="other">Other [Unsupported]</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2">
@@ -60,19 +62,45 @@
                             Name</label>
                         <input type="text" name="documentTableName" id="documentTableName"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Name of database where parsed PDF data will be stored in" v-model="documentTableName">
+                            placeholder="Name of database where parsed PDF data will be stored in"
+                            v-model="documentTableName">
                     </div>
-                    <!-- <p class="mt-5 font-black sm:col-span-2">Parsing Engine [Unsupported]</p>
-                    <p class="sm:col-span-2">In case you are not hosting the Parsing Engine yourself, please provide the
-                        API key that you got from our <a class="text-blue-700" href="#">portal.</a></p>
+                    <p class="mt-5 font-black">Elasticsearch Settings</p>
                     <div class="sm:col-span-2">
-                        <label for="parsingAPIKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Parsing API Key</label>
-                        <input type="password" name="parsingAPIKey" id="parsingAPIKey"
-                            disabled
+                        <button type="button" @click="overrideElasticLocalSettings"
+                            class="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 py-1 text-center mr-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900">
+                            Set Local/Debugging Mode
+                        </button>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="elasticSearchIndex"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Index
+                            Name</label>
+                        <input type="text" name="elasticSearchIndex" id="elasticSearchIndex"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Name of your Elasticsearch index" v-model="elasticSearchIndex">
+                        <br />
+                        <label for="elasticSearchHost"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Host
+                            URL</label>
+                        <input type="text" name="elasticSearchHost" id="elasticSearchHost"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Host URL of your Elasticsearch instance" v-model="elasticSearchHost">
+                        <br />
+                        <label for="elasticSearchPort"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Port</label>
+                        <input type="text" name="elasticSearchPort" id="elasticSearchPort"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Port of your Elasticsearch instance" v-model="elasticSearchPort">
+                        <br />
+                        <label for="elasticSearchApiKey"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch API
+                            Key</label>
+                        <input type="password" name="elasticSearchApiKey" id="elasticSearchApiKey"
                             class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Enter your Parsing API Key" v-model="parsingApiKey">
-                    </div> -->
+                            placeholder="API Key of your Elasticsearch instance (leave blank for localhost)"
+                            v-model="elasticSearchApiKey">
+                    </div>
                 </div>
                 <button type="submit" @click="submitSettings"
                     class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
@@ -100,6 +128,10 @@ export default {
             parsingApiKey: "",
             bucketsList: "",
             scanBucket: "",
+            elasticSearchIndex: "documents",
+            elasticSearchHost: "localhost",
+            elasticSearchPort: "9200",
+            elasticSearchApiKey: "",
         }
     },
     mounted() {
@@ -118,6 +150,10 @@ export default {
                 'parsingApiKey': this.parsingApiKey,
                 'bucketsList': this.bucketsList,
                 'scanBucket': this.scanBucket,
+                'elasticSearchIndex': this.elasticSearchIndex,
+                'elasticSearchHost': this.elasticSearchHost,
+                'elasticSearchPort': this.elasticSearchPort,
+                'elasticSearchApiKey': this.elasticSearchApiKey,
             }
             this.$emit('submit', settings);
         },
@@ -131,7 +167,17 @@ export default {
                 this.parsingApiKey = this.settings.parsingApiKey
                 this.bucketsList = this.settings.bucketsList
                 this.scanBucket = this.settings.scanBucket
+                this.elasticSearchIndex = this.settings.elasticSearchIndex
+                this.elasticSearchHost = this.settings.elasticSearchHost
+                this.elasticSearchPort = this.settings.elasticSearchPort
+                this.elasticSearchApiKey = this.settings.elasticSearchApiKey
             }
+        },
+        overrideElasticLocalSettings() {
+            this.elasticSearchIndex = "documents";
+            this.elasticSearchHost = "host.docker.internal";
+            this.elasticSearchPort = "9200";
+            this.elasticSearchApiKey = "";
         }
     }
 }

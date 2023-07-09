@@ -1,4 +1,4 @@
-from sqlalchemy import String, Numeric
+from sqlalchemy import String, Numeric, Boolean
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -16,6 +16,12 @@ settings_table = sa.Table(
     sa.Column("parsing_api_key", String),
     sa.Column("buckets_list", String),
     sa.Column("scan_bucket", String),
+    sa.Column("elastic_search_index", String),
+    sa.Column("elastic_search_host", String),
+    sa.Column("elastic_search_port", String),
+    sa.Column("elastic_search_api_key", String),
+    sa.Column("search_document_db", Boolean),
+    sa.Column("search_elastic_search", Boolean),
 )
 
 

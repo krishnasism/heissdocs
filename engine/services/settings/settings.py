@@ -13,9 +13,12 @@ class Settings:
     buckets_list = ""
     aws_search_table_name = ""
     scan_bucket = ""
+    elastic_search_index = ""
     elastic_search_host = ""
     elastic_search_port = ""
     elastic_search_api_key = ""
+    search_document_db = False
+    search_elastic_search = False
 
     def __init__(self):
         if Settings._instance is not None:
@@ -38,10 +41,13 @@ class Settings:
         self.parsing_api_key = settings["parsingApiKey"]
         self.buckets_list = settings["bucketsList"]
         self.scan_bucket = settings["scanBucket"]
-        # Not implemented yet
-        self.elastic_search_host = "xxx"
-        self.elastic_search_port = 9200
-        self.elastic_search_api_key = "xxx"
+        self.elastic_search_index = settings["elasticSearchIndex"]
+        self.elastic_search_host = settings["elasticSearchHost"]
+        self.elastic_search_port = settings["elasticSearchPort"]
+        self.elastic_search_api_key = settings["elasticSearchApiKey"]
+        self.search_elastic_search = settings.get("searchElasticSearch")
+        self.search_document_db = settings.get("searchDocumentDb")
+
 
     @classmethod
     def get_settings(cls):

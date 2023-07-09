@@ -38,7 +38,7 @@ def _put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
             table.put_item(
                 Item={
                     "pdf_body": str(page_data),
-                    "file_name": f"{str(metadata.get('filename'))}_{str(uuid4().hex)}",
+                    "file_name": metadata.get('filename'),
                     "made_on": str(datetime.utcnow()),
                     "page_num": str(page_num),
                     "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
@@ -46,7 +46,7 @@ def _put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                 }
             )
     except Exception as e:
-        logging.error(f"[DB Ops - DynamoDB] Error: {str(e)}")
+        logging.error(f"[DB Ops - DynamoDB] Error: {e}")
         return False
     return True
 
@@ -65,6 +65,6 @@ def _put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name)
                 }
             )
     except Exception as e:
-        logging.error(f"[DB Ops - MongoDB] Error: {str(e)}")
+        logging.error(f"[DB Ops - MongoDB] Error: {e}")
         return False
     return True

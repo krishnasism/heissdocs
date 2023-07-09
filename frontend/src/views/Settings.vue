@@ -66,22 +66,10 @@ export default {
   },
   methods: {
     async postSettings(evt) {
-      if (this.isAuthenticated) {
-        evt['userEmail'] = this.user.email
-        const response = await fetch(this.settingsApiUrl,
-          {
-            method: 'POST',
-            headers: {
-              'Authorization': 'Bearer ' + this.apiToken,
-              'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: JSON.stringify(evt)
-          })
-        const data = await response.json()
-        if (data['message'] == 'updated') {
-          this.toastMessage = 'Settings updated!'
-          this.showSuccessToast = true;
-        }
+      const status = this.settingsService.updateSettings(evt);
+      if (status) {
+        this.toastMessage = 'Settings updated!'
+        this.showSuccessToast = true;
       }
     },
     closeSuccessToast() {
