@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch
 from services.settings.settings import Settings
 import logging
+from datetime import datetime
 
 
 class ElasticSearchClient:
@@ -47,7 +48,7 @@ def insert_document_to_elasticsearch(document: dict, file_metadata: dict):
             document = {
                 "pdf_body": str(page_data),
                 "file_name": file_metadata.get("filename"),
-                "made_on": str(file_metadata.get("made_on")),
+                "made_on": str(datetime.utcnow()),
                 "page_num": str(page_num),
                 "s3_blob_file_name": str(file_metadata.get("s3_blob_file_name", "")),
                 "s3_bucket_name": str(file_metadata.get("s3_bucket_name", "")),
