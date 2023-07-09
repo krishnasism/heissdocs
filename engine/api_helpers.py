@@ -15,7 +15,6 @@ def get_auth_token():
     while retries < MAX_RETRIES:
         try:
             auth_payload = {"userEmail": "xxx", "userKey": "yyy"}
-
             auth_res = httpx.post(auth_endpoint, data=auth_payload).json()
             access_token = auth_res.get("access_token")
             if not access_token:

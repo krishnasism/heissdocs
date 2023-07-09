@@ -1,18 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 
 class Settings(BaseModel):
     userEmail: str
-    awsAccessKey: Optional[str]
-    awsSecret: Optional[str]
-    awsRegion: Optional[str]
-    noSqlProvider: Optional[str]
-    documentTableName: Optional[str]
-    parsingApiKey: Optional[str]
-    bucketsList: Optional[str]
-    scanBucket: Optional[str]
-    elasticSearchIndex: Optional[str]
-    elasticSearchHost: Optional[str]
-    elasticSearchPort: Optional[int]
-    elasticSearchApiKey: Optional[str]
+    awsAccessKey: Optional[str] = None
+    awsSecret: Optional[str] = None
+    awsRegion: Optional[str] = None
+    noSqlProvider: Optional[str] = None
+    documentTableName: Optional[str] = None
+    parsingApiKey: Optional[str] = None
+    bucketsList: Optional[str] = None
+    scanBucket: Optional[str] = None
+    elasticSearchIndex: Optional[str] = None
+    elasticSearchHost: Optional[str] = None
+    elasticSearchPort: Optional[int] = 9200
+    elasticSearchApiKey: Optional[str] = None
+    searchDocumentDb: Optional[bool] = Field(case_sensitive=False, default=False)
+    searchElasticSearch: Optional[bool] = Field(case_sensitive=False, default=False)

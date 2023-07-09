@@ -36,6 +36,26 @@ class SettingsService {
       return data.message;
     }
   }
+
+  async updateSettings(settingsObject) {
+    if (this.isAuthenticated) {
+      settingsObject['userEmail'] = this.userEmail;
+      const response = await fetch(this.settingsApiUrl,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + this.apiToken,
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify(settingsObject)
+        })
+      const data = await response.json()
+      if (data['message'] == 'updated') {
+        return true;
+      }
+      return false;
+    }
+  }
 }
 
 export default SettingsService;

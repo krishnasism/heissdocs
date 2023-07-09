@@ -18,7 +18,8 @@ pm = PostgresManager()
 async def update_settings(
     settings: Settings, authenticated: bool = Depends(verify_token)
 ):
-    pm.update_settings(settings.model_dump())
+    new_settings_obj = {k: v for k, v in settings.model_dump().items() if v is not None}
+    pm.update_settings(new_settings_obj)
     q_params = {}
     q_params["message_type"] = QueueMessageTypes.SETTINGS_UPDATED.value
     q_params["user_email"] = settings.userEmail

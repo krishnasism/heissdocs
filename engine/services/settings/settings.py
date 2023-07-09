@@ -17,6 +17,8 @@ class Settings:
     elastic_search_host = ""
     elastic_search_port = ""
     elastic_search_api_key = ""
+    search_document_db = False
+    search_elastic_search = False
 
     def __init__(self):
         if Settings._instance is not None:
@@ -43,6 +45,9 @@ class Settings:
         self.elastic_search_host = settings["elasticSearchHost"]
         self.elastic_search_port = settings["elasticSearchPort"]
         self.elastic_search_api_key = settings["elasticSearchApiKey"]
+        self.search_elastic_search = settings.get("searchElasticSearch")
+        self.search_document_db = settings.get("searchDocumentDb")
+
 
     @classmethod
     def get_settings(cls):
