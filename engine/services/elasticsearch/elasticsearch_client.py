@@ -56,6 +56,7 @@ def insert_document_to_elasticsearch(document: dict, file_metadata: dict):
                 index=settings.elastic_search_index, document=document
             )
         logging.info("[Elasticsearch] Inserted document to Elasticsearch")
+        return True
     except Exception as e:
         logging.error(f"[Elasticsearch] {e}")
         return False
