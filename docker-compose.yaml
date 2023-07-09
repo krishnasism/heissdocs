@@ -49,6 +49,7 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false
     ports:
       - '9200:9200'
       - '9300:9300'
@@ -59,11 +60,11 @@ services:
         /usr/local/bin/docker-entrypoint.sh
         elasticsearch
         -E "bootstrap.memory_lock=true"
-        -E "discovery.type=single-node"
-        -E "xpack.security.enabled=false"
         && sleep 30
         && curl -X PUT "http://localhost:9200/documents"'
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+        
 volumes:
   minio_data:
   esdata:

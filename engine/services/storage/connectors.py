@@ -19,13 +19,16 @@ class StorageConnection:
 
     def _connect_to_s3(self):
         _settings = Settings.get_settings()
-        session = boto3.Session(
-            aws_access_key_id=_settings.aws_access_key,
-            aws_secret_access_key=_settings.aws_secret,
-            region_name=_settings.aws_region,
-        )
-        self.storage_client = session.resource("s3")
-        self.storage_low_level_client = session.client("s3")
+        try:
+            session = boto3.Session(
+                aws_access_key_id=_settings.aws_access_key,
+                aws_secret_access_key=_settings.aws_secret,
+                region_name=_settings.aws_region,
+            )
+            self.storage_client = session.resource("s3")
+            self.storage_low_level_client = session.client("s3")
+        except Exception as e:
+            logging.error(f"[Azure S3 Client] {e}")
 
     def _connect_to_az(self):
         pass

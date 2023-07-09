@@ -61,6 +61,8 @@ def process_file(message):
     if not (status and elasticsearch_status):
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
+        logging.error("[Process] Error while processing file")
+
     temp_file.close()
     os.remove(temp_file.name)
     try:

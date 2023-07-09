@@ -46,7 +46,7 @@ def _put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                 }
             )
     except Exception as e:
-        logging.error(f"[DB Ops - DynamoDB] Error: {str(e)}")
+        logging.error(f"[DB Ops - DynamoDB] Error: {e}")
         return False
     return True
 
@@ -65,6 +65,6 @@ def _put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name)
                 }
             )
     except Exception as e:
-        logging.error(f"[DB Ops - MongoDB] Error: {str(e)}")
+        logging.error(f"[DB Ops - MongoDB] Error: {e}")
         return False
     return True

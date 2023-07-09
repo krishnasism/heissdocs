@@ -39,11 +39,10 @@ class Settings:
         self.parsing_api_key = settings["parsingApiKey"]
         self.buckets_list = settings["bucketsList"]
         self.scan_bucket = settings["scanBucket"]
-        # Not implemented yet
-        self.elastic_search_index = "xxx"
-        self.elastic_search_host = "xxx"
-        self.elastic_search_port = 9200
-        self.elastic_search_api_key = "xxx"
+        self.elastic_search_index = settings["elasticSearchIndex"]
+        self.elastic_search_host = settings["elasticSearchHost"]
+        self.elastic_search_port = settings["elasticSearchPort"]
+        self.elastic_search_api_key = settings["elasticSearchApiKey"]
 
     @classmethod
     def get_settings(cls):
