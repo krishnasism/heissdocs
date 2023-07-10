@@ -13,6 +13,10 @@
           configured cloud storage. This will allow you to view your files in the app."></CheckBoxWithTipVue>
     <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
     </BucketList>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" label="Store in Elasticsearch" helper="Store parsed text from file(s) in Elasticsearch.
+      Recommended for faster searching"></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" label="Store in Document Db (nosql)" helper="Store parsed text from file(s) in your configured DocumentDb.
+      Recommended for enhanced data storage and retrieval flexibility"></CheckBoxWithTipVue>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -57,7 +61,7 @@ import LoadingCircle from "@/components/LoadingCircle.vue";
 export default {
   components: {
     FileUpload,
-    SearchInput, 
+    SearchInput,
     FileList,
     SuccessToast,
     FailureToast,
@@ -88,6 +92,8 @@ export default {
       settingsService: null,
       authService: null,
       loading: false,
+      storeInElastic: false,
+      storeInDocumentDb: false,
     }
   },
   setup() {
@@ -150,6 +156,8 @@ export default {
         formData.append('summarize', this.summaryEnabled);
         formData.append('user_email', this.user.email);
         formData.append('store_files_in_cloud', this.storeFilesInCloud);
+        formData.append('store_in_elastic', this.storeInElastic);
+        formData.append('store_in_document_db', this.storeInDocumentDb);
         formData.append('bucket_name', this.bucketName);
         const response = await fetch(this.uploadApiUrl, {
           method: 'POST',
@@ -192,6 +200,12 @@ export default {
     },
     toggleStoreInCloud(value) {
       this.storeFilesInCloud = value;
+    },
+    toggleStoreInElastic(value) {
+      this.storeInElastic = value;
+    },
+    toggleStoreInDocumentDb(value) {
+      this.storeInDocumentDb = value;
     },
     toggleSummarization(value) {
       this.summaryEnabled = value;

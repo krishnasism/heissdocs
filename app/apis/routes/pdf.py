@@ -42,6 +42,8 @@ async def upload_pdf(
     summarize: Annotated[str, Form()],
     user_email: Annotated[str, Form()],
     store_files_in_cloud: Annotated[bool, Form()],
+    store_in_elastic: Annotated[bool, Form()],
+    store_in_document_db: Annotated[bool, Form()],
     bucket_name: Annotated[str, Form()],
     authenticated: bool = Depends(verify_token),
 ):
@@ -52,6 +54,8 @@ async def upload_pdf(
                 "summarize": summarize,
                 "user_email": user_email,
                 "store_files_in_cloud": store_files_in_cloud,
+                "store_in_elastic": store_in_elastic,
+                "store_in_document_db": store_in_document_db,
                 "bucket_name": bucket_name,
             },
         )

@@ -6,7 +6,7 @@ from uuid import uuid4
 import logging
 
 
-def put_pdf_to_database(pdf_body, file_metadata):
+def put_pdf_to_document_db(pdf_body, file_metadata):
     _settings = Settings.get_settings()
     configured_db = _settings.document_db_provider
     database_connection = DatabaseConnection(configured_db)

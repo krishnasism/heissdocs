@@ -3,7 +3,7 @@ from temp_storage_manager import get_temp_file_stream, delete_file
 from services.pdf.parsing.parser import get_pdf_body
 from tempfile import NamedTemporaryFile
 from services.storage.storage_ops import upload_file_to_s3_bucket
-from services.database.db_ops import put_pdf_to_database
+from services.database.db_ops import put_pdf_to_document_db
 from services.elasticsearch.elasticsearch_client import insert_document_to_elasticsearch
 from enums.FileStages import FileStages
 from api_helpers import update_document_progress
@@ -53,15 +53,24 @@ def process_file(message):
         "file_name"
     ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
 
-    status = put_pdf_to_database(pdf_body, file_metadata)
-    elasticsearch_status = insert_document_to_elasticsearch(
-        document=pdf_body, file_metadata=file_metadata
-    )
+    status, elasticsearch_status = True, True
+
+    if file_params.get("store_in_document_db"):
+        status = put_pdf_to_document_db(pdf_body, file_metadata)
+
+    if file_params.get("store_in_elastic"):
+        elasticsearch_status = insert_document_to_elasticsearch(
+            document=pdf_body, file_metadata=file_metadata
+        )
 
     if not (status and elasticsearch_status):
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
-        logging.error("[Process] Error while processing file")
+        logging.error(
+            "[Process] Error while processing file nosql: %s elastic: %s",
+            status,
+            elasticsearch_status,
+        )
 
     temp_file.close()
     os.remove(temp_file.name)
