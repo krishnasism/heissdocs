@@ -4,7 +4,12 @@ import logging
 import httpx
 
 
-async def load_file_from_presigned_url(url):
+async def load_file_from_presigned_url(url: str) -> bytes:
+    """
+    Load file from presigned url
+    params: url: Presigned url
+    return: bytes: File content
+    """
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
@@ -15,7 +20,14 @@ async def load_file_from_presigned_url(url):
         return None
 
 
-def get_s3_presigned_url(bucket_name, blob_name, user_email):
+def get_s3_presigned_url(bucket_name: str, blob_name: str, user_email: str) -> str:
+    """
+    Get presigned url for S3 file
+    params: bucket_name: Bucket name
+    params: blob_name: Blob name
+    params: user_email: User email
+    return: str: Presigned url
+    """
     storage_connection = StorageConnection(StorageProviders.aws.value, user_email)
     s3_client = storage_connection.storage_low_level_client
     try:
@@ -30,7 +42,13 @@ def get_s3_presigned_url(bucket_name, blob_name, user_email):
         return ""
 
 
-def get_all_s3_files(bucket_name: str, user_email: str):
+def get_all_s3_files(bucket_name: str, user_email: str) -> dict:
+    """
+    Get all files from S3 bucket
+    params: bucket_name: Bucket name
+    params: user_email: User email
+    return: dict: Files list
+    """
     try:
         storage_connection = StorageConnection(StorageProviders.aws.value, user_email)
         s3_client = storage_connection.storage_client

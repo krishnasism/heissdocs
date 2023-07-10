@@ -17,7 +17,12 @@ class ElasticSearchClient:
 
         self.client = None
 
-    def connect(self, api_key: str = None):
+    def connect(self, api_key: str = None) -> None:
+        """
+        Connect to ElasticSearch
+        params: api_key: API Key for ElasticSearch (not required for localhost)
+        return: None
+        """
         try:
             if api_key:
                 self.client = Elasticsearch(
@@ -33,6 +38,12 @@ class ElasticSearchClient:
             logging.exception(f"[ElasticSearchClient - Connect] {e}")
 
     def insert_document_to_index(self, index: str, document: dict):
+        """
+        Insert document to ElasticSearch index
+        params: index: ElasticSearch index to insert document
+        params: document: Document to insert
+        return: None
+        """
         try:
             self.client.index(index=index, document=document)
             logging.info(f"[ElasticSearchClient] Inserted document to {index}")
@@ -40,7 +51,13 @@ class ElasticSearchClient:
             logging.exception(f"[ElasticSearchClient] {e}")
 
 
-def insert_document_to_elasticsearch(document: dict, file_metadata: dict):
+def insert_document_to_elasticsearch(document: dict, file_metadata: dict) -> bool:
+    """
+    Insert document to ElasticSearch
+    params: document: Document to insert
+    params: file_metadata: File metadata
+    return: True if inserted else False
+    """
     settings = Settings.get_settings()
     try:
         elasticsearch_client = ElasticSearchClient(

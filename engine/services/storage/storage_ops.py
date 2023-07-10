@@ -3,7 +3,14 @@ from .storage_providers import StorageProviders
 import logging
 
 
-def upload_file_to_s3_bucket(filestream, filename, bucket=None):
+def upload_file_to_s3_bucket(filestream, filename: str, bucket=None) -> bool:
+    """
+    Upload file to S3 bucket
+    params: filestream: File stream (BufferedReader)
+    params: filename: File name
+    params: bucket: Bucket name
+    return: bool: True if file uploaded successfully, False otherwise
+    """
     storage_connection = StorageConnection(StorageProviders.aws.value)
     s3_client = storage_connection.storage_client
     if not bucket:
@@ -21,8 +28,13 @@ def upload_file_to_s3_bucket(filestream, filename, bucket=None):
     return True
 
 
-
-def get_s3_presigned_url(bucket_name, blob_name):
+def get_s3_presigned_url(bucket_name: str, blob_name: str) -> str:
+    """
+    Get presigned url for S3 file
+    params: bucket_name: Bucket name
+    params: blob_name: Blob name
+    return: str: Presigned url
+    """
     storage_connection = StorageConnection(StorageProviders.aws.value)
     s3_client = storage_connection.storage_low_level_client
     try:

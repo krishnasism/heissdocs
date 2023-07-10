@@ -6,7 +6,10 @@ import logging
 import json
 from fastapi import UploadFile
 from enums.QueueMessages import QueueMessageTypes
-from services.storage.storage_ops import get_s3_presigned_url, load_file_from_presigned_url
+from services.storage.storage_ops import (
+    get_s3_presigned_url,
+    load_file_from_presigned_url,
+)
 from tempfile import NamedTemporaryFile
 
 TEMP_BUCKET_NAME = "tempfiles"  # TODO - Get from config
@@ -15,6 +18,14 @@ TEMP_BUCKET_NAME = "tempfiles"  # TODO - Get from config
 async def prepare_s3_job(
     bucket_name: str, key_name: str, user_email: str, viewer_bucket_name: str
 ) -> str:
+    """
+    Prepare job for reading file from s3 bucket and send job to parsing queue
+    params: bucket_name: S3 bucket name
+    params: key_name: S3 key name (file name)
+    params: user_email: User email
+    params: viewer_bucket_name: Viewer bucket name (where the parsed file will be uploaded)
+    return: str: Document name in viewer bucket
+    """
     document_id = str(uuid4())
     blob_file_name = document_id + ".pdf"
     file_to_parse_url = get_s3_presigned_url(
@@ -48,7 +59,13 @@ async def prepare_s3_job(
     return None
 
 
-def prepare_job(file: UploadFile, params) -> str:
+def prepare_job(file: UploadFile, params: dict) -> str:
+    """
+    Prepare job for parsing queue
+    params: UploadFile: File to parse
+    params: dict: Additional params
+    return: str: Document name in viewer bucket
+    """
     temp_file = NamedTemporaryFile(delete=False)
     try:
         file_contents = file.file.read()
@@ -72,10 +89,19 @@ def prepare_job(file: UploadFile, params) -> str:
     return blob_file_name
 
 
-def send_queue_message(message: str):
-    client = get_local_sqs_client()
+def send_queue_message(message: str) -> bool:
+    """
+    Send message to SQS queue
+    params: str: Message to send
+    return: bool: True
+    """
+    try:
+        client = get_local_sqs_client()
 
-    queue_url = get_queue_url(client, "parse_task")
+        queue_url = get_queue_url(client, "parse_task")
 
-    _ = client.send_message(QueueUrl=queue_url, MessageBody=message)
-    return True
+        _ = client.send_message(QueueUrl=queue_url, MessageBody=message)
+        return True
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        return False

@@ -16,6 +16,11 @@ class ElasticSearchClient:
         self.client = None
 
     def connect(self, api_key: str = None):
+        """
+        Connect to ElasticSearch
+        params: api_key: API Key for ElasticSearch (not required for localhost)
+        return: None
+        """
         try:
             if api_key:
                 self.client = Elasticsearch(
@@ -31,6 +36,12 @@ class ElasticSearchClient:
             logging.error(f"[ElasticSearchClient] {e}")
 
     def search(self, index: str, query: str):
+        """
+        Search ElasticSearch
+        params: index: ElasticSearch index to search
+        params: query: Query to search
+        return: List of documents
+        """
         query = {"query": {"match": {"pdf_body": {"query": query.lower()}}}}
         try:
             elastic_response = self.client.search(index=index, body=query)

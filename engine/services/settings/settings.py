@@ -48,7 +48,6 @@ class Settings:
         self.search_elastic_search = settings.get("searchElasticSearch")
         self.search_document_db = settings.get("searchDocumentDb")
 
-
     @classmethod
     def get_settings(cls):
         if cls._instance is None:

@@ -7,6 +7,8 @@ def preprocess_parsed_text(text: str) -> str:
 def clean_text(text: str) -> str:
     """
     Remove unwanted characters from text
+    params: text: Text to be cleaned
+    return: str: Cleaned text
     """
     import re
 

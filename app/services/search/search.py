@@ -11,7 +11,14 @@ DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_na
 SEARCH_KEY = "pdf_body"
 
 
-def __search_elastic_search(query, user_email, settings: Settings) -> list:
+def __search_elastic_search(query: str, user_email: str, settings: Settings) -> list:
+    """
+    Search ElasticSearch
+    params: query: Query to search
+    user_email: User email (unused)
+    settings: Settings
+    return list of documents
+    """
     try:
         elasticsearch_client = ElasticSearchClient(
             host=settings.elastic_search_host, port=int(settings.elastic_search_port)
@@ -26,7 +33,14 @@ def __search_elastic_search(query, user_email, settings: Settings) -> list:
         return []
 
 
-def __search_document_db(query, user_email, settings: Settings) -> list:
+def __search_document_db(query: str, user_email: str, settings: Settings) -> list:
+    """
+    Search Document DB
+    params: query: Query to search
+    user_email: User email (unused)
+    settings: Settings
+    return: list of documents
+    """
     db_connection = DatabaseConnection(settings.document_db_provider, user_email)
     select_keys = DOCUMENT_TABLE_KEYS
     table_name = settings.aws_search_table_name
@@ -55,7 +69,13 @@ def __search_document_db(query, user_email, settings: Settings) -> list:
     return documents
 
 
-def get_pdf_by_query(query, user_email):
+def get_pdf_by_query(query: str, user_email: str) -> dict:
+    """
+    Get PDF by query from ElasticSearch and/or Document DB
+    params: query: Query to search
+    user_email: User email
+    return: dict of list of documents
+    """
     settings = override_settings(get_settings(), get_override_settings(user_email))
     documents: list = []
     # TODO: Only works with dynamodb now - Implement generic

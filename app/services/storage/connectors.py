@@ -15,13 +15,14 @@ class StorageConnection:
         )
         match provider_name:
             case StorageProviders.aws.value:
-                self._connect_to_s3()
+                self.__connect_to_s3()
             case StorageProviders.azure.value:
-                self._connect_to_az()
+                self.__connect_to_az()
             case _:
                 logging.error("[Storage Connection] Undefined")
 
-    def _connect_to_s3(self):
+    def __connect_to_s3(self):
+        """Connect to AWS S3"""
         session = boto3.Session(
             aws_access_key_id=self.settings.aws_access_key,
             aws_secret_access_key=self.settings.aws_secret,
@@ -30,5 +31,5 @@ class StorageConnection:
         self.storage_client = session.resource("s3")
         self.storage_low_level_client = session.client("s3")
 
-    def _connect_to_az(self):
+    def __connect_to_az(self):
         pass

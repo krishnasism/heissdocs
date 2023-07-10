@@ -11,13 +11,13 @@ class StorageConnection:
     def __init__(self, provider_name: str):
         match provider_name:
             case StorageProviders.aws.value:
-                self._connect_to_s3()
+                self.__connect_to_s3()
             case StorageProviders.azure.value:
-                self._connect_to_az()
+                self.__connect_to_az()
             case _:
                 logging.error("[Storage Connection] Undefined")
 
-    def _connect_to_s3(self):
+    def __connect_to_s3(self):
         _settings = Settings.get_settings()
         try:
             session = boto3.Session(
@@ -30,5 +30,6 @@ class StorageConnection:
         except Exception as e:
             logging.error(f"[Azure S3 Client] {e}")
 
-    def _connect_to_az(self):
+    def __connect_to_az(self):
+        """Unimplemented"""
         pass
