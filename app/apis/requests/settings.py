@@ -14,7 +14,7 @@ class Settings(BaseModel):
     scanBucket: Optional[str] = None
     elasticSearchIndex: Optional[str] = None
     elasticSearchHost: Optional[str] = None
-    elasticSearchPort: Optional[int] = 9200
+    elasticSearchPort: Optional[int] = None
     elasticSearchApiKey: Optional[str] = None
     searchDocumentDb: Optional[bool] = Field(case_sensitive=False, default=False)
     searchElasticSearch: Optional[bool] = Field(case_sensitive=False, default=False)

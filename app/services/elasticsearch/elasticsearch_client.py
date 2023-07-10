@@ -8,8 +8,11 @@ class ElasticSearchClient:
         self.port = port
         if self.host.startswith("https://"):
             self.scheme = "https"
+            self.host = self.host.replace("https://", "")
         else:
             self.scheme = "http"
+            self.host = self.host.replace("http://", "")
+
         self.client = None
 
     def connect(self, api_key: str = None):

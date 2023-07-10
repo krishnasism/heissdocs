@@ -5,13 +5,16 @@ from datetime import datetime
 
 
 class ElasticSearchClient:
-    def __init__(self, host: str, port: str):
+    def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
         if self.host.startswith("https://"):
             self.scheme = "https"
+            self.host = self.host.replace("https://", "")
         else:
             self.scheme = "http"
+            self.host = self.host.replace("http://", "")
+
         self.client = None
 
     def connect(self, api_key: str = None):
