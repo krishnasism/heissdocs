@@ -11,6 +11,7 @@ from services.storage.storage_ops import (
     load_file_from_presigned_url,
 )
 from tempfile import NamedTemporaryFile
+import pypdf
 
 TEMP_BUCKET_NAME = "tempfiles"  # TODO - Get from config
 
@@ -59,34 +60,50 @@ async def prepare_s3_job(
     return None
 
 
-def prepare_job(file: UploadFile, params: dict) -> str:
+def prepare_job(file: UploadFile, params: dict) -> dict:
     """
     Prepare job for parsing queue
     params: UploadFile: File to parse
     params: dict: Additional params
-    return: str: Document name in viewer bucket
+    return: dict: File metadata
     """
     temp_file = NamedTemporaryFile(delete=False)
+    document_id = str(uuid4())
     try:
         file_contents = file.file.read()
         with temp_file as f:
             f.write(file_contents)
     except:
         return ""
-    blob_file_name = str(uuid4()) + ".pdf"
+    blob_file_name = document_id + ".pdf"
+
+    # Create chunks of PDF file before sending to queue
+    # This will help in parallel processing of PDF file
+    # And not overwhelm the worker (set to 50 pages/file for now)
+    chunks, total_pages = split_pdf_into_chunks(temp_file.name, 50)
     with open(temp_file.name, "rb") as f:
         response = upload_file_to_s3_bucket(f, blob_file_name)
         if response:
             logging.info("[Queue] File uploaded to temp bucket")
 
-    params["temp_file_name"] = blob_file_name
-    params["temp_bucket_name"] = TEMP_BUCKET_NAME
-    params["original_file_name"] = file.filename
+    for i in range(0, len(chunks)):
+        chunk_file_name = f"{document_id}_part{i}.pdf"
+        res = upload_file_to_s3_bucket(chunks[i], chunk_file_name)
+        if res:
+            logging.info(f"[Prepare Job] File part {i} uploaded to temp bucket")
 
-    params["message_type"] = QueueMessageTypes.PARSING.value
-    params["document_unique_id"] = blob_file_name
-    send_queue_message(json.dumps(params))
-    return blob_file_name
+        params["chunk_file_name"] = chunk_file_name
+        params["temp_bucket_name"] = TEMP_BUCKET_NAME
+        params["original_file_name"] = file.filename
+        params["message_type"] = QueueMessageTypes.PARSING.value
+        params["document_unique_id"] = blob_file_name
+        params["total_pages"] = total_pages
+        send_queue_message(json.dumps(params))
+
+    return {
+        "document_id": f"{document_id}.pdf",
+        "total_pages": total_pages,
+    }
 
 
 def send_queue_message(message: str) -> bool:
@@ -101,7 +118,34 @@ def send_queue_message(message: str) -> bool:
         queue_url = get_queue_url(client, "parse_task")
 
         _ = client.send_message(QueueUrl=queue_url, MessageBody=message)
+        logging.info("[Queue] Message sent to queue")
         return True
     except Exception as e:
         logging.error(f"An error occurred: {e}")
         return False
+
+
+def split_pdf_into_chunks(file_path: str, chunk_size: int = 50):
+    """
+    Split PDF file into chunks
+    params: file_path: File path
+    params: chunk_size: Chunk size
+    return: list: List of chunks
+    """
+    pdf = pypdf.PdfReader(file_path)
+    total_pages = len(pdf.pages)
+
+    chunks = []
+    for start_page in range(0, total_pages, chunk_size):
+        end_page = min(start_page + chunk_size, total_pages)
+        chunk_pdf = pypdf.PdfWriter()
+        for page_num in range(start_page, end_page):
+            chunk_pdf.add_page(pdf.pages[page_num])
+
+        temp_file = NamedTemporaryFile(delete=False)
+        with open(temp_file.name, "wb") as f:
+            chunk_pdf.write(f)
+
+        chunks.append(temp_file)
+
+    return (chunks, total_pages)

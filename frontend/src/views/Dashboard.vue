@@ -14,9 +14,9 @@
     <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
     </BucketList>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" label="Store in Elasticsearch" helper="Store parsed text from file(s) in Elasticsearch.
-      Recommended for faster searching"></CheckBoxWithTipVue>
+      Recommended for faster and robust searching."></CheckBoxWithTipVue>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" label="Store in Document Db (nosql)" helper="Store parsed text from file(s) in your configured DocumentDb.
-      Recommended for enhanced data storage and retrieval flexibility"></CheckBoxWithTipVue>
+      Recommended for enhanced data storage and retrieval flexibility."></CheckBoxWithTipVue>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"

@@ -23,6 +23,7 @@ python-dotenv = "==1.0.0"
 "httpx" = "==0.24.1"
 elasticsearch = "==8.8.2"
 pydantic-settings = "==2.0.1"
+pypdf = "==3.12.1"
 
 [dev-packages]
 autopep8 = "*"

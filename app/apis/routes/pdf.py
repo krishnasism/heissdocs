@@ -48,7 +48,7 @@ async def upload_pdf(
     authenticated: bool = Depends(verify_token),
 ):
     try:
-        document_id = prepare_job(
+        job_metadata = prepare_job(
             file,
             params={
                 "summarize": summarize,
@@ -59,6 +59,8 @@ async def upload_pdf(
                 "bucket_name": bucket_name,
             },
         )
+        document_id = job_metadata.get("document_id")
+        total_pages = job_metadata.get("total_pages")
 
         pm.create_documents_progress_entry(
             DocumentProgressRequest(
@@ -67,7 +69,7 @@ async def upload_pdf(
                 documentName=file.filename,
                 stage=FileStages.QUEUED.value,
                 pagesParsed=0,
-                totalPages=0,
+                totalPages=total_pages,
             ).model_dump()
         )
 

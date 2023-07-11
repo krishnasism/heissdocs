@@ -2,7 +2,7 @@ import logging
 import pytesseract
 from pdf2image import convert_from_path, pdfinfo_from_path
 from tempfile import NamedTemporaryFile
-from multiprocessing import Pool, Value
+from multiprocessing import Pool, Value, cpu_count
 from itertools import chain
 from api_helpers import update_document_progress
 from services.utils.helpers import preprocess_parsed_text
@@ -23,7 +23,7 @@ class PDFParser:
             with counter.get_lock():
                 counter.value += 1
                 if counter.value % 5 == 0:
-                    document_progress["pages_parsed"] = counter.value
+                    document_progress["pages_parsed"] = 5
                     update_document_progress(document_progress)
         return page_data
 
@@ -33,18 +33,19 @@ class PDFParser:
         body = {}
         pdf_info = pdfinfo_from_path(path)
         max_pages = pdf_info["Pages"]
-
-        document_progress["total_pages"] = max_pages
         document_progress["pages_parsed"] = 0
         update_document_progress(document_progress)
 
+        max_processes = cpu_count()
         pages_chunks = []
-        for page in range(1, max_pages + 1, 10):
+        chunk_size = min(max_pages, max(int(max_pages / max_processes), 1))
+
+        for page in range(1, max_pages + 1, chunk_size):
             pages_chunks.append(
                 (
                     page,
                     convert_from_path(
-                        path, first_page=page, last_page=min(page + 10 - 1, max_pages)
+                        path, first_page=page, last_page=min(page + chunk_size - 1, max_pages)
                     ),
                 )
             )
@@ -67,8 +68,8 @@ class PDFParser:
         for result in multiple_results:
             body[result[0]] = result[1]
 
-        document_progress["total_pages"] = max_pages
-        document_progress["pages_parsed"] = max_pages
+        # Prevent duplicate progress update for pages_parsed
+        document_progress["pages_parsed"] = 0
         document_progress["stage"] = FileStages.COMPLETED.value
         update_document_progress(document_progress)
 

@@ -59,18 +59,20 @@ class PostgresManager:
         with self.client.connect() as conn:
             if not document_id:
                 result_set = conn.execute(
-                    documents_progress_table.select().where(
-                        documents_progress_table.c.user_email == user_email
-                    ).order_by(documents_progress_table.c.updated_on.desc())
+                    documents_progress_table.select()
+                    .where(documents_progress_table.c.user_email == user_email)
+                    .order_by(documents_progress_table.c.updated_on.desc())
                 )
             else:
                 result_set = conn.execute(
-                    documents_progress_table.select().where(
+                    documents_progress_table.select()
+                    .where(
                         and_(
                             documents_progress_table.c.user_email == user_email,
                             documents_progress_table.c.document_id == document_id,
                         )
-                    ).order_by(documents_progress_table.c.updated_on.desc())
+                    )
+                    .order_by(documents_progress_table.c.updated_on.desc())
                 )
             result_row = result_set.all()
             return [row._asdict() for row in result_row]
@@ -120,8 +122,17 @@ class PostgresManager:
             documents_progress["user_email"], documents_progress["document_id"]
         )[0]
         with self.client.connect() as conn:
-            statement = (
-                update(documents_progress_table)
+            pages_parsed = (
+                documents_progress["pages_parsed"]
+                if documents_progress["pages_parsed"]
+                else stored_documents_progress["pages_parsed"]
+            )
+            if documents_progress["pages_parsed"]:
+                pages_parsed += stored_documents_progress["pages_parsed"]
+
+            # Lock the row for update
+            result = conn.execute(
+                documents_progress_table.select()
                 .where(
                     and_(
                         documents_progress_table.c.user_email
@@ -130,20 +141,32 @@ class PostgresManager:
                         == documents_progress["document_id"],
                     )
                 )
-                .values(
-                    **{
-                        "stage": documents_progress["stage"]
-                        if documents_progress["stage"]
-                        else stored_documents_progress["stage"],
-                        "pages_parsed": documents_progress["pages_parsed"]
-                        if documents_progress["pages_parsed"]
-                        else stored_documents_progress["pages_parsed"],
-                        "total_pages": documents_progress["total_pages"]
-                        if documents_progress["total_pages"]
-                        else stored_documents_progress["total_pages"],
-                        "updated_on": datetime.utcnow(),
-                    }
-                )
+                .with_for_update()
             )
-            conn.execute(statement)
-            conn.commit()
+            row = result.fetchone()
+            if row:
+                statement = (
+                    update(documents_progress_table)
+                    .where(
+                        and_(
+                            documents_progress_table.c.user_email
+                            == documents_progress["user_email"],
+                            documents_progress_table.c.document_id
+                            == documents_progress["document_id"],
+                        )
+                    )
+                    .values(
+                        **{
+                            "stage": documents_progress["stage"]
+                            if documents_progress["stage"]
+                            else stored_documents_progress["stage"],
+                            "pages_parsed": pages_parsed,
+                            "total_pages": documents_progress["total_pages"]
+                            if documents_progress["total_pages"]
+                            else stored_documents_progress["total_pages"],
+                            "updated_on": datetime.utcnow(),
+                        }
+                    )
+                )
+                conn.execute(statement)
+                conn.commit()

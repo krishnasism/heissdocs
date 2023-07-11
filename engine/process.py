@@ -15,7 +15,7 @@ from uuid import uuid4
 def process_file(message):
     file_params = json.loads(message)
     file_stream = get_temp_file_stream(
-        file_params["temp_file_name"], file_params["temp_bucket_name"]
+        file_params["chunk_file_name"], file_params["temp_bucket_name"]
     )
     document_unique_id = file_params["document_unique_id"]
 
@@ -25,7 +25,7 @@ def process_file(message):
         "document_name": file_params["original_file_name"],
         "stage": FileStages.PROCESSING.value,
         "pages_parsed": 0,
-        "total_pages": 0,
+        "total_pages": file_params["total_pages"],
     }
 
     update_document_progress(document_progress)
@@ -75,7 +75,7 @@ def process_file(message):
     temp_file.close()
     os.remove(temp_file.name)
     try:
-        delete_file(file_params["temp_file_name"], file_params["temp_bucket_name"])
+        delete_file(file_params["chunk_file_name"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
     return status and elasticsearch_status
