@@ -4,6 +4,7 @@ from .database.tables import settings_table, documents_progress_table
 import re
 from uuid import uuid4
 from settings.config import get_settings
+from datetime import datetime
 
 
 SETTINGS_TABLE_NAME = "settings"
@@ -60,7 +61,7 @@ class PostgresManager:
                 result_set = conn.execute(
                     documents_progress_table.select().where(
                         documents_progress_table.c.user_email == user_email
-                    )
+                    ).order_by(documents_progress_table.c.updated_on.desc())
                 )
             else:
                 result_set = conn.execute(
@@ -69,7 +70,7 @@ class PostgresManager:
                             documents_progress_table.c.user_email == user_email,
                             documents_progress_table.c.document_id == document_id,
                         )
-                    )
+                    ).order_by(documents_progress_table.c.updated_on.desc())
                 )
             result_row = result_set.all()
             return [row._asdict() for row in result_row]
@@ -102,6 +103,7 @@ class PostgresManager:
         """
         documents_progress = self._convert_dict_to_snake_case(documents_progress)
         documents_progress["id"] = str(uuid4())
+        documents_progress["updated_on"] = datetime.utcnow()
         with self.client.connect() as conn:
             statement = insert(documents_progress_table).values(**documents_progress)
             conn.execute(statement)
@@ -139,6 +141,7 @@ class PostgresManager:
                         "total_pages": documents_progress["total_pages"]
                         if documents_progress["total_pages"]
                         else stored_documents_progress["total_pages"],
+                        "updated_on": datetime.utcnow(),
                     }
                 )
             )

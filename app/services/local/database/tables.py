@@ -1,4 +1,4 @@
-from sqlalchemy import String, Numeric, Boolean
+from sqlalchemy import String, Numeric, Boolean, DateTime
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -35,6 +35,7 @@ documents_progress_table = sa.Table(
     sa.Column("stage", String),
     sa.Column("pages_parsed", Numeric),
     sa.Column("total_pages", Numeric),
+    sa.Column("updated_on", DateTime)
 )
 
 # TODO : Add auto migrations from tables -> database

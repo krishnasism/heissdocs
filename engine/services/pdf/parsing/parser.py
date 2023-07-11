@@ -13,7 +13,7 @@ class PDFParser:
     def __init__(self):
         logging.info("[PDF Parser] Initialised")
 
-    def __parse_pytesseract(self, page_chunk, document_progress):
+    def parse_pytesseract(self, page_chunk, document_progress):
         global counter
         start_page, chunk = page_chunk
         page_data = []
@@ -27,7 +27,7 @@ class PDFParser:
                     update_document_progress(document_progress)
         return page_data
 
-    def __get_ocr_body(self, path, document_progress: dict) -> str:
+    def get_ocr_body(self, path, document_progress: dict) -> str:
         global counter
         counter = Value("i", 0)
         body = {}
@@ -51,7 +51,7 @@ class PDFParser:
         with Pool(processes=5, initargs=(counter)) as pool:
             page_results = [
                 pool.apply_async(
-                    self.__parse_pytesseract,
+                    self.parse_pytesseract,
                     (
                         page_chunk,
                         document_progress,
@@ -83,7 +83,7 @@ class PDFParser:
         """
         global counter
         counter = Value("i", 0)
-        pdf_body = self.__get_ocr_body(path, document_progress)
+        pdf_body = self.get_ocr_body(path, document_progress)
         return pdf_body
 
 

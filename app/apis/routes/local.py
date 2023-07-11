@@ -65,6 +65,8 @@ async def get_documents_in_progress(
     userEmail: str, authenticated: bool = Depends(verify_token)
 ):
     documents = pm.get_documents_progress(userEmail)
+    for document in documents:
+        del document['updated_on']
     return JSONResponse(content={"documents": documents}, status_code=200)
 
 
