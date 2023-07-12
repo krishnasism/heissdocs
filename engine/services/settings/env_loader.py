@@ -8,5 +8,6 @@ def load_env_file():
         for line in file_content:
             if "=" not in line:
                 continue
-            key, value = line.split("=")
-            os.environ[key] = value.replace('"', "").strip()
+            kv = line.split("=", maxsplit=1)
+            value = kv[1] if len(kv) == 2 else None
+            os.environ[kv[0]] = value.replace('"', "").strip() if value else None
