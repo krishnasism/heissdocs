@@ -18,8 +18,8 @@ export default {
     },
     data() {
         return {
-            apiToken: String,
-            documents: Array,
+            apiToken: '',
+            documents: [],
             timer: '',
             authService: null,
             loading: false,

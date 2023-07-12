@@ -73,6 +73,7 @@ export default {
     },
     computed: {
         sortedDocuments() {
+            if(!this.documents) return [];
             const sortedDocs = [...this.documents];
             if (this.sortColumn === 'file_name') {
                 sortedDocs.sort((a, b) => {
