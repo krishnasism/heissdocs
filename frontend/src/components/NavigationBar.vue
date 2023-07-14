@@ -14,36 +14,6 @@
                         {{ $t('component.logout') }}
                     </button>
                 </div>
-                <!-- <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                    <ul
-                        class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li>
-                            <RouterLink :to="{ name: 'dashboard' }">
-                                <p>{{ $t('component.dashboard') }}</p>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink :to="{ name: 'settings' }">
-                                <p>{{ $t('component.settings') }}</p>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink :to="{ name: 'news' }">
-                                <p>News</p>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink :to="{ name: 'contact' }">
-                                <p>Contact</p>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink :to="{ name: 'setup' }">
-                                <p>{{ $t('component.setup') }}</p>
-                            </RouterLink>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </nav>
 

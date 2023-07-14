@@ -5,7 +5,6 @@
     "component": {
         "dashboard": "Dashboard",
         "settings": "Einstellungen",
-        "setup": "Aufstellen",
         "search": "Suchen",
         "logout": "Abmeldung"
     }

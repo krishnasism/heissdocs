@@ -3,7 +3,6 @@ import Dashboard from '../views/Dashboard.vue'
 import Settings from '../views/Settings.vue'
 import News from '../views/News.vue'
 import Contact from '../views/Contact.vue'
-import Setup from '../views/Setup.vue'
 import Search from '../views/Search.vue'
 import Login from '../views/Login.vue'
 import FileView from '../views/FileView.vue'
@@ -43,12 +42,6 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: Contact,
-      beforeEnter: authGuard,
-    },
-    {
-      path: '/setup',
-      name: 'setup',
-      component: Setup,
       beforeEnter: authGuard,
     },
     {
