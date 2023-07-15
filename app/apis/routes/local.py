@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from apis.requests.settings import Settings
 from apis.requests.document_progress import DocumentProgressRequest
+from apis.requests.log_request import LogRequest
 from services.local.postgres import PostgresManager
 from services.utils.helpers import convert_dict_to_camel_case
 from services.security.verify_token import verify_token
@@ -16,7 +17,8 @@ pm = PostgresManager()
 
 @router.post("/settings")
 async def update_settings(
-    settings: Settings, authenticated: bool = Depends(verify_token)
+    settings: Settings,
+    authenticated: bool = Depends(verify_token),
 ):
     new_settings_obj = {k: v for k, v in settings.model_dump().items() if v is not None}
     pm.update_settings(new_settings_obj)
@@ -66,7 +68,7 @@ async def get_documents_in_progress(
 ):
     documents = pm.get_documents_progress(userEmail)
     for document in documents:
-        del document['updated_on']
+        del document["updated_on"]
     return JSONResponse(content={"documents": documents}, status_code=200)
 
 
@@ -77,3 +79,21 @@ async def set_documents_in_progress(
 ):
     pm.update_documents_progress(documentsProgressRequest.model_dump())
     return JSONResponse(content={"message": "success"}, status_code=200)
+
+
+@router.post("/log")
+async def post_log(
+    logRequest: LogRequest,
+    authenticated: bool = Depends(verify_token),
+):
+    pm.post_log(logRequest.model_dump())
+    return JSONResponse(content={"message": "success"}, status_code=200)
+
+
+@router.get("/logs")
+async def get_logs(
+    user_email: str,
+    authenticated: bool = Depends(verify_token),
+):
+    logs = pm.get_logs(user_email)
+    return JSONResponse(content={"logs": logs}, status_code=200)

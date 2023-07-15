@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, insert, update, and_
 import logging
-from .database.tables import settings_table, documents_progress_table
+from .database.tables import settings_table, documents_progress_table, logs_table
 import re
 from uuid import uuid4
 from settings.config import get_settings
@@ -170,3 +170,38 @@ class PostgresManager:
                 )
                 conn.execute(statement)
                 conn.commit()
+
+    def post_log(self, log: dict) -> None:
+        """
+        Post log sent from parse engine
+        params: log: Log sent from parse engine
+        return: None
+        """
+        with self.client.connect() as conn:
+            statement = insert(logs_table).values(**log)
+            conn.execute(statement)
+            conn.commit()
+
+    def get_logs(self, user_email: str) -> list:
+        """
+        Get all logs from the database.
+        params: None
+        return: list: A list of log dictionaries.
+        """
+        with self.client.connect() as conn:
+            result_set = conn.execute(
+                logs_table.select()
+                .where(
+                    and_(
+                        logs_table.c.user_email == user_email
+                    )
+                )
+                .order_by(logs_table.c.created_on.desc())
+            )
+            result_rows = result_set.all()
+            result_rows_safe = []
+            for row in result_rows:
+                row_safe = row._asdict()
+                row_safe["created_on"] = row_safe["created_on"].strftime("%Y-%m-%d %H:%M:%S")
+                result_rows_safe.append(row_safe)
+            return result_rows_safe

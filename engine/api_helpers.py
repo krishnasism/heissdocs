@@ -63,3 +63,14 @@ def update_document_progress(document_progress: dict):
         return response.json()
     else:
         return None
+
+
+def post_log(log: dict):
+    apitoken_obj = APIToken.get_api_token()
+    documents_progress_endpoint = f"{os.environ['LOCAL_API_ENDPOINT']}/log"
+    headers = {"Authorization": "Bearer " + apitoken_obj.api_token}
+    response = httpx.post(documents_progress_endpoint, headers=headers, json=log)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None

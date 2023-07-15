@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS settings (
 	elastic_search_port VARCHAR,
 	elastic_search_api_key VARCHAR,
 	search_document_db BOOLEAN,
-	search_elastic_search BOOLEAN
+	search_elastic_search BOOLEAN,
+	store_logs_in_db BOOLEAN,
 );

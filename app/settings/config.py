@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     elastic_search_api_key: str
     search_elastic_search: Optional[bool] = False
     search_document_db: Optional[bool] = False
+    store_logs_in_db: Optional[bool] = False
 
     class Config:
         env_file = ".env"

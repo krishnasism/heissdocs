@@ -16,5 +16,6 @@ class Settings(BaseModel):
     elasticSearchHost: Optional[str] = None
     elasticSearchPort: Optional[int] = None
     elasticSearchApiKey: Optional[str] = None
-    searchDocumentDb: Optional[bool] = Field(case_sensitive=False, default=False)
-    searchElasticSearch: Optional[bool] = Field(case_sensitive=False, default=False)
+    searchDocumentDb: Optional[bool] = None
+    searchElasticSearch: Optional[bool] = None
+    storeLogsInDb: Optional[bool] = None

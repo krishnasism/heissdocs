@@ -7,6 +7,7 @@ from enums.QueueMessages import QueueMessageTypes
 from services.settings.settings import Settings
 from services.settings.api_token import APIToken
 from services.settings.env_loader import load_env_file
+from services.logging.log_handler import setup_logging, remove_logging
 import json
 
 load_env_file()
@@ -21,9 +22,8 @@ create_local_storage()
 api_token = get_auth_token()
 api_token_obj = APIToken.get_api_token()
 api_token_obj.update_api_token(api_token)
-
+setup_logging()
 logging.info("[Queue Handler] Token acquired..")
-
 settings_obj = Settings.get_settings()
 
 while True:
@@ -45,9 +45,13 @@ while True:
             ):
                 settings = get_settings(message_body["user_email"])["settings"]
                 settings_obj.update_settings(settings)
-
+                if not settings_obj.store_logs_in_db:
+                    remove_logging()
+                else:
+                    setup_logging()
             receipt_handle = message["ReceiptHandle"]
         except Exception as e:
-            logging.exception("Unable to Parse File", e)
+            logging.error(f"Unable to Parse File")
+            logging.exception(e)
         finally:
             sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)

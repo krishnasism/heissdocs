@@ -109,6 +109,12 @@
                             v-model="elasticSearchApiKey">
                     </div>
                 </div>
+                <p class="mt-5 font-black">Advanced Settings</p>
+                <div>
+                    <CheckBoxWithTipVue :value="storeLogsInDb" @toggled="toggleStoreLogsInDb" label="Store Logs into DB"
+                        helper="Store parsing logs in the local database. Recommended while setting up, for easier debugging. Can be accessed under the Logs section.">
+                    </CheckBoxWithTipVue>
+                </div>
                 <button type="submit" @click="submitSettings"
                     class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
                     Save
@@ -120,6 +126,7 @@
 <script>
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
+import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
 
 export default {
     name: 'SettingsForm',
@@ -130,6 +137,7 @@ export default {
     },
     components: {
         driver,
+        CheckBoxWithTipVue,
     },
     setup() {
         return {
@@ -150,6 +158,7 @@ export default {
             elasticSearchHost: "localhost",
             elasticSearchPort: "9200",
             elasticSearchApiKey: "",
+            storeLogsInDb: false,
             tipMap: {
                 "awsAccessKey": {
                     "title": "AWS Access Key",
@@ -222,6 +231,7 @@ export default {
                 'elasticSearchHost': this.elasticSearchHost,
                 'elasticSearchPort': this.elasticSearchPort,
                 'elasticSearchApiKey': this.elasticSearchApiKey,
+                'storeLogsInDb': this.storeLogsInDb,
             }
             this.$emit('submit', settings);
         },
@@ -239,6 +249,7 @@ export default {
                 this.elasticSearchHost = this.settings.elasticSearchHost
                 this.elasticSearchPort = this.settings.elasticSearchPort
                 this.elasticSearchApiKey = this.settings.elasticSearchApiKey
+                this.storeLogsInDb = this.settings.storeLogsInDb
             }
         },
         overrideElasticLocalSettings() {
@@ -246,6 +257,9 @@ export default {
             this.elasticSearchHost = "host.docker.internal";
             this.elasticSearchPort = "9200";
             this.elasticSearchApiKey = "";
+        },
+        toggleStoreLogsInDb(value) {
+            this.storeLogsInDb = value;
         },
         showTip(element) {
             const driverObj = driver({
