@@ -17,6 +17,7 @@ class PDFParser:
         global counter
         start_page, chunk = page_chunk
         page_data = []
+        pages_reported = 0
         for pageNum, imgBlob in enumerate(chunk):
             text = pytesseract.image_to_string(imgBlob, lang="eng")
             page_data.append((start_page + pageNum, preprocess_parsed_text(text)))
@@ -25,6 +26,9 @@ class PDFParser:
                 if counter.value % 5 == 0:
                     document_progress["pages_parsed"] = 5
                     update_document_progress(document_progress)
+                    pages_reported += 5
+        document_progress["pages_parsed"] = len(chunk) - pages_reported
+        update_document_progress(document_progress)
         return page_data
 
     def get_ocr_body(self, path, document_progress: dict) -> str:
@@ -45,7 +49,9 @@ class PDFParser:
                 (
                     page,
                     convert_from_path(
-                        path, first_page=page, last_page=min(page + chunk_size - 1, max_pages)
+                        path,
+                        first_page=page,
+                        last_page=min(page + chunk_size - 1, max_pages),
                     ),
                 )
             )
