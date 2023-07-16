@@ -1,15 +1,25 @@
 <template>
     <LoadingCircle v-if="loading"></LoadingCircle>
     <div v-else>
-        <select v-model="selectInterval" @change="handleIntervalChange"
-            class="block w-40 p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="30">Last 30 mins</option>
-            <option value="60">Last 1 hour</option>
-            <option value="180">Last 3 hours</option>
-            <option value="720">Last 12 hours</option>
-            <option value="1440">Last 24 hours</option>
-            <option value="-1">All time</option>
-        </select>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-full h-4 mr-2 text-gray-400"
+                    viewbox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            <select v-model="selectInterval" @change="handleIntervalChange"
+                class="block w-40 pl-8 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="30">Last 30 mins</option>
+                <option value="60">Last 1 hour</option>
+                <option value="180">Last 3 hours</option>
+                <option value="720">Last 12 hours</option>
+                <option value="1440">Last 24 hours</option>
+                <option value="-1">All time</option>
+            </select>
+        </div>
         <div v-if="logs.length == 0">No logs to show for selected interval</div>
         <LogsTable v-else :logs="logs"></LogsTable>
     </div>

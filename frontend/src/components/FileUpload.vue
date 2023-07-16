@@ -1,7 +1,9 @@
 <template>
-    <div class="flex items-center justify-center w-64">
+    <div class="flex items-center justify-center w-64" @dragenter.prevent="handleDragEnter"
+        @dragover.prevent="handleDragOver" @dragleave.prevent="handleDragLeave" @drop.prevent="handleDrop">
         <label for="dropzone-file"
-            class="flex flex-col items-center justify-center w-64 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            class="flex flex-col items-center justify-center w-64 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            ondragenter="handleDragEnter" ondragover="handleDragOver" ondragleave="handleDragLeave" ondrop="handleDrop">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -12,8 +14,9 @@
                     or drag and drop</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
             </div>
-            <input :disabled="disabled" id="dropzone-file" type="file" class="hidden" accept="application/pdf" @change="fileUpload" multiple="multiple"/>
         </label>
+        <input :disabled="disabled" id="dropzone-file" type="file" class="hidden" accept="application/pdf"
+            @change="fileUpload" multiple="multiple" />
     </div>
 </template>
 <script>
@@ -32,9 +35,24 @@ export default {
     },
     methods: {
         fileUpload(evt) {
-            // emit with files
             this.$emit("fileUpload", evt.target.files);
-        }
+        },
+        handleDragEnter(evt) {
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        },
+        handleDragOver(evt) {
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        },
+        handleDragLeave(evt) {
+            evt.preventDefault();
+        },
+        handleDrop(evt) {
+            evt.preventDefault();
+            const files = evt.dataTransfer.files;
+            this.$emit("fileUpload", files);
+        },
     }
 }
 </script>
