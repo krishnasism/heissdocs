@@ -15,7 +15,7 @@ class StorageConnection:
             case StorageProviders.azure.value:
                 self.__connect_to_az()
             case _:
-                logging.error("[Storage Connection] Undefined")
+                logging.error(f"[Storage Connection] Undefined provider: {provider_name}")
 
     def __connect_to_s3(self):
         _settings = Settings.get_settings()
@@ -28,7 +28,8 @@ class StorageConnection:
             self.storage_client = session.resource("s3")
             self.storage_low_level_client = session.client("s3")
         except Exception as e:
-            logging.error(f"[Azure S3 Client] {e}")
+            logging.error(f"[Azure S3 Client] Unable to connect to S3 client")
+            logging.exception(e)
 
     def __connect_to_az(self):
         """Unimplemented"""

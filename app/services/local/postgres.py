@@ -191,17 +191,15 @@ class PostgresManager:
         with self.client.connect() as conn:
             result_set = conn.execute(
                 logs_table.select()
-                .where(
-                    and_(
-                        logs_table.c.user_email == user_email
-                    )
-                )
+                .where(and_(logs_table.c.user_email == user_email))
                 .order_by(logs_table.c.created_on.desc())
             )
             result_rows = result_set.all()
             result_rows_safe = []
             for row in result_rows:
                 row_safe = row._asdict()
-                row_safe["created_on"] = row_safe["created_on"].strftime("%Y-%m-%d %H:%M:%S")
+                row_safe["created_on"] = row_safe["created_on"].strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
                 result_rows_safe.append(row_safe)
             return result_rows_safe

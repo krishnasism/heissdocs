@@ -17,9 +17,8 @@ class DbLogHandler(logging.Handler):
         # Get the stack frame of the caller
         frames = inspect.stack()
 
-        # The 0th frame is the current frame, the 1st frame is the caller of this method,
-        # and the 2nd frame is the caller of the caller.
-        caller_frame = frames[4]
+        # Last frame of stack is the caller
+        caller_frame = frames[-1]
 
         # Extract the filename, function name, and line number of the caller
         filename = caller_frame.filename

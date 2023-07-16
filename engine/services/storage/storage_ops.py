@@ -23,7 +23,8 @@ def upload_file_to_s3_bucket(filestream, filename: str, bucket=None) -> bool:
             pdf_object = s3_client.Object(bucket, filename)
             _ = pdf_object.put(Body=filestream)
     except Exception as e:
-        logging.error(f"[AWSManager] Error: {str(e)}")
+        logging.error(f"[AWSManager] Unable to upload file to bucket: {bucket}, file: {filename}")
+        logging.exception(e)
         return False
     return True
 
@@ -45,5 +46,6 @@ def get_s3_presigned_url(bucket_name: str, blob_name: str) -> str:
         )
         return url
     except Exception as e:
-        logging.error(e)
+        logging.error(f"[AWSManager] Error: Unable to get presigned url bucket: {bucket_name}, blob: {blob_name}")
+        logging.exception(e)
         return ""

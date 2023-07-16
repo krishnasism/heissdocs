@@ -79,5 +79,6 @@ def insert_document_to_elasticsearch(document: dict, file_metadata: dict) -> boo
         logging.info("[Elasticsearch] Inserted document to Elasticsearch")
         return True
     except Exception as e:
-        logging.error(f"[Elasticsearch] {e}")
+        logging.error(f"[Elasticsearch] Unable to insert document to Elasticsearch")
+        logging.exception(e)
         return False

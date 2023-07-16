@@ -8,28 +8,28 @@
                     <div class="sm:col-span-2">
                         <label for="awsAccessKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             AWS Access Key</label>
-                        <input type="password" name="awsAccessKey" id="awsAccessKey" @click="showTip('awsAccessKey')"
+                        <input type="password" name="awsAccessKey" id="awsAccessKey" @focus="showTip('awsAccessKey')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Enter your AWS Access Key" v-model="awsAccessKey">
                     </div>
                     <div class="sm:col-span-2">
                         <label for="awsSecret" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             AWS Secret</label>
-                        <input type="password" name="awsSecret" id="awsSecret" @click="showTip('awsSecret')"
+                        <input type="password" name="awsSecret" id="awsSecret" @focus="showTip('awsSecret')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Enter your AWS Secret" v-model="awsSecret">
                     </div>
                     <div class="sm:col-span-2">
                         <label for="awsRegion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">AWS
                             Region</label>
-                        <input type="text" name="awsRegion" id="awsRegion" @click="showTip('awsRegion')"
+                        <input type="text" name="awsRegion" id="awsRegion" @focus="showTip('awsRegion')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="us-east-1" v-model="awsRegion">
                     </div>
                     <div class="sm:col-span-2">
                         <label for="bucketsList"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destination Buckets</label>
-                        <input type="text" name="bucketsList" id="bucketsList" @click="showTip('bucketsList')"
+                        <input type="text" name="bucketsList" id="bucketsList" @focus="showTip('bucketsList')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of buckets that you want to be able to upload to (comma separated)"
                             v-model="bucketsList">
@@ -37,7 +37,7 @@
                     <div class="sm:col-span-2">
                         <label for="scanBucket" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">S3
                             Bucket [Source - Parsing]</label>
-                        <input type="text" name="scanBucket" id="scanBucket" @click="showTip('scanBucket')"
+                        <input type="text" name="scanBucket" id="scanBucket" @focus="showTip('scanBucket')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of bucket that has PDFs to be parsed in the Cloud Interface"
                             v-model="scanBucket">
@@ -47,7 +47,7 @@
                         <label for="noSqlProvider"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Where is your NoSQL DB
                             hosted?</label>
-                        <select v-model="noSqlProvider" id="noSqlProvider" @click="showTip('noSqlProvider')"
+                        <select v-model="noSqlProvider" id="noSqlProvider" @focus="showTip('noSqlProvider')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected value="default">Select provider</option>
                             <option value="aws">Amazon Web Services</option>
@@ -61,7 +61,7 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Document Table
                             Name</label>
                         <input type="text" name="documentTableName" id="documentTableName"
-                            @click="showTip('documentTableName')"
+                            @focus="showTip('documentTableName')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of database where parsed PDF data will be stored in"
                             v-model="documentTableName">
@@ -80,7 +80,7 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Index
                             Name</label>
                         <input type="text" name="elasticSearchIndex" id="elasticSearchIndex"
-                            @click="showTip('elasticSearchIndex')"
+                            @focus="showTip('elasticSearchIndex')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Name of your Elasticsearch index" v-model="elasticSearchIndex">
                         <br />
@@ -88,14 +88,14 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Host
                             URL</label>
                         <input type="text" name="elasticSearchHost" id="elasticSearchHost"
-                            @click="showTip('elasticSearchHost')"
+                            @focus="showTip('elasticSearchHost')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Host URL of your Elasticsearch instance" v-model="elasticSearchHost">
                         <br />
                         <label for="elasticSearchPort"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch Port</label>
                         <input type="text" name="elasticSearchPort" id="elasticSearchPort"
-                            @click="showTip('elasticSearchPort')"
+                            @focus="showTip('elasticSearchPort')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Port of your Elasticsearch instance" v-model="elasticSearchPort">
                         <br />
@@ -103,7 +103,7 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elasticsearch API
                             Key</label>
                         <input type="password" name="elasticSearchApiKey" id="elasticSearchApiKey"
-                            @click="showTip('elasticSearchApiKey')"
+                            @focus="showTip('elasticSearchApiKey')"
                             class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="API Key of your Elasticsearch instance (leave blank for localhost)"
                             v-model="elasticSearchApiKey">

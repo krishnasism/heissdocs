@@ -19,7 +19,7 @@ class DatabaseConnection:
             case Databases.aws.value:
                 self.__connect_to_aws()
             case _:
-                logging.error("[DatabaseConnection] Undefined")
+                logging.error(f"[DatabaseConnection] Undefined. Db provider: {db_name}")
 
     def __connect_to_mongodb(self):
         """Connect to MongoDB (Unimplemented)"""
@@ -39,4 +39,5 @@ class DatabaseConnection:
             )
             self.db_client = session.resource("dynamodb")
         except Exception as e:
-            logging.error(f"[AWS DynamoDB Connection] {e}")
+            logging.error(f"[AWS DynamoDB Connection] Unable to connect to DynamoDB client")
+            logging.exception(e)
