@@ -8,18 +8,20 @@ Add a searchable layer on top of your PDFs!
 
 Fully open-source and ready to be deployed.
 You store, own, and control the data. 100% private!
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/84d4fd21-f480-4e65-a43d-4addad1b34a9)
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/f6d1f302-58b3-470f-b0a4-51fca36c98e7)
+
 
 ### Note:
-> This is a project at its infancy, so please expect things to break as it moves forward.
+> This is a project in its infancy, so please expect things to break as it moves forward.
 But the vision of this project is to allow the user to NOT be locked into an ecosystem, so your data is governed and stored by you - therefore even if the app breaks, your data should be supported and can be accessed using tools already at your disposal.
 
 # Usage
 ## What is the purpose of this project?
 
-Well it is to allow an user or an organization to keep track of their PDF files. The complicated thing about PDFs are that they aren't searchable by content.
+It is to allow a user or an organization to keep track of their PDF files. The complicated thing about PDFs is that they aren't searchable by content.
+Simply upload a scanned or normal PDF and start searching for content in it with the undisputed power of Elasticsearch (or a Nosql database)!
 
-**heißdocs** aims to solve this problem by creating a search layer for your PDFs, down to the exact page (Working on pointing to the exact word!),
+**heißdocs** creates search layer for your PDFs, down to the exact page (Working on pointing to the exact word!),
 
 1. Set up according to the instructions under `Setup`
 1. Upload a file on the Dashboard
@@ -35,7 +37,7 @@ You need the following resources to be able to set up the app without any hassle
     1. DynamoDB
     1. S3
 1. Auth0:
-1. Elasticsearch (+ local elasticsearch support available)
+1. Elasticsearch (+ local Elasticsearch support available)
 
 For Auth0 you will need to get the following values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` file.
 
@@ -56,7 +58,7 @@ These can remain unchanged unless you are planning on hosting each of the servic
 In that case, please follow the documentation [here](#).
 
 
-Similarly, create a `.env` file inside the `backend`, `frontend` and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
+Similarly, create a `.env` file inside the `backend`, `frontend`, and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
 
 Most of the values except private keys can be left as is!
 
