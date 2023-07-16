@@ -8,7 +8,7 @@ Add a searchable layer on top of your PDFs!
 
 Fully open-source and ready to be deployed.
 You store, own, and control the data. 100% private!
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/f6d1f302-58b3-470f-b0a4-51fca36c98e7)
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/2bcfb20c-1cb4-43db-a4f0-e50f0fcad9bd)
 
 
 ### Note:
