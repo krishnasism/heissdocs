@@ -33,7 +33,9 @@ def put_pdf_to_document_db(pdf_body: str, file_metadata: dict) -> None:
                 table_name=_settings.aws_search_table_name,
             )
         case _:
-            logging.error(f"[DB Ops - Document DB] Undefined provider. Provider: {configured_db}")
+            logging.error(
+                f"[DB Ops - Document DB] Undefined provider. Provider: {configured_db}"
+            )
             pass
 
 
@@ -52,7 +54,9 @@ def __put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                 }
             )
     except Exception as e:
-        logging.error(f"[DB Ops - DynamoDB] Unable to put pdf body into {table_name} table")
+        logging.error(
+            f"[DB Ops - DynamoDB] Unable to put pdf body into {table_name} table"
+        )
         logging.exception(e)
         return False
     return True

@@ -203,3 +203,35 @@ class PostgresManager:
                 )
                 result_rows_safe.append(row_safe)
             return result_rows_safe
+
+    def get_logs_in_time_range(
+        self, user_email: str, start_datetime: datetime, end_datetime: datetime
+    ) -> list:
+        """
+        Get logs from the database within a specified time range.
+        params:
+            user_email (str): The user's email for whom logs are fetched.
+            start_datetime (datetime): Start time of the time range.
+            end_datetime (datetime): End time of the time range.
+        return: list: A list of log dictionaries within the specified time range.
+        """
+        with self.client.connect() as conn:
+            result_set = conn.execute(
+                logs_table.select()
+                .where(
+                    and_(
+                        logs_table.c.user_email == user_email,
+                        logs_table.c.created_on.between(start_datetime, end_datetime),
+                    )
+                )
+                .order_by(logs_table.c.created_on.desc())
+            )
+            result_rows = result_set.all()
+            result_rows_safe = []
+            for row in result_rows:
+                row_safe = row._asdict()
+                row_safe["created_on"] = row_safe["created_on"].strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+                result_rows_safe.append(row_safe)
+            return result_rows_safe

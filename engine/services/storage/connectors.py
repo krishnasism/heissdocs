@@ -15,7 +15,9 @@ class StorageConnection:
             case StorageProviders.azure.value:
                 self.__connect_to_az()
             case _:
-                logging.error(f"[Storage Connection] Undefined provider: {provider_name}")
+                logging.error(
+                    f"[Storage Connection] Undefined provider: {provider_name}"
+                )
 
     def __connect_to_s3(self):
         _settings = Settings.get_settings()

@@ -39,5 +39,7 @@ class DatabaseConnection:
             )
             self.db_client = session.resource("dynamodb")
         except Exception as e:
-            logging.error(f"[AWS DynamoDB Connection] Unable to connect to DynamoDB client")
+            logging.error(
+                f"[AWS DynamoDB Connection] Unable to connect to DynamoDB client"
+            )
             logging.exception(e)

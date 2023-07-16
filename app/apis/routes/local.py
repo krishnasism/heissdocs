@@ -98,7 +98,7 @@ async def get_logs(
     end_time: str = Query(None, description="End time in ISO 8601 format"),
     authenticated: bool = Depends(verify_token),
 ):
-    if not (start_time or end_time):
+    if start_time and end_time:
         start_datetime = datetime.fromisoformat(start_time)
         end_datetime = datetime.fromisoformat(end_time)
         logs = pm.get_logs_in_time_range(user_email, start_datetime, end_datetime)

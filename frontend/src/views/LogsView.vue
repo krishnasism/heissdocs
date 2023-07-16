@@ -10,8 +10,8 @@
             <option value="1440">Last 24 hours</option>
             <option value="-1">All time</option>
         </select>
-        <LogsTable :logs="logs" v-if="logs"></LogsTable>
-        <p v-else>No Logs to show</p>
+        <div v-if="logs.length == 0">No logs to show for selected interval</div>
+        <LogsTable v-else :logs="logs"></LogsTable>
     </div>
 </template>
 <script>
