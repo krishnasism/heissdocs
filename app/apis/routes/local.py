@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
 from apis.requests.settings import Settings
 from apis.requests.document_progress import DocumentProgressRequest
@@ -9,6 +9,7 @@ from services.security.verify_token import verify_token
 from enums.QueueMessages import QueueMessageTypes
 from services.queue.queue import send_queue_message
 import json
+from datetime import datetime
 
 router = APIRouter()
 
@@ -93,7 +94,14 @@ async def post_log(
 @router.get("/logs")
 async def get_logs(
     user_email: str,
+    start_time: str = Query(None, description="Start time in ISO 8601 format"),
+    end_time: str = Query(None, description="End time in ISO 8601 format"),
     authenticated: bool = Depends(verify_token),
 ):
-    logs = pm.get_logs(user_email)
+    if not (start_time or end_time):
+        start_datetime = datetime.fromisoformat(start_time)
+        end_datetime = datetime.fromisoformat(end_time)
+        logs = pm.get_logs_in_time_range(user_email, start_datetime, end_datetime)
+    else:
+        logs = pm.get_logs(user_email)
     return JSONResponse(content={"logs": logs}, status_code=200)

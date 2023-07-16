@@ -1,6 +1,15 @@
 <template>
     <LoadingCircle v-if="loading"></LoadingCircle>
     <div v-else>
+        <select v-model="selectInterval" @change="handleIntervalChange"
+            class="block w-40 p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value="30">Last 30 mins</option>
+            <option value="60">Last 1 hour</option>
+            <option value="180">Last 3 hours</option>
+            <option value="720">Last 12 hours</option>
+            <option value="1440">Last 24 hours</option>
+            <option value="-1">All time</option>
+        </select>
         <LogsTable :logs="logs" v-if="logs"></LogsTable>
         <p v-else>No Logs to show</p>
     </div>
@@ -23,6 +32,7 @@ export default {
             timer: '',
             authService: null,
             loading: false,
+            selectInterval: "30",
         }
     },
     async mounted() {
@@ -55,25 +65,41 @@ export default {
         cancelAutoUpdate() {
             clearInterval(this.timer);
         },
+        handleIntervalChange() {
+            this.getLogs();
+        },
         async getLogs() {
             if (this.isAuthenticated) {
-                fetch(this.logsUrl + "?user_email=system",
+                let url = ""
+                if (this.selectInterval === "-1") {
+                    url = `${this.logsUrl}?user_email=system`;
+                } else {
+                    const intervalInMinutes = parseInt(this.selectInterval);
+                    const endTime = new Date();
+                    const startTime = new Date(endTime.getTime() - intervalInMinutes * 60 * 1000);
+                    url = `${this.logsUrl}?user_email=system&start_time=${encodeURIComponent(
+                        startTime.toISOString()
+                    )}&end_time=${encodeURIComponent(endTime.toISOString())}`;
+                }
+                fetch(
+                    url,
                     {
-                        method: 'GET',
+                        method: "GET",
                         headers: {
-                            'Authorization': 'Bearer ' + this.apiToken,
-                            'Content-Type': 'application/json; charset=utf-8'
+                            Authorization: "Bearer " + this.apiToken,
+                            "Content-Type": "application/json; charset=utf-8",
                         },
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                    }
+                )
+                    .then((response) => response.json())
+                    .then((data) => {
                         this.logs = data.logs;
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(error);
                     });
             }
-        }
+        },
     }
 }
 </script>

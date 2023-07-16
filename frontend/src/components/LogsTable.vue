@@ -30,7 +30,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortByCreatedOn">
                             <div class="flex items-center">
-                                Date
+                                Date (UTC)
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
