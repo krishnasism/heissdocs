@@ -40,18 +40,21 @@ async def prepare_s3_job(
         with NamedTemporaryFile(delete=True) as temp_file:
             temp_file.write(file_to_parse)
             temp_file.flush()
-            with open(temp_file.name, "rb") as f:
-                response = upload_file_to_s3_bucket(f, blob_file_name)
-                if response:
-                    logging.info("[Queue] File uploaded to temp bucket")
+            chunks, total_pages = split_pdf_into_chunks(temp_file.name, 50)
+            for i in range(0, len(chunks)):
+                chunk_file_name = f"{document_id}_part{i}.pdf"
+                res = upload_file_to_s3_bucket(chunks[i], chunk_file_name)
+                if res:
+                    logging.info(f"[Prepare Job S3] File part {i} uploaded to temp bucket")
 
-        params["temp_file_name"] = blob_file_name
-        params["bucket_name"] = viewer_bucket_name
+        params["chunk_file_name"] = chunk_file_name
         params["temp_bucket_name"] = TEMP_BUCKET_NAME
         params["original_file_name"] = key_name
         params["user_email"] = user_email
         params["message_type"] = QueueMessageTypes.PARSING.value
         params["document_unique_id"] = blob_file_name
+        params["total_pages"] = total_pages
+        params["bucket_name"] = viewer_bucket_name
 
         send_queue_message(json.dumps(params))
         return blob_file_name
