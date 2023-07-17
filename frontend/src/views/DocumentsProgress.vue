@@ -2,7 +2,7 @@
     <LoadingCircle v-if="loading"></LoadingCircle>
     <div v-else>
         <DocumentsProgressTable :documents="documents" v-if="documents"></DocumentsProgressTable>
-        <p v-else>No files in progress...</p>
+        <p v-else>{{ $t('labels.noFilesInProgress') }}</p>
     </div>
 </template>
 <script>

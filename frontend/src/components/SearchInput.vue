@@ -13,7 +13,7 @@
                 class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 :placeholder="$t('component.search')" required>
             <button @click="submitSearch"
-                class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ $t('labels.search') }}</button>
         </div>
         <div class="flex mt-2">
             <div class="flex items-center h-5">
@@ -22,10 +22,8 @@
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>
             <div class="ml-2 text-sm mr-2">
-                <label for="chkSearchElastic" class="font-medium text-gray-900 dark:text-gray-300">Search
-                    Elasticsearch</label>
-                <p id="chkSearchElastic-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Search records
-                    stored in Elasticsearch(Faster)</p>
+                <label for="chkSearchElastic" class="font-medium text-gray-900 dark:text-gray-300">{{ $t('labels.searchElasticsearch') }}</label>
+                <p id="chkSearchElastic-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">{{ $t('labels.searchElasticsearchHelper') }}</p>
             </div>
             <div class="flex items-center h-5 mr-2">
                 <input id="chkSearchDocumentDb" aria-describedby="chkSearchDocumentDb-text" type="checkbox"
@@ -33,10 +31,8 @@
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>
             <div class="ml-2 text-sm">
-                <label for="chkSearchDocumentDb" class="font-medium text-gray-900 dark:text-gray-300">Search
-                    DocumentDB</label>
-                <p id="chkSearchDocumentDb-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Search records
-                    stored in configured DocumentDB</p>
+                <label for="chkSearchDocumentDb" class="font-medium text-gray-900 dark:text-gray-300">{{ $t('labels.searchDocumentDb') }}</label>
+                <p id="chkSearchDocumentDb-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">{{ $t('labels.searchDocumentDbHelper') }}</p>
             </div>
         </div>
     </div>

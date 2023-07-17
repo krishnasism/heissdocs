@@ -1,7 +1,7 @@
 <template>
   <LoadingCircle v-if="loading"></LoadingCircle>
   <div v-else>
-    <p v-if="scanBucket">Reading files from bucket: {{ scanBucket }}</p>
+    <p v-if="scanBucket">{{$t('labels.readingFilesFromBucket', { bucketName: scanBucket })}}</p>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
     <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError && s3Documents" class="w-full"
       @parse-document="sendToParse"></S3DocumentsTable>
@@ -39,7 +39,7 @@ export default {
       scanBucket: null,
       settings: null,
       pageError: null,
-      pageErrorAlert: "Unable to Load S3 Bucket Objects: ",
+      pageErrorAlert: this.$t('errors.loadS3Bucket'),
       settingsService: null,
       bucketName: null,
       toasts: [],
@@ -110,7 +110,7 @@ export default {
       }
     },
     createSuccessToast(fileName) {
-      const message = `File "${fileName}" queued for parsing`;
+      const message = this.$t('labels.fileQueuedForParsing', { fileName: fileName });
       const toast = {
         message,
         id: Date.now(), // Generate a unique ID for each toast

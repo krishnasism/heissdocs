@@ -68,7 +68,7 @@ export default {
     async postSettings(evt) {
       const status = this.settingsService.updateSettings(evt);
       if (status) {
-        this.toastMessage = 'Settings updated!'
+        this.toastMessage = this.$t('labels.settingsUpdated');
         this.showSuccessToast = true;
       }
     },

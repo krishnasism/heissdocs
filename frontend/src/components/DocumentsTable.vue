@@ -6,7 +6,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3" @click="sortByFileName">
                             <div class="flex items-center">
-                                File Name
+                                {{ $t('labels.fileName') }}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -18,12 +18,12 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
-                                Page Number
+                                {{ $t('labels.pageNumber') }}
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortByUploadedOn">
                             <div class="flex items-center">
-                                Uploaded On
+                                {{ $t('labels.uploadedOn') }}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
                         <td class="px-6 py-4" v-if="document.s3_bucket_name">
                             <a :href="`/view-file?file_name=${document.s3_blob_file_name}&page=${document.page_num}&s3_bucket=${document.s3_bucket_name}`"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                target="_blank">View</a>
+                                target="_blank">{{ $t('labels.view') }}</a>
                         </td>
                     </tr>
                 </tbody>

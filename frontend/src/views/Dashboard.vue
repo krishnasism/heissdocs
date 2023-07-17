@@ -9,14 +9,11 @@
     <!-- <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document [Coming Soon]"
       helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue> -->
 
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" label="Store in Cloud Storage" helper="Store file(s) in your
-          configured cloud storage. This will allow you to view your files in the app."></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" :label="$t('labels.storeCloudStorage')" :helper="$t('labels.storeCloudStorageHelper')"></CheckBoxWithTipVue>
     <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
     </BucketList>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" label="Store in Elasticsearch" helper="Store parsed text from file(s) in Elasticsearch.
-      Recommended for faster and robust searching."></CheckBoxWithTipVue>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" label="Store in Document Db (nosql)" helper="Store parsed text from file(s) in your configured DocumentDb.
-      Recommended for enhanced data storage and retrieval flexibility."></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')" :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')" :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -80,8 +77,8 @@ export default {
       toastMessage: '',
       apiToken: '',
       settingsNotSet: false,
-      settingsNotSetAlert: 'Settings Not Set!',
-      settingsNotSetMessage: 'Please configure your settings before proceeding!',
+      settingsNotSetAlert: this.$t('errors.settingsNotSet'),
+      settingsNotSetMessage: this.$t('errors.settingsNotSetMessage'),
       settings: null,
       failureToastMessage: '',
       showFailureToast: false,
@@ -168,7 +165,7 @@ export default {
         })
         if (!response.ok) {
           this.showFailureToast = true;
-          this.failureToastMessage = 'Failed to Parse';
+          this.failureToastMessage = this.$t('errors.failedToParse');
           this.parsing = false;
           break;
         }
@@ -177,7 +174,7 @@ export default {
         this.uploadedFileNameList = [];
         this.fileList = [];
         this.showSuccessToast = true;
-        this.toastMessage = 'Sent to Queue!'
+        this.toastMessage = this.$t('labels.sentToQueue')
         this.parsing = false;
       }
     },

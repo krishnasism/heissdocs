@@ -6,7 +6,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3" @click="sortByLogLevel">
                             <div class="flex items-center">
-                                Log Level
+                                {{ $t('labels.logLevel')}}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortByMessage">
                             <div class="flex items-center">
-                                Message
+                                {{ $t('labels.message')}}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortByCreatedOn">
                             <div class="flex items-center">
-                                Date (UTC)
+                                {{ $t('labels.date')}}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -42,7 +42,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortByCaller">
                             <div class="flex items-center">
-                                Caller Info
+                                {{ $t('labels.callerInfo')}}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">

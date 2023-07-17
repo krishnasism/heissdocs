@@ -11,16 +11,16 @@
                 </svg>
             </div>
             <select v-model="selectInterval" @change="handleIntervalChange"
-                class="block w-40 pl-8 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="30">Last 30 mins</option>
-                <option value="60">Last 1 hour</option>
-                <option value="180">Last 3 hours</option>
-                <option value="720">Last 12 hours</option>
-                <option value="1440">Last 24 hours</option>
-                <option value="-1">All time</option>
+                class="block w-48 pl-8 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="30">{{ $t('labels.last30mins') }}</option>
+                <option value="60">{{ $t('labels.last1hour') }}</option>
+                <option value="180">{{ $t('labels.last3hours') }}</option>
+                <option value="720">{{ $t('labels.last12hours') }}</option>
+                <option value="1440">{{ $t('labels.last24hours') }}</option>
+                <option value="-1">{{ $t('labels.allTime') }}</option>
             </select>
         </div>
-        <div v-if="logs.length == 0">No logs to show for selected interval</div>
+        <div v-if="logs.length == 0">{{ $t('labels.noLogsMessage') }}</div>
         <LogsTable v-else :logs="logs"></LogsTable>
     </div>
 </template>

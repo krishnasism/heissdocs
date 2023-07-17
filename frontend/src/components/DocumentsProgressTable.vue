@@ -6,7 +6,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 w-5" @click="sortBy('document_name')">
                             <div class="flex items-center">
-                                File Name
+                                {{ $t('labels.fileName') }}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3 w-5" @click="sortBy('stage')">
                             <div class="flex items-center">
-                                Status
+                                {{ $t('labels.status') }}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3" @click="sortBy('pages_parsed')">
                             <div class="flex items-center">
-                                Progress
+                                {{ $t('labels.progress') }}
                                 <a href="#">
                                     <svg class="w-3 h-3 ml-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor" viewBox="0 0 24 24">
