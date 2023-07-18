@@ -6,6 +6,9 @@ from settings.config import get_settings, override_settings
 from settings.override_config import get_override_settings
 from settings.config import Settings
 from services.elasticsearch.elasticsearch_client import ElasticSearchClient
+from pymongo.collection import Collection
+from pymongo import TEXT
+
 
 DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
 SEARCH_KEY = "pdf_body"
@@ -29,21 +32,62 @@ def __search_elastic_search(query: str, user_email: str, settings: Settings) -> 
         )
         return documents
     except Exception as e:
-        logging.error(f"[AWSManager] Error: {str(e)}")
+        logging.error(f"[Elasticsearch] Error: {str(e)}")
         return []
 
 
-def __search_document_db(query: str, user_email: str, settings: Settings) -> list:
+def __search_document_db_mongodb(
+    query: str, user_email: str, settings: Settings
+) -> list:
     """
-    Search Document DB
+    Search Document DB in MongoDB
+    params:
+    query: Query to search
+    user_email: User email (unused)
+    settings: Settings
+    return: list of documents
+    """
+    db_name = settings.mongo_db_database
+    collection_name = settings.document_table_name
+    try:
+        mongodb_client = DatabaseConnection(
+            settings.no_sql_provider, user_email
+        ).db_client
+        db = mongodb_client[db_name]
+        collection: Collection = db[collection_name]
+        collection.create_index([(SEARCH_KEY, TEXT)])
+        search_query = {
+            SEARCH_KEY:
+                {
+                    "$regex": query,
+                    "$options": "i",
+                },
+        }
+        # Project only the selected keys in the result
+        select_keys = {key: 1 for key in DOCUMENT_TABLE_KEYS.split(",")}
+        select_keys["_id"] = 0
+        projection = select_keys
+        documents = collection.find(search_query, projection)
+        documents = list(documents)
+    except Exception as e:
+        logging.error(f"[MongoDBManager] Error: {str(e)}")
+        logging.exception(e)
+        return documents
+
+    return documents
+
+
+def __search_document_db_aws(query: str, user_email: str, settings: Settings) -> list:
+    """
+    Search Document DB in AWS
     params: query: Query to search
     user_email: User email (unused)
     settings: Settings
     return: list of documents
     """
-    db_connection = DatabaseConnection(settings.document_db_provider, user_email)
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
     select_keys = DOCUMENT_TABLE_KEYS
-    table_name = settings.aws_search_table_name
+    table_name = settings.document_table_name
     search_key = SEARCH_KEY
     filter_expression = Attr(search_key).contains(query)
     dynamodb = db_connection.db_client
@@ -78,11 +122,16 @@ def get_pdf_by_query(query: str, user_email: str) -> dict:
     """
     settings = override_settings(get_settings(), get_override_settings(user_email))
     documents: list = []
-    # TODO: Only works with dynamodb now - Implement generic
-    if settings.document_db_provider != Databases.aws.value:
-        return []
     if settings.search_document_db:
-        documents.extend(__search_document_db(query, user_email, settings))
+        match settings.no_sql_provider:
+            case Databases.aws.value:
+                documents.extend(__search_document_db_aws(query, user_email, settings))
+            case Databases.mongodb.value:
+                documents.extend(
+                    __search_document_db_mongodb(query, user_email, settings)
+                )
+            case _:
+                logging.error("[get_pdf_by_query] Undefined document database provider")
     if settings.search_elastic_search:
         documents.extend(__search_elastic_search(query, user_email, settings))
     return {

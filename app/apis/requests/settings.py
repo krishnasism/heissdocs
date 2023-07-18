@@ -19,3 +19,7 @@ class Settings(BaseModel):
     searchDocumentDb: Optional[bool] = None
     searchElasticSearch: Optional[bool] = None
     storeLogsInDb: Optional[bool] = None
+    mongoDbDatabase: Optional[str] = None
+    mongoDbUsername: Optional[str] = None
+    mongoDbPassword: Optional[str] = None
+    mongoDbHost: Optional[str] = None

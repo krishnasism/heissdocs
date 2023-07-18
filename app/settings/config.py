@@ -7,15 +7,10 @@ class Settings(BaseSettings):
     aws_access_key: str
     aws_secret: str
     aws_region: str
-    aws_search_table_name: str
+    document_table_name: str
     cloud_provider: str
     document_db: str
-    document_db_provider: str
-    mongodb_db_name: str
-    mongodb_collection_name: str
-    mongodb_db_endpoint: str
-    mongodb_db_username: str
-    mongodb_db_password: str
+    no_sql_provider: str
     postgres_username: str
     postgres_password: str
     postgres_endpoint: str
@@ -40,6 +35,10 @@ class Settings(BaseSettings):
     search_elastic_search: Optional[bool] = False
     search_document_db: Optional[bool] = False
     store_logs_in_db: Optional[bool] = False
+    mongo_db_database: str
+    mongo_db_host: str
+    mongo_db_username: str
+    mongo_db_password: str
 
     class Config:
         env_file = ".env"

@@ -24,9 +24,12 @@ class DatabaseConnection:
                 logging.error("[DatabaseConnection] Undefined")
 
     def __connect_to_mongodb(self):
-        """Connect to MongoDB (Unimplemented)"""
-        mongo_db_full_endpoint_url = f"mongodb://{self.settings.mongodb_db_username}:{self.settings.mongodb_db_password}@{self.settings.mongodb_db_endpoint}"
-        self.db_client = pymongo.MongoClient(mongo_db_full_endpoint_url)
+        """Connect to MongoDB"""
+        try:
+            mongo_db_full_endpoint_url = f"mongodb+srv://{self.settings.mongo_db_username}:{self.settings.mongo_db_password}@{self.settings.mongo_db_database}.{self.settings.mongo_db_host}"
+            self.db_client = pymongo.MongoClient(mongo_db_full_endpoint_url)
+        except Exception as e:
+            logging.error(f"[MongoDB Connection] {e}")
 
     def __connect_to_aws_dynamodb(self):
         """Connect to AWS DynamoDB"""

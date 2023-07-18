@@ -16,4 +16,8 @@ CREATE TABLE IF NOT EXISTS settings (
 	search_document_db BOOLEAN,
 	search_elastic_search BOOLEAN,
 	store_logs_in_db BOOLEAN,
+	mongo_db_host VARCHAR,
+	mongo_db_database VARCHAR,
+	mongo_db_username VARCHAR,
+	mongo_db_password VARCHAR,
 );

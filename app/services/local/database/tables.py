@@ -23,6 +23,10 @@ settings_table = sa.Table(
     sa.Column("search_document_db", Boolean),
     sa.Column("search_elastic_search", Boolean),
     sa.Column("store_logs_in_db", Boolean),
+    sa.Column("mongo_db_database", String),
+    sa.Column("mongo_db_username", String),
+    sa.Column("mongo_db_password", String),
+    sa.Column("mongo_db_host", String),
 )
 
 

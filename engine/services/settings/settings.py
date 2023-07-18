@@ -7,11 +7,10 @@ class Settings:
     aws_secret = ""
     aws_region = ""
     no_sql_provider = ""
-    document_db_provider = ""
     document_table_name = ""
     parsing_api_key = ""
     buckets_list = ""
-    aws_search_table_name = ""
+    document_table_name = ""
     scan_bucket = ""
     elastic_search_index = ""
     elastic_search_host = ""
@@ -20,6 +19,10 @@ class Settings:
     search_document_db = False
     search_elastic_search = False
     store_logs_in_db = False
+    mongo_db_database = ""
+    mongo_db_username = ""
+    mongo_db_password = ""
+    mongo_db_host = ""
 
     def __init__(self):
         if Settings._instance is not None:
@@ -36,9 +39,7 @@ class Settings:
         self.aws_secret = settings["awsSecret"]
         self.aws_region = settings["awsRegion"]
         self.no_sql_provider = settings["noSqlProvider"]
-        self.document_db_provider = settings["noSqlProvider"]
         self.document_table_name = settings["documentTableName"]
-        self.aws_search_table_name = settings["documentTableName"]
         self.parsing_api_key = settings["parsingApiKey"]
         self.buckets_list = settings["bucketsList"]
         self.scan_bucket = settings["scanBucket"]
@@ -49,6 +50,10 @@ class Settings:
         self.search_elastic_search = settings.get("searchElasticSearch")
         self.search_document_db = settings.get("searchDocumentDb")
         self.store_logs_in_db = settings.get("storeLogsInDb")
+        self.mongo_db_database = settings.get("mongoDbDatabase")
+        self.mongo_db_username = settings.get("mongoDbUsername")
+        self.mongo_db_password = settings.get("mongoDbPassword")
+        self.mongo_db_host = settings.get("mongoDbHost")
 
     @classmethod
     def get_settings(cls):

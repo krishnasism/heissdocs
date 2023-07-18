@@ -45,7 +45,9 @@ async def prepare_s3_job(
                 chunk_file_name = f"{document_id}_part{i}.pdf"
                 res = upload_file_to_s3_bucket(chunks[i], chunk_file_name)
                 if res:
-                    logging.info(f"[Prepare Job S3] File part {i} uploaded to temp bucket")
+                    logging.info(
+                        f"[Prepare Job S3] File part {i} uploaded to temp bucket"
+                    )
 
         params["chunk_file_name"] = chunk_file_name
         params["temp_bucket_name"] = TEMP_BUCKET_NAME
