@@ -108,7 +108,9 @@
         "mongoDbHostTip": "Please enter the host URL of your remote MongoDB instance. Example: xxx.mongodb.net",
         "mongoDbDatabaseTip": "Please enter the name of the MongoDB database you would like to use to store your documents. Example: heissdocs.",
         "mongoDbUsernameTip": "Please enter the username for autenticating with your remote MongoDB instance. Example: admin",
-        "mongoDbPasswordTip": "Please enter the password for autenticating with your remote MongoDB instance. Example: password"
+        "mongoDbPasswordTip": "Please enter the password for autenticating with your remote MongoDB instance. Example: password",
+        "nextPageButton": "Next",
+        "previousPageButton": "Prev"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

@@ -14,7 +14,9 @@ DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_na
 SEARCH_KEY = "pdf_body"
 
 
-def __search_elastic_search(query: str, user_email: str, settings: Settings) -> list:
+def __search_elastic_search(
+    query: str, user_email: str, settings: Settings, page_start: int = 0
+) -> list:
     """
     Search ElasticSearch
     params: query: Query to search
@@ -28,7 +30,7 @@ def __search_elastic_search(query: str, user_email: str, settings: Settings) -> 
         )
         elasticsearch_client.connect(api_key=settings.elastic_search_api_key)
         documents: list = elasticsearch_client.search(
-            index=settings.elastic_search_index, query=query
+            index=settings.elastic_search_index, query=f"{query}", page_start=page_start
         )
         return documents
     except Exception as e:
@@ -57,11 +59,10 @@ def __search_document_db_mongodb(
         collection: Collection = db[collection_name]
         collection.create_index([(SEARCH_KEY, TEXT)])
         search_query = {
-            SEARCH_KEY:
-                {
-                    "$regex": query,
-                    "$options": "i",
-                },
+            SEARCH_KEY: {
+                "$regex": query,
+                "$options": "i",
+            },
         }
         # Project only the selected keys in the result
         select_keys = {key: 1 for key in DOCUMENT_TABLE_KEYS.split(",")}
@@ -113,7 +114,7 @@ def __search_document_db_aws(query: str, user_email: str, settings: Settings) ->
     return documents
 
 
-def get_pdf_by_query(query: str, user_email: str) -> dict:
+def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     Get PDF by query from ElasticSearch and/or Document DB
     params: query: Query to search
@@ -133,7 +134,9 @@ def get_pdf_by_query(query: str, user_email: str) -> dict:
             case _:
                 logging.error("[get_pdf_by_query] Undefined document database provider")
     if settings.search_elastic_search:
-        documents.extend(__search_elastic_search(query, user_email, settings))
+        documents.extend(
+            __search_elastic_search(query, user_email, settings, page_start)
+        )
     return {
         "documents": documents,
     }

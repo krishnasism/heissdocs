@@ -108,7 +108,9 @@
         "mongoDbHostTip": "Bitte geben Sie die Host-URL Ihrer Remote-MongoDB-Instanz ein. Beispiel: xxx.mongodb.net",
         "mongoDbDatabaseTip": "Bitte geben Sie den Namen der MongoDB-Datenbank ein, die Sie zum Speichern Ihrer Dokumente verwenden möchten. Beispiel: heissdocs.",
         "mongoDbUsernameTip": "Bitte geben Sie den Benutzernamen für die Authentifizierung mit Ihrer Remote-MongoDB-Instanz ein. Beispiel: admin",
-        "mongoDbPasswordTip": "Bitte geben Sie das Passwort für die Authentifizierung mit Ihrer Remote-MongoDB-Instanz ein. Beispiel: Passwort"
+        "mongoDbPasswordTip": "Bitte geben Sie das Passwort für die Authentifizierung mit Ihrer Remote-MongoDB-Instanz ein. Beispiel: Passwort",
+        "nextPageButton": "nächste",
+        "previousPageButton": "zurück"
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

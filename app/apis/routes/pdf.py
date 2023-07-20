@@ -19,10 +19,13 @@ pm = PostgresManager()
 
 @router.get("/search")
 async def pdf_search(
-    query: str, user_email: str, authenticated: bool = Depends(verify_token)
+    query: str,
+    user_email: str,
+    authenticated: bool = Depends(verify_token),
+    page_start: int = 0,
 ):
     query = query.lower()
-    response = get_pdf_by_query(query, user_email)
+    response = get_pdf_by_query(query, user_email, page_start)
 
     documents = response.get("documents")
     error = response.get("error")

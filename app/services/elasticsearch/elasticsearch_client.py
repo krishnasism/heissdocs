@@ -35,17 +35,29 @@ class ElasticSearchClient:
         except Exception as e:
             logging.error(f"[ElasticSearchClient] {e}")
 
-    def search(self, index: str, query: str):
+    def search(self, index: str, query: str, page_start: int = 0):
         """
         Search ElasticSearch
         params: index: ElasticSearch index to search
         params: query: Query to search
         return: List of documents
         """
-        query = {"query": {"match": {"pdf_body": {"query": query.lower()}}}}
+        query = {
+            "from": page_start,
+            "size": 10,
+            "sort": "_score",
+            "query": {
+                "match": {
+                    "pdf_body": {
+                        "query": f"*{query.lower()}*",
+                    }
+                }
+            },
+        }
         try:
             elastic_response = self.client.search(index=index, body=query)
             elastic_response = elastic_response.get("hits", {}).get("hits", [])
+
             return [hit["_source"] for hit in elastic_response]
         except Exception as e:
             logging.error(f"[ElasticSearchClient] {e}")
