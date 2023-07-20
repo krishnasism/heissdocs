@@ -34,10 +34,12 @@ Keep an eye on the `Vision` tab to take a look at what is in stock for the futur
 ## Pre-requisites
 You need the following resources to be able to set up the app without any hassle.
 1. AWS resources
-    1. DynamoDB
-    1. S3
+    1. DynamoDB `Optional if you are using MongoDB`
+    1. S3 `Optional if you don't want to view files on the portal`
+1. Elasticsearch (+ local Elasticsearch support available) `Optional if you are using DocumentDb for searching`
+1. MongoDB `Optional if you are using DynamoDB`
 1. Auth0:
-1. Elasticsearch (+ local Elasticsearch support available)
+`Auth0 needs to be configured even before building the project`
 
 For Auth0 you will need to get the following values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` file.
 
