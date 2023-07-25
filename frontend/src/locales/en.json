@@ -8,11 +8,11 @@
         "cloudInterface": "Cloud Interface",
         "search": "Search",
         "logout": "Logout",
-        "parsing": "Parsing",
         "progress": "Progress",
         "logs": "Logs"
     },
     "labels": {
+        "parsing": "Parsing",
         "fileName": "File Name",
         "status": "Status",
         "progress": "Progress",

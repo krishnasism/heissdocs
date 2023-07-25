@@ -128,9 +128,9 @@ export default {
     },
     sendButtonMessage() {
       if (this.parsing) {
-        return this.$t('component.parsing')
+        return this.$t('labels.parsing')
       }
-      return this.$t('component.sendforparsing')
+      return this.$t('labels.sendforparsing')
     }
   },
   methods: {
