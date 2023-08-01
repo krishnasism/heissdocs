@@ -126,7 +126,12 @@ export default {
             this.documents = data.documents;
             this.errorMessage = data.error;
             this.loading = false;
-            this.hasNextPage = data.documents.length >= 10;
+            if (data.documents){
+              this.hasNextPage = data.documents.length >= 10;
+            }
+            else{
+              this.hasNextPage = false;
+            }
             if (this.currentPage > 0) {
               this.hasPreviousPage = true;
             } else {

@@ -5,10 +5,6 @@ WORKDIR /code
 COPY Pipfile .
 COPY Pipfile.lock .
 
-RUN apt-get update
-RUN apt-get install -y poppler-utils \ 
-    tesseract-ocr
-
 RUN pip install --upgrade pip
 RUN pip install pipenv
 

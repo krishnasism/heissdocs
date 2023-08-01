@@ -43,14 +43,15 @@ You need the following resources to be able to set up the app without any hassle
 
 For Auth0 you will need to get the following values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` file.
 
-    ```
+
+```
     AUTH0_DOMAIN=
     AUTH0_API_AUDIENCE=http://localhost:8000
     AUTH0_ALGORITHMS=RS256
     AUTH0_ISSUER=
     AUTH0_CLIENT_ID=
     AUTH0_CLIENT_SECRET=
-    ```
+```
 
 ---
 ## Setting up
@@ -72,7 +73,9 @@ Most of the values except private keys can be left as is!
 Ensure that the credentials that you pasted in the `.env` files have the necessary authorizations for operations such as `GET`, `PUT`, `LIST` ... etc.
 
 Once your `.env` files are ready, navigate to the root directory and run:
-> docker compose up --build
+```bash
+docker compose up --build
+```
 
 Then go to `localhost:8080` and log in.
 
@@ -81,10 +84,13 @@ Then go to `localhost:8080` and log in.
 *In case you want hot-reload on your `frontend`, you can choose to run the services separately*
 
 Run the `backend` services:
-> docker compose -f .\docker-compose.yaml up --build
+```bash
+docker compose -f docker-compose.yaml up --build
+```
+
 
 Run the `frontend`:
-```
+```bash
 cd frontend
 npm run dev -- --port 8080
 ```
