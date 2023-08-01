@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS documents_progress (
     stage VARCHAR,
     pages_parsed INT,
     total_pages INT,
-    updated_on TIMESTAMP NULL,
-);
+    updated_on TIMESTAMP NULL
+)

@@ -110,7 +110,8 @@
         "mongoDbUsernameTip": "Please enter the username for autenticating with your remote MongoDB instance. Example: admin",
         "mongoDbPasswordTip": "Please enter the password for autenticating with your remote MongoDB instance. Example: password",
         "nextPageButton": "Next",
-        "previousPageButton": "Prev"
+        "previousPageButton": "Prev",
+        "noBucketsLoaded": "No files were loaded..."
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

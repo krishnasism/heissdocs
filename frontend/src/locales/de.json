@@ -110,7 +110,8 @@
         "mongoDbUsernameTip": "Bitte geben Sie den Benutzernamen für die Authentifizierung mit Ihrer Remote-MongoDB-Instanz ein. Beispiel: admin",
         "mongoDbPasswordTip": "Bitte geben Sie das Passwort für die Authentifizierung mit Ihrer Remote-MongoDB-Instanz ein. Beispiel: Passwort",
         "nextPageButton": "nächste",
-        "previousPageButton": "zurück"
+        "previousPageButton": "zurück",
+        "noBucketsLoaded": "Es wurden keine Dateien geladen..."
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

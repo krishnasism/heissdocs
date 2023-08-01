@@ -1,6 +1,7 @@
 <template>
   <LoadingCircle v-if="loading"></LoadingCircle>
   <div v-else>
+    <p v-if="bucketsList.length === 0">{{ $t('labels.noBucketsLoaded') }}</p>
     <p v-if="scanBucket">{{$t('labels.readingFilesFromBucket', { bucketName: scanBucket })}}</p>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
     <S3DocumentsTable :s3Documents="s3Documents" v-if="!loading && !pageError && s3Documents" class="w-full"
@@ -44,6 +45,7 @@ export default {
       bucketName: null,
       toasts: [],
       authService: null,
+      bucketsList: [],
     }
   },
   async mounted() {
@@ -59,6 +61,9 @@ export default {
       }
       if (!(this.settings.bucketsList == null || this.settings.bucketsList == undefined)) {
         this.bucketsList = this.settings.bucketsList.split(",");
+      }
+      else{
+        this.bucketsList = [];
       }
       if (this.bucketsList.length > 0) {
         this.bucketName = this.bucketsList[0];

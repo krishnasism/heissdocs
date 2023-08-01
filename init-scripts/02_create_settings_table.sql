@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS settings (
 	mongo_db_host VARCHAR,
 	mongo_db_database VARCHAR,
 	mongo_db_username VARCHAR,
-	mongo_db_password VARCHAR,
-);
+	mongo_db_password VARCHAR
+)
