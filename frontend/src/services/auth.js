@@ -25,7 +25,7 @@ class AuthService {
     const data = await response.json()
     this.apiToken  = data['access_token']
     sessionStorage.setItem('apiToken', this.apiToken);
-    return apiToken
+    return this.apiToken;
   }
   isTokenExpired() {
     if(!this.apiToken){
