@@ -2,7 +2,6 @@
 import logging
 import boto3
 import pymongo
-import os
 
 from .databases import Databases
 from services.settings.settings import Settings

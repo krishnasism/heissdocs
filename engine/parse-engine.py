@@ -23,10 +23,16 @@ api_token = get_auth_token()
 api_token_obj = APIToken.get_api_token()
 api_token_obj.update_api_token(api_token)
 setup_logging()
+
 logging.info("[Queue Handler] Token acquired..")
 settings_obj = Settings.get_settings()
 
 while True:
+    if api_token_obj.is_token_expired():
+        logging.info("[Queue Handler] Token expired. Refreshing..")
+        api_token = get_auth_token()
+        api_token_obj.update_api_token(api_token)
+
     # Receive messages from the queue
     response = sqs.receive_message(
         QueueUrl=queue_url, MaxNumberOfMessages=1, WaitTimeSeconds=20
