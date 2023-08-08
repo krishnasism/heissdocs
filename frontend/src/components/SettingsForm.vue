@@ -142,6 +142,63 @@
                             :placeholder="$t('labels.elasticSearchApiKeyPlaceholder')" v-model="elasticSearchApiKey">
                     </div>
                 </div>
+                <br/>
+                <p class="mt-5 font-black">{{ $t('labels.llmSettings') }}</p>
+                <br/>
+                <div class="sm:col-span-2">
+                    <label for="openaiApiKey"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.openaiApiKey') }}</label>
+                        <input type="password" name="openaiApiKey" id="openaiApiKey"
+                            @focus="showTip('openaiApiKey')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.openaiApiKeyPlaceholder')" v-model="openaiApiKey"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="huggingfaceApiKey"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.huggingfaceApiKey') }}</label>
+                        <input type="password" name="huggingfaceApiKey" id="huggingfaceApiKey"
+                            @focus="showTip('huggingfaceApiKey')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.huggingfaceApiKeyPlaceholder')" v-model="huggingfaceApiKey"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="qdrantHost"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.qdrantHost') }}</label>
+                        <input type="text" name="qdrantEndpoint" id="qdrantHost"
+                            @focus="showTip('qdrantHost')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.qdrantHostPlaceholder')" v-model="qdrantHost"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="qdrantPort"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.qdrantPort') }}</label>
+                        <input type="text" name="qdrantPort" id="qdrantPort"
+                            @focus="showTip('qdrantPort')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.qdrantPortPlaceholder')" v-model="qdrantPort"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="qdrantApiKey"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.qdrantApiKey') }}</label>
+                        <input type="password" name="qdrantApiKey" id="qdrantApiKey"
+                            @focus="showTip('qdrantApiKey')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.qdrantApiKeyPlaceholder')" v-model="qdrantApiKey"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="qdrantCollectionName"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                                $t('labels.qdrantCollectionName') }}</label>
+                        <input type="password" name="qdrantCollectionName" id="qdrantCollectionName"
+                            @focus="showTip('qdrantCollectionName')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            :placeholder="$t('labels.qdrantCollectionNamePlaceholder')" v-model="qdrantCollectionName"/>
+                </div>
                 <p class="mt-5 font-black">{{ $t('labels.advancedSettings') }}</p>
                 <div>
                     <CheckBoxWithTipVue :value="storeLogsInDb" @toggled="toggleStoreLogsInDb"
@@ -258,6 +315,30 @@ export default {
                     "title": this.$t('labels.mongoDbHost'),
                     "description": this.$t('labels.mongoDbHostTip'),
                 },
+                "openaiApiKey": {
+                    "title": this.$t('labels.openaiApiKey'),
+                    "description": this.$t('labels.openaiApiKeyTip'),
+                },
+                "huggingfaceApiKey": {
+                    "title": this.$t('labels.huggingfaceApiKey'),
+                    "description": this.$t('labels.huggingfaceApiKeyTip'),
+                },
+                "qdrantHost": {
+                    "title": this.$t('labels.qdrantHost'),
+                    "description": this.$t('labels.qdrantHostTip'),
+                },
+                "qdrantPort": {
+                    "title": this.$t('labels.qdrantPort'),
+                    "description": this.$t('labels.qdrantPortTip'),
+                },
+                "qdrantApiKey": {
+                    "title": this.$t('labels.qdrantApiKey'),
+                    "description": this.$t('labels.qdrantApiKeyTip'),
+                },
+                "qdrantCollectionName": {
+                    "title": this.$t('labels.qdrantCollectionName'),
+                    "description": this.$t('labels.qdrantCollectionNameTip'),
+                },
             }
         }
     },
@@ -298,6 +379,12 @@ export default {
                 'mongoDbPassword': this.mongoDbPassword,
                 'mongoDbHost': this.mongoDbHost,
                 'mongoDbDatabase': this.mongoDbDatabase,
+                'openaiApiKey': this.openaiApiKey,
+                'huggingfaceApiKey': this.huggingfaceApiKey,
+                'qdrantHost': this.qdrantHost,
+                'qdrantPort': this.qdrantPort,
+                'qdrantApiKey': this.qdrantApiKey,
+                'qdrantCollectionName': this.qdrantCollectionName,
             }
             this.$emit('submit', settings);
         },
@@ -320,6 +407,12 @@ export default {
                 this.mongoDbPassword = this.settings.mongoDbPassword
                 this.mongoDbHost = this.settings.mongoDbHost
                 this.mongoDbDatabase = this.settings.mongoDbDatabase
+                this.openaiApiKey = this.settings.openaiApiKey
+                this.huggingfaceApiKey = this.settings.huggingfaceApiKey
+                this.qdrantHost = this.settings.qdrantHost
+                this.qdrantPort = this.settings.qdrantPort
+                this.qdrantApiKey = this.settings.qdrantApiKey
+                this.qdrantCollectionName = this.settings.qdrantCollectionName
             }
         },
         overrideElasticLocalSettings() {

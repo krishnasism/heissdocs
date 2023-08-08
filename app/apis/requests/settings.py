@@ -23,3 +23,10 @@ class Settings(BaseModel):
     mongoDbUsername: Optional[str] = None
     mongoDbPassword: Optional[str] = None
     mongoDbHost: Optional[str] = None
+    openaiApiKey: Optional[str] = None
+    huggingfacehubApiKey: Optional[str] = None
+    qdrantApiKey: Optional[str] = None
+    qdrantHost: Optional[str] = None
+    qdrantPort: Optional[int] = None
+    qdrantCollectionName: Optional[str] = None
+

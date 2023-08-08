@@ -5,6 +5,7 @@ from tempfile import NamedTemporaryFile
 from services.storage.storage_ops import upload_file_to_s3_bucket
 from services.database.db_ops import put_pdf_to_document_db
 from services.elasticsearch.elasticsearch_client import insert_document_to_elasticsearch
+from services.ingest.ingest_ops import ingest_into_llm
 from enums.FileStages import FileStages
 from api_helpers import update_document_progress
 import os
@@ -53,23 +54,27 @@ def process_file(message):
         "file_name"
     ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
 
-    status, elasticsearch_status = True, True
+    status, elasticsearch_status, ingest_status = True, True, True
 
     if file_params.get("store_in_document_db"):
         status = put_pdf_to_document_db(pdf_body, file_metadata)
+
+    if file_params.get("ingest_into_llm"):
+        ingest_status = ingest_into_llm(pdf_body, file_metadata)
 
     if file_params.get("store_in_elastic"):
         elasticsearch_status = insert_document_to_elasticsearch(
             document=pdf_body, file_metadata=file_metadata
         )
 
-    if not (status and elasticsearch_status):
+    if not (status and elasticsearch_status and ingest_status):
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
         logging.error(
-            "[Process] Error while processing file nosql: %s elastic: %s",
+            "[Process] Error while processing file nosql: %s elastic: %s llm ingestion: %s",
             status,
             elasticsearch_status,
+            ingest_status,
         )
 
     temp_file.close()

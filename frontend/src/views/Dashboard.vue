@@ -14,6 +14,7 @@
     </BucketList>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')" :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')" :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="ingestIntoLlm" :label="$t('labels.ingestIntoLlm')" :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -91,6 +92,7 @@ export default {
       loading: false,
       storeInElastic: false,
       storeInDocumentDb: false,
+      ingestIntoLlm: false,
     }
   },
   setup() {
@@ -155,6 +157,7 @@ export default {
         formData.append('store_files_in_cloud', this.storeFilesInCloud);
         formData.append('store_in_elastic', this.storeInElastic);
         formData.append('store_in_document_db', this.storeInDocumentDb);
+        formData.append('ingest_into_llm', this.ingestIntoLlm);
         formData.append('bucket_name', this.bucketName);
         const response = await fetch(this.uploadApiUrl, {
           method: 'POST',

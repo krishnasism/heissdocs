@@ -18,7 +18,8 @@ sqlalchemy = "==2.0.9"
 python-dotenv = "==1.0.0"
 "httpx" = "==0.24.1"
 elasticsearch = "==8.8.2"
-pydantic-settings = "==2.0.1"
+langchain = "==0.0.258"
+qdrant-client = "==1.4.0"
 
 [dev-packages]
 autopep8 = "*"
