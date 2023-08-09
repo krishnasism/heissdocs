@@ -9,7 +9,8 @@
         "search": "Suchen",
         "logout": "Abmeldung",
         "progress": "Fortschritt",
-        "logs": "Logs"
+        "logs": "Logs",
+        "ask": "Fragen"
     },
     "labels": {
         "parsing": "Parsing",
@@ -116,7 +117,8 @@
         "openaiApiKeyPlaceholder": "Geben Sie Ihren OpenAI API Key ein",
         "openaiApiKeyTip": "Bitte geben Sie Ihren OpenAI API Key ein. Sie können ihn in Ihrem OpenAI-Konto finden. <b>Achtung</b>: Bei der Verwendung von OpenAI werden Ihre Daten zur Verarbeitung an deren Server gesendet.",
         "openAiSettings": "OpenAI Einstellungen",
-        "llmSettings": "LLM Einstellungen"
+        "llmSettings": "LLM Einstellungen",
+        "ask": "fragen"
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

@@ -9,6 +9,7 @@ import FileView from '../views/FileView.vue'
 import DocumentsProgress from '../views/DocumentsProgress.vue'
 import CloudInterface from '../views/CloudInterface.vue'
 import LogsView from '../views/LogsView.vue'
+import AskView from '../views/AskView.vue'
 
 import { createAuth0, authGuard } from '@auth0/auth0-vue';
 
@@ -73,6 +74,12 @@ const router = createRouter({
       path: '/logs',
       name: 'logs',
       component: LogsView,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/ask',
+      name: 'ask',
+      component: AskView,
       beforeEnter: authGuard,
     },
     {
