@@ -19,7 +19,6 @@ class Settings:
     search_document_db = False
     search_elastic_search = False
     store_logs_in_db = False
-    ingest_into_llm = False
     mongo_db_database = ""
     mongo_db_username = ""
     mongo_db_password = ""
@@ -56,7 +55,6 @@ class Settings:
         self.elastic_search_api_key = settings.get("elasticSearchApiKey")
         self.search_elastic_search = settings.get("searchElasticSearch")
         self.search_document_db = settings.get("searchDocumentDb")
-        self.ingest_into_llm = settings.get("ingestIntoLlm")
         self.store_logs_in_db = settings.get("storeLogsInDb")
         self.mongo_db_database = settings.get("mongoDbDatabase")
         self.mongo_db_username = settings.get("mongoDbUsername")
@@ -68,6 +66,7 @@ class Settings:
         self.qdrant_host = settings.get("qdrantHost")
         self.qdrant_port = settings.get("qdrantPort")
         self.qdrant_collection_name = settings.get("qdrantCollectionName")
+
     @classmethod
     def get_settings(cls):
         if cls._instance is None:

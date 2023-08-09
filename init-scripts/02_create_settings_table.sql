@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS settings (
 	mongo_db_database VARCHAR,
 	mongo_db_username VARCHAR,
 	mongo_db_password VARCHAR,
-	open_api_key VARCHAR,
+	openai_api_key VARCHAR,
 	hugging_face_api_key VARCHAR,
 	qdrant_api_key VARCHAR,
 	qdrant_host VARCHAR,

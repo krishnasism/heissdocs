@@ -1,5 +1,4 @@
 import logging
-from services.settings.settings import Settings
 from qdrant_client import qdrant_client
 from langchain.vectorstores import Qdrant
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -7,37 +6,25 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 
 class QdrantClient:
     client = None
-    _settings = Settings.get_settings()
 
-    def __init__(self):
-        self.__connect_to_qdrant()
-
-    def __connect_to_qdrant(self):
+    def connect(self, host: str = None, port: int = None, api_key: str = None):
         """Connect to Qdrant"""
         try:
             self.client = qdrant_client.QdrantClient(
-                host=self._settings.qdrant_host,
-                port=self._settings.qdrant_port,
-                api_key=self._settings.qdrant_api_key,
+                host=host,
+                port=port,
+                api_key=api_key,
             )
         except Exception as e:
             logging.error(f"[Qdrant Connection] {e}")
 
     def get_collection(self, collection_name: str = None):
         """Get collection"""
-        collection = None
-        if not collection_name:
-            collection_name = self._settings.qdrant_collection_name
         try:
             collection = self.client.get_collection(collection_name)
             return collection
         except Exception as e:
             logging.error(f"[Qdrant Connection] {e}")
-        finally:
-            if collection is None:
-                self.create_collection(self._settings.qdrant_collection_name)
-                collection = self.client.get_collection(collection_name)
-            return collection
 
     def create_collection(self, collection_name: str):
         """Create collection"""

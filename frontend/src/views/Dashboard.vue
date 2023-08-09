@@ -14,7 +14,7 @@
     </BucketList>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')" :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')" :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="ingestIntoLlm" :label="$t('labels.ingestIntoLlm')" :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleIngestIntoLlm" :label="$t('labels.ingestIntoLlm')" :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -206,6 +206,9 @@ export default {
     },
     toggleStoreInDocumentDb(value) {
       this.storeInDocumentDb = value;
+    },
+    toggleIngestIntoLlm(value) {
+      this.ingestIntoLlm = value;
     },
     toggleSummarization(value) {
       this.summaryEnabled = value;

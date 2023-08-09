@@ -21,7 +21,7 @@ class IngestClient():
             openai_api_key=self._settings.openai_api_key,
         )
         self.vector_store = Qdrant(
-            client=self.qdrant_client,
+            client=self.qdrant_client.client,
             collection_name=collection_name,
             embeddings=embeddings,
         )

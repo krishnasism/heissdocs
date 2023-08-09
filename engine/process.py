@@ -60,7 +60,7 @@ def process_file(message):
         status = put_pdf_to_document_db(pdf_body, file_metadata)
 
     if file_params.get("ingest_into_llm"):
-        ingest_status = ingest_into_llm(pdf_body, file_metadata)
+        ingest_status = ingest_into_llm(pdf_body)
 
     if file_params.get("store_in_elastic"):
         elasticsearch_status = insert_document_to_elasticsearch(

@@ -7,7 +7,7 @@ name = 'pypi'
 python_version = '3.11'
 
 [packages]
-fastapi = "==0.100.0"
+fastapi = "==0.101.0"
 uvicorn = "==0.22.0"
 python-multipart = "==0.0.6"
 pytesseract = "==0.3.10"
@@ -22,8 +22,10 @@ python-dotenv = "==1.0.0"
 "pyjwt[crypto]" = "==2.7.0"
 "httpx" = "==0.24.1"
 elasticsearch = "==8.8.2"
-pydantic-settings = "==2.0.1"
 pypdf = "==3.12.1"
+langchain = "==0.0.258"
+qdrant-client = "==1.4.0"
+openai= "==0.27.8"
 
 [dev-packages]
 autopep8 = "*"

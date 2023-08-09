@@ -75,7 +75,7 @@ async def upload_pdf(
                 stage=FileStages.QUEUED.value,
                 pagesParsed=0,
                 totalPages=total_pages,
-            ).model_dump()
+            ).dict()
         )
 
         return JSONResponse(content={"message": "Created"}, status_code=201)

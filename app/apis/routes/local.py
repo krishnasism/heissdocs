@@ -21,7 +21,7 @@ async def update_settings(
     settings: Settings,
     authenticated: bool = Depends(verify_token),
 ):
-    new_settings_obj = {k: v for k, v in settings.model_dump().items() if v is not None}
+    new_settings_obj = {k: v for k, v in settings.dict().items() if v is not None}
     pm.update_settings(new_settings_obj)
     q_params = {}
     q_params["message_type"] = QueueMessageTypes.SETTINGS_UPDATED.value
@@ -78,7 +78,7 @@ async def set_documents_in_progress(
     documentsProgressRequest: DocumentProgressRequest,
     authenticated: bool = Depends(verify_token),
 ):
-    pm.update_documents_progress(documentsProgressRequest.model_dump())
+    pm.update_documents_progress(documentsProgressRequest.dict())
     return JSONResponse(content={"message": "success"}, status_code=200)
 
 
@@ -87,7 +87,7 @@ async def post_log(
     logRequest: LogRequest,
     authenticated: bool = Depends(verify_token),
 ):
-    pm.post_log(logRequest.model_dump())
+    pm.post_log(logRequest.dict())
     return JSONResponse(content={"message": "success"}, status_code=200)
 
 
