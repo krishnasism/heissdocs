@@ -15,7 +15,7 @@ pm = PostgresManager()
 async def ask_pdf(
     query: str,
     user_email: str,
-    # authenticated: bool = Depends(verify_token),
+    authenticated: bool = Depends(verify_token),
 ):
     query = query.lower()
     answer = ask(
