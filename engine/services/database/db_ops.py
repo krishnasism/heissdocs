@@ -6,7 +6,7 @@ from uuid import uuid4
 import logging
 
 
-def put_pdf_to_document_db(pdf_body: str, file_metadata: dict) -> None:
+def put_pdf_to_document_db(pdf_body: dict, file_metadata: dict) -> None:
     """
     Put text from parsed PDF to Document DB
     params: pdf_body: PDF body

@@ -1,8 +1,7 @@
 import logging
 from services.settings.settings import Settings
 from qdrant_client import qdrant_client
-from langchain.vectorstores import Qdrant
-from langchain.embeddings.openai import OpenAIEmbeddings
+from qdrant_client.http import models
 
 
 class QdrantClient:
@@ -33,18 +32,21 @@ class QdrantClient:
             return collection
         except Exception as e:
             logging.error(f"[Qdrant Connection] {e}")
-        finally:
+        try:
             if collection is None:
-                self.create_collection(self._settings.qdrant_collection_name)
+                self.create_collection(collection_name)
                 collection = self.client.get_collection(collection_name)
+                logging.info(f"[Qdrant Connection] Created collection {collection_name}")
             return collection
+        except Exception as e:
+            logging.error(f"[Qdrant Connection] {e}")
 
     def create_collection(self, collection_name: str):
         """Create collection"""
         # TODO: Add condition based on embedding
-        vectors_config = qdrant_client.http.models.VectorParams(
+        vectors_config = models.VectorParams(
             size=1536,
-            distance=qdrant_client.http.models.Distance.COSINE,
+            distance=models.Distance.COSINE,
         )
         try:
             collection = self.client.recreate_collection(

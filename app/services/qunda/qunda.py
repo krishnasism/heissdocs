@@ -26,12 +26,12 @@ class Qunda:
         )
 
         self.qa_client = RetrievalQA.from_chain_type(
-            llm=OpenAI(openai_api_key=settings.get('openai_api_key')),
-            retriver=self.vector_store.as_retriever(),
+            llm=OpenAI(openai_api_key=settings.openai_api_key),
+            retriever=self.vector_store.as_retriever(),
         )
 
-    def ask(self, query: str) -> str:
-        response = self.qa_client.run(query)
+    def ask(self, question: str) -> str:
+        response = self.qa_client.run(question)
         return response
 
 def ask(user_email: str, question: str) -> str:
