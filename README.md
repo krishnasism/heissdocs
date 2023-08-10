@@ -1,5 +1,3 @@
-# heißdocs - [heissdocs.com](https://heissdocs.com/)
-
 # ## UNDER ACTIVE DEVELOPMENT ## ##
 
 A Document Search Engine 🔍📄
@@ -8,7 +6,8 @@ Add a searchable layer on top of your PDFs!
 
 Fully open-source and ready to be deployed.
 You store, own, and control the data. 100% private!
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/2bcfb20c-1cb4-43db-a4f0-e50f0fcad9bd)
+
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/9d611cb4-ea25-4434-b32e-d75b816a0bcb)# heißdocs - [heissdocs.com](https://heissdocs.com/)
 
 
 ### Note:
