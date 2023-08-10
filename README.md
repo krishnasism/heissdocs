@@ -90,6 +90,8 @@ Run the `backend` services:
 docker compose -f docker-compose.yaml up --build
 ```
 
+If you want elasticsearch locally running as well, you can include the `docker-compose.elasticsearch.override.yaml` file as well in the `docker compose` command.
+
 
 Run the `frontend`:
 ```bash
