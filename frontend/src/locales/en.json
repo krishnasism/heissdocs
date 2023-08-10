@@ -135,7 +135,8 @@
         "qdrantCollectionNameTip": "Please enter the name of the Qdrant collection you would like to use to store your documents. Example: documents",
         "ingestIntoLlm": "Ingest into LLM",
         "ingestIntoLlmHelper": "Ingest parsed text from file(s) into your configured LLM. Enables Question Answering and Semantic Search.",
-        "ask": "Ask"
+        "ask": "Ask",
+        "question": "Question"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

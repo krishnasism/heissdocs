@@ -1,10 +1,14 @@
 <template>
   <div>
-    <AskInput v-if="!loading" class="mb-8" @submit-ask="askQuestion"></AskInput>
-    <LoadingCircle v-if="loading && (answer || !errorMessage)"></LoadingCircle>
-    <div v-else>
+    <AskInput class="mb-8" @submit-ask="askQuestion"></AskInput>
+    <div>
       <DangerAlert v-if="errorMessage" alert="Error" :message="errorMessage"></DangerAlert>
-      <p class="mb-3 text-gray-500 dark:text-gray-400">
+      <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
+        {{ $t('labels.question') }}: {{ question }}
+      </p>
+      <br/>
+      <LoadingCircle v-if="loading && (answer || !errorMessage)"></LoadingCircle>
+      <p v-else class="mb-3 text-gray-900 dark:text-gray-400">
         {{ answer }}
       </p>
     </div>
@@ -34,11 +38,12 @@ export default {
       authService: null,
       loading: false,
       errorMessage: null,
+      question: "",
     }
   },
   async mounted() {
     this.loading = true;
-    const question = this.$route.query.question;
+    this.question = this.$route.query.question;
     if (this.isAuthenticated && this.apiToken == null) {
       this.authService = new AuthService(this.user.email, this.user.sub);
       this.apiToken = await this.authService.getApiToken();
@@ -51,8 +56,8 @@ export default {
         this.disablePagination = true;
       }
     }
-    if (question !== undefined || question != null) {
-      this.askQuestion(question);
+    if (this.question !== undefined || this.question != null) {
+      this.askQuestion(this.question);
     }
     this.loading = false;
   },
@@ -76,6 +81,7 @@ export default {
   methods: {
     async askQuestion(evt) {
       this.loading = true;
+      this.question = evt;
       if (this.isAuthenticated) {
         fetch(this.askQuestionApiUrl + "?query=" + evt + '&user_email=' + this.user.email,
           {
