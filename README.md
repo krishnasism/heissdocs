@@ -105,6 +105,12 @@ Before using the application, navigate to the `Settings` page by clicking on the
 ## Ready!
 You are all set!
 
+## Overview
+Here's a quick overview of the project
+![ingestion_flow](https://github.com/krishnasism/heissdocs/assets/21293324/901cfac0-864a-486f-a300-d540f64f5355)
+
+![query_flow](https://github.com/krishnasism/heissdocs/assets/21293324/c71d0738-7849-4e7e-b9e8-4b6ddf04ef60)
+
 
 ---
 # About the Project:
