@@ -27,6 +27,11 @@ settings_table = sa.Table(
     sa.Column("mongo_db_username", String),
     sa.Column("mongo_db_password", String),
     sa.Column("mongo_db_host", String),
+    sa.Column("openai_api_key", String),
+    sa.Column("qdrant_host", String),
+    sa.Column("qdrant_collection_name", String),
+    sa.Column("qdrant_port", String),
+    sa.Column("qdrant_api_key", String),
 )
 
 

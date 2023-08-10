@@ -47,6 +47,7 @@ async def upload_pdf(
     store_files_in_cloud: Annotated[bool, Form()],
     store_in_elastic: Annotated[bool, Form()],
     store_in_document_db: Annotated[bool, Form()],
+    ingest_into_llm: Annotated[bool, Form()],
     bucket_name: Annotated[str, Form()],
     authenticated: bool = Depends(verify_token),
 ):
@@ -59,6 +60,7 @@ async def upload_pdf(
                 "store_files_in_cloud": store_files_in_cloud,
                 "store_in_elastic": store_in_elastic,
                 "store_in_document_db": store_in_document_db,
+                "ingest_into_llm": ingest_into_llm,
                 "bucket_name": bucket_name,
             },
         )
@@ -73,7 +75,7 @@ async def upload_pdf(
                 stage=FileStages.QUEUED.value,
                 pagesParsed=0,
                 totalPages=total_pages,
-            ).model_dump()
+            ).dict()
         )
 
         return JSONResponse(content={"message": "Created"}, status_code=201)

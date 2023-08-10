@@ -9,7 +9,8 @@
         "search": "Search",
         "logout": "Logout",
         "progress": "Progress",
-        "logs": "Logs"
+        "logs": "Logs",
+        "ask": "Ask"
     },
     "labels": {
         "parsing": "Parsing",
@@ -111,7 +112,31 @@
         "mongoDbPasswordTip": "Please enter the password for autenticating with your remote MongoDB instance. Example: password",
         "nextPageButton": "Next",
         "previousPageButton": "Prev",
-        "noBucketsLoaded": "No files were loaded..."
+        "noBucketsLoaded": "No files were loaded...",
+        "openAiSettings": "OpenAI Settings",
+        "openaiApiKeyTip": "Please add your OpenAI API Key here. You can find it in your account.<br/><b>Warning</b>: Using OpenAI will involve your data being sent to their servers for processing.",
+        "openaiApiKey": "OpenAI API Key",
+        "openaiApiKeyPlaceholder": "Enter your OpenAI API Key",
+        "llmSettings": "LLM Settings",
+        "qdrantHost": "Qdrant Host",
+        "qdrantHostPlaceholder": "Host URL of your Qdrant instance",
+        "qdrantPort": "Qdrant Port",
+        "qdrantPortPlaceholder": "Port of your Qdrant instance",
+        "qdrantApiKey": "Qdrant API Key",
+        "qdrantApiKeyPlaceholder": "API Key of your Qdrant instance",
+        "qdrantCollectionName": "Qdrant Collection Name",
+        "qdrantCollectionNamePlaceholder": "Name of your Qdrant collection",
+        "huggingfaceApiKey": "HuggingFace API Key",
+        "huggingfaceApiKeyPlaceholder": "Enter your HuggingFace API Key",
+        "huggingfaceApiKeyTip": "Please add your HuggingFace API Key here. You can find it in your account.<br/><b>Warning</b>: Using HuggingFace will involve your data being sent to their servers for processing.",
+        "qdrantHostTip": "Please enter the host URL of your remote Qdrant instance. Example: xxx.qdrant.tech",
+        "qdrantPortTip": "Please enter the port of your remote Qdrant instance. Example: 6333",
+        "qdrantApiKeyTip": "Please enter the API Key to your remote Qdrant instance. Example: 1234567890",
+        "qdrantCollectionNameTip": "Please enter the name of the Qdrant collection you would like to use to store your documents. Example: documents",
+        "ingestIntoLlm": "Ingest into LLM",
+        "ingestIntoLlmHelper": "Ingest parsed text from file(s) into your configured LLM. Enables Question Answering and Semantic Search.",
+        "ask": "Ask",
+        "question": "Question"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

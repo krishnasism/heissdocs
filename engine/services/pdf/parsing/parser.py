@@ -7,7 +7,7 @@ from itertools import chain
 from api_helpers import update_document_progress
 from services.utils.helpers import preprocess_parsed_text
 from enums.FileStages import FileStages
-
+from typing import Tuple
 
 class PDFParser:
     def __init__(self):
@@ -31,7 +31,7 @@ class PDFParser:
         update_document_progress(document_progress)
         return page_data
 
-    def get_ocr_body(self, path, document_progress: dict) -> str:
+    def get_ocr_body(self, path, document_progress: dict) -> dict:
         global counter
         counter = Value("i", 0)
         body = {}
@@ -81,7 +81,7 @@ class PDFParser:
 
         return body
 
-    def parse(self, path: str, document_progress: dict) -> str:
+    def parse(self, path: str, document_progress: dict) -> dict:
         """
         Parse PDF and get text from it
         params: path: Path to PDF file
@@ -98,7 +98,7 @@ def get_pdf_body(
     pdf_file: NamedTemporaryFile,
     original_file_name: str,
     document_progress: dict,
-) -> dict:
+) -> Tuple[dict, dict]:
     """
     Parse PDF and get text from it
     params: pdf_file: PDF file
