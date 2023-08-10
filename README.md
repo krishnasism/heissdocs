@@ -41,30 +41,32 @@ You need the following resources to be able to set up the app without any hassle
 1. Auth0:
 `Auth0 needs to be configured even before building the project`
 
-For Auth0 you will need to get the following values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` file.
+For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`.
 
+For LLM Support (Question Answering with your documents):
+1. **Qdrant**: A vector database essential for efficient searches. [Qdrant](https://qdrant.tech/)
+2. **OpenAI API**: Needed to generate embeddings for the search functionality. [OpenAI API](https://openai.com/blog/openai-api)
 
-```
-    AUTH0_DOMAIN=
-    AUTH0_API_AUDIENCE=http://localhost:8000
-    AUTH0_ALGORITHMS=RS256
-    AUTH0_ISSUER=
-    AUTH0_CLIENT_ID=
-    AUTH0_CLIENT_SECRET=
-```
-
----
 ## Setting up
 Start by creating a `.env` file in the root directory and fill in the values according to the `.env.example` file.
 
-These can remain unchanged unless you are planning on hosting each of the services individually.
-In that case, please follow the documentation [here](#).
+```bash
+cp .env.example .env
+```
+
+The values in the root `.env` file can remain unchanged unless you are planning on hosting each of the services individually.
 
 
-Similarly, create a `.env` file inside the `backend`, `frontend`, and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
+Similarly, create an `.env` file inside the `app`, `frontend`, and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
+
+```bash
+cp frontend/.env.example frontend/.env
+cp app/.env.example app/.env
+cp engine/.env.example engine/.env
+```
 
 Most of the values except private keys can be left as is!
-
+Follow my comments in the files!
 > Promise I'll make this easier!
 
 ---
