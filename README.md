@@ -106,9 +106,12 @@ You are all set!
 
 ## Overview
 Here's a quick overview of the project
-![ingestion_flow](https://github.com/krishnasism/heissdocs/assets/21293324/901cfac0-864a-486f-a300-d540f64f5355)
 
-![query_flow](https://github.com/krishnasism/heissdocs/assets/21293324/c71d0738-7849-4e7e-b9e8-4b6ddf04ef60)
+Ingestion Flow
+![Technical Diagrams - Frame 1](https://github.com/krishnasism/heissdocs/assets/21293324/2b34c722-8766-45f3-a5ef-0da343631aa1)
+
+Query Flow
+![Technical Diagrams - Frame 2](https://github.com/krishnasism/heissdocs/assets/21293324/8a8a8f57-62b3-4e55-9e65-f1cb6882d464)
 
 
 ---
