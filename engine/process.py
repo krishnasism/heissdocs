@@ -39,6 +39,7 @@ def process_file(message):
         pdf_file=temp_file,
         original_file_name=(file_params["original_file_name"]),
         document_progress=document_progress,
+        force_ocr=file_params.get("force_ocr"),
     )
 
     if file_params.get("store_files_in_cloud"):

@@ -119,7 +119,9 @@
         "openAiSettings": "OpenAI Einstellungen",
         "llmSettings": "LLM Einstellungen",
         "ask": "fragen",
-        "question": "Frage"
+        "question": "Frage",
+        "toggleForceOcr": "Erzwinge OCR",
+        "toggleForceOcrTip": "Erzwingen Sie die OCR-Verarbeitung für alle Dateien, die Sie hochladen. Dies kann die Verarbeitungszeit verlängern."
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

@@ -136,7 +136,9 @@
         "ingestIntoLlm": "Ingest into LLM",
         "ingestIntoLlmHelper": "Ingest parsed text from file(s) into your configured LLM. Enables Question Answering and Semantic Search.",
         "ask": "Ask",
-        "question": "Question"
+        "question": "Question",
+        "toggleForceOcr": "Force OCR Parsing",
+        "toggleForceOcrHelper": "Use OCR to parse all files. This will increase the time taken to parse files."
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

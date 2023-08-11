@@ -8,6 +8,8 @@ from api_helpers import update_document_progress
 from services.utils.helpers import preprocess_parsed_text
 from enums.FileStages import FileStages
 from typing import Tuple
+from pypdf import PdfReader
+
 
 class PDFParser:
     def __init__(self):
@@ -81,16 +83,66 @@ class PDFParser:
 
         return body
 
-    def parse(self, path: str, document_progress: dict) -> dict:
+    def parse_pdf_text_layer(self, path, document_progress: dict) -> dict:
         """
-        Parse PDF and get text from it
+        Parse PDF and get text from it (without OCR)
         params: path: Path to PDF file
         document_progress: Document progress
         return: body: Text from PDF
         """
+        reader = PdfReader(path)
+        number_of_pages = len(reader.pages)
+        body = {}
+        document_progress["pages_parsed"] = 0
+        document_progress["total_pages"] = number_of_pages
+        update_document_progress(document_progress)
+        pages_reported = 0
+        for i in range(number_of_pages):
+            page = reader.pages[i]
+            text = page.extract_text()
+            if text:
+                text = preprocess_parsed_text(text)
+                body[i] = text
+            if i % 5 == 0:
+                document_progress["pages_parsed"] = 5
+                update_document_progress(document_progress)
+                pages_reported += 5
+        document_progress["pages_parsed"] = number_of_pages - pages_reported
+        document_progress["stage"] = FileStages.COMPLETED.value
+        update_document_progress(document_progress)
+        return body
+
+    def parse(
+        self, path: str, document_progress: dict, force_ocr: bool
+    ) -> dict:
+        """
+        Parse PDF and get text from it
+        params: path: Path to PDF file
+        document_progress: Document progress
+        force_ocr: Force OCR
+        return: body: Text from PDF
+        """
         global counter
         counter = Value("i", 0)
-        pdf_body = self.get_ocr_body(path, document_progress)
+        requires_ocr = force_ocr
+        if not requires_ocr:
+            try:
+                reader = PdfReader(path)
+                number_of_pages = len(reader.pages)
+                page = reader.pages[min(number_of_pages - 1, 0)]
+                text = page.extract_text()
+                if len(text) < 100:
+                    requires_ocr = True
+                del reader
+            except Exception as e:
+                logging.error(
+                    f"[PDF Parser] Error extracting text from PDF. Falling back to OCR: {e}"
+                )
+                requires_ocr = True
+        if requires_ocr:
+            pdf_body = self.get_ocr_body(path, document_progress)
+        else:
+            pdf_body = self.parse_pdf_text_layer(path, document_progress)
         return pdf_body
 
 
@@ -98,6 +150,7 @@ def get_pdf_body(
     pdf_file: NamedTemporaryFile,
     original_file_name: str,
     document_progress: dict,
+    force_ocr=False,
 ) -> Tuple[dict, dict]:
     """
     Parse PDF and get text from it
@@ -109,5 +162,9 @@ def get_pdf_body(
     file_metadata = {"filename": original_file_name}
     pdf_parser = PDFParser()
 
-    body = pdf_parser.parse(pdf_file.name, document_progress)
+    body = pdf_parser.parse(
+        path=pdf_file.name,
+        document_progress=document_progress,
+        force_ocr=force_ocr,
+    )
     return body, file_metadata

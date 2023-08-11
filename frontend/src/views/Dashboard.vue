@@ -5,10 +5,7 @@
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
 
-    <!--TODO: Enable this-->
-    <!-- <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleSummarization" label="Summarize Document [Coming Soon]"
-      helper="Generate and store an extractive summary of the uploaded documents."></CheckBoxWithTipVue> -->
-
+    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleForceOcr" :label="$t('labels.toggleForceOcr')" :helper="$t('labels.toggleForceOcrHelper')"></CheckBoxWithTipVue>
     <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" :label="$t('labels.storeCloudStorage')" :helper="$t('labels.storeCloudStorageHelper')"></CheckBoxWithTipVue>
     <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
     </BucketList>
@@ -93,6 +90,7 @@ export default {
       storeInElastic: false,
       storeInDocumentDb: false,
       ingestIntoLlm: false,
+      forceOcr: false,
     }
   },
   setup() {
@@ -158,6 +156,7 @@ export default {
         formData.append('store_in_elastic', this.storeInElastic);
         formData.append('store_in_document_db', this.storeInDocumentDb);
         formData.append('ingest_into_llm', this.ingestIntoLlm);
+        formData.append('force_ocr', this.forceOcr);
         formData.append('bucket_name', this.bucketName);
         const response = await fetch(this.uploadApiUrl, {
           method: 'POST',
@@ -210,8 +209,9 @@ export default {
     toggleIngestIntoLlm(value) {
       this.ingestIntoLlm = value;
     },
-    toggleSummarization(value) {
-      this.summaryEnabled = value;
+    toggleForceOcr(value) {
+      console.log(value)
+      this.forceOcr = value;
     },
   }
 };
