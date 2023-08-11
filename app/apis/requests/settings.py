@@ -29,4 +29,3 @@ class Settings(BaseModel):
     qdrantHost: Optional[str] = None
     qdrantPort: Optional[int] = None
     qdrantCollectionName: Optional[str] = None
-

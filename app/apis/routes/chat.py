@@ -26,5 +26,7 @@ async def ask_pdf(
         content={
             "answer": answer,
         },
-        status_code=200 if answer != "Sorry, I couldn't find an answer to your question." else 404,
+        status_code=200
+        if answer != "Sorry, I couldn't find an answer to your question."
+        else 404,
     )

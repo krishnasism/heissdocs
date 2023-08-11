@@ -5,7 +5,8 @@ from services.ingest.utils import get_chunks
 from langchain.vectorstores import Qdrant
 from langchain.embeddings.openai import OpenAIEmbeddings
 
-class IngestClient():
+
+class IngestClient:
     client = None
     vector_store = None
     _settings = Settings.get_settings()
@@ -14,7 +15,7 @@ class IngestClient():
         self.qdrant_client = QdrantClient()
         self.qdrant_client.get_collection()
         self.__create_vector_store()
-    
+
     def __create_vector_store(self):
         collection_name = self._settings.qdrant_collection_name
         embeddings = OpenAIEmbeddings(
@@ -25,7 +26,7 @@ class IngestClient():
             collection_name=collection_name,
             embeddings=embeddings,
         )
-    
+
     def ingest_document(self, pdf_body: dict) -> bool:
         """Ingest document"""
         full_text = ""

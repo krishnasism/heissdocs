@@ -9,6 +9,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient as qdc
 import logging
 
+
 class Qunda:
     vector_store = None
     qa_client = None
@@ -33,6 +34,7 @@ class Qunda:
     def ask(self, question: str) -> str:
         response = self.qa_client.run(question)
         return response
+
 
 def ask(user_email: str, question: str) -> str:
     qdrant_client = QdrantClient()

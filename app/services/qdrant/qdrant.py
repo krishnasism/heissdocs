@@ -15,5 +15,3 @@ class QdrantClient:
             )
         except Exception as e:
             logging.error(f"[Qdrant Connection] {e}")
-
-

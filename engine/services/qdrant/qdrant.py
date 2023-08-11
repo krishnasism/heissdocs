@@ -36,7 +36,9 @@ class QdrantClient:
             if collection is None:
                 self.create_collection(collection_name)
                 collection = self.client.get_collection(collection_name)
-                logging.info(f"[Qdrant Connection] Created collection {collection_name}")
+                logging.info(
+                    f"[Qdrant Connection] Created collection {collection_name}"
+                )
             return collection
         except Exception as e:
             logging.error(f"[Qdrant Connection] {e}")
