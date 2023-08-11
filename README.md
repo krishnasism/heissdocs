@@ -33,15 +33,14 @@ Keep an eye on the `Vision` tab to take a look at what is in stock for the futur
 You need the following resources to be able to set up the app without any hassle.
 You can follow this [document](https://github.com/krishnasism/heissdocs/blob/main/docs/doc.md) to fetch the required values.
 1. Auth0:
-`Auth0 needs to be configured even before building the project`
-    1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`.
+    1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`. This needs to be configured even before building the application.
 1. AWS resources
-    1. DynamoDB `Optional if you are using MongoDB`
-    1. S3 `Optional if you don't want to view files on the portal`
-1. Elasticsearch (+ local Elasticsearch support available) `Optional if you are using DocumentDb for searching`
-1. MongoDB `Optional if you are using DynamoDB`
+    1. DynamoDB
+    1. S3
+1. Elasticsearch
+1. MongoDB
 
-For LLM Support. Both of the following services need to be configured:
+For LLM Support. Both of the following services need to be configured together:
 1. **Qdrant**: A vector database required for semantic searching. [Qdrant](https://qdrant.tech/)
 2. **OpenAI API**: Needed to generate embeddings for the search functionality. [OpenAI API](https://openai.com/blog/openai-api)
 
