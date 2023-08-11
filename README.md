@@ -1,5 +1,3 @@
-# ## UNDER ACTIVE DEVELOPMENT ## ##
-
 A Document Search Engine 🔍📄
 
 Add a searchable layer on top of your PDFs!
@@ -7,7 +5,7 @@ Add a searchable layer on top of your PDFs!
 Fully open-source and ready to be deployed.
 You store, own, and control the data. 100% private!
 
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/9d611cb4-ea25-4434-b32e-d75b816a0bcb)# heißdocs - [heissdocs.com](https://heissdocs.com/)
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/cced155c-1a38-4059-a11a-7d990e372b73)# ## UNDER ACTIVE DEVELOPMENT ## ##
 
 
 ### Note:
