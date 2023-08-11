@@ -64,6 +64,7 @@ STORE_LOGS_IN_DB="true"
 ---
 
 ### For the next values, you don't need to modify the `.env` file. You can directly change these values in the Settings page of the Dashboard.
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/3c818fdc-21cd-42f7-974d-f651412eb9a8)
 
 ## AWS Configuration Retrieval
 
