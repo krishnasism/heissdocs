@@ -1,11 +1,12 @@
-A Document Search Engine 🔍📄
+**heißdocs** - A Document Search Engine 🔍📄
+## # Under Active Development # ##
 
 Add a searchable layer on top of your PDFs!
 
 Fully open-source and ready to be deployed.
-You store, own, and control the data. 100% private!
+You store, own, and control the data.
 
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/cced155c-1a38-4059-a11a-7d990e372b73)# ## UNDER ACTIVE DEVELOPMENT ## ##
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/cced155c-1a38-4059-a11a-7d990e372b73)
 
 
 ### Note:
@@ -30,18 +31,17 @@ Keep an eye on the `Vision` tab to take a look at what is in stock for the futur
 # Setup
 ## Pre-requisites
 You need the following resources to be able to set up the app without any hassle.
+1. Auth0:
+`Auth0 needs to be configured even before building the project`
+    1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`.
 1. AWS resources
     1. DynamoDB `Optional if you are using MongoDB`
     1. S3 `Optional if you don't want to view files on the portal`
 1. Elasticsearch (+ local Elasticsearch support available) `Optional if you are using DocumentDb for searching`
 1. MongoDB `Optional if you are using DynamoDB`
-1. Auth0:
-`Auth0 needs to be configured even before building the project`
 
-For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`.
-
-For LLM Support (Question Answering with your documents):
-1. **Qdrant**: A vector database essential for efficient searches. [Qdrant](https://qdrant.tech/)
+For LLM Support. Both of the following services need to be configured:
+1. **Qdrant**: A vector database required for semantic searching. [Qdrant](https://qdrant.tech/)
 2. **OpenAI API**: Needed to generate embeddings for the search functionality. [OpenAI API](https://openai.com/blog/openai-api)
 
 ## Setting up
