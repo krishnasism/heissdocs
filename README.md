@@ -31,6 +31,7 @@ Keep an eye on the `Vision` tab to take a look at what is in stock for the futur
 # Setup
 ## Pre-requisites
 You need the following resources to be able to set up the app without any hassle.
+You can follow this [document](https://github.com/krishnasism/heissdocs/blob/main/docs/doc.md) to fetch the required values.
 1. Auth0:
 `Auth0 needs to be configured even before building the project`
     1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`.
