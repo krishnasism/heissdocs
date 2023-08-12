@@ -45,7 +45,7 @@ class ElasticSearchClient:
         query = {
             "from": page_start,
             "size": 10,
-            "sort": "_score",
+            "sort": ["_score"],
             "query": {
                 "match": {
                     "pdf_body": {
