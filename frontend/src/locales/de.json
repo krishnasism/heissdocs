@@ -118,7 +118,7 @@
         "openaiApiKeyTip": "Bitte geben Sie Ihren OpenAI API Key ein. Sie können ihn in Ihrem OpenAI-Konto finden. <b>Achtung</b>: Bei der Verwendung von OpenAI werden Ihre Daten zur Verarbeitung an deren Server gesendet.",
         "openAiSettings": "OpenAI Einstellungen",
         "llmSettings": "LLM Einstellungen",
-        "ask": "fragen",
+        "ask": "eine Frage stellen",
         "question": "Frage",
         "toggleForceOcr": "Erzwinge OCR",
         "toggleForceOcrTip": "Erzwingen Sie die OCR-Verarbeitung für alle Dateien, die Sie hochladen. Dies kann die Verarbeitungszeit verlängern."

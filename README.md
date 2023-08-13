@@ -1,4 +1,4 @@
-**heißdocs** - A Document Search Engine 🔍📄
+**heißdocs** - A Document Query Application 🔍📄
 ## # Under Active Development # ##
 
 Add a searchable layer on top of your PDFs!
@@ -89,6 +89,9 @@ docker compose -f docker-compose.yaml up --build
 
 If you want elasticsearch locally running as well, you can include the `docker-compose.elasticsearch.override.yaml` file as well in the `docker compose` command.
 
+```bash
+docker compose -f docker-compose.yaml -f docker-compose.elasticsearch.override.yaml up --build
+```
 
 Run the `frontend`:
 ```bash
@@ -120,7 +123,7 @@ Query Flow
 - Bring your own Compute, Storage, & Search providers
 - Govern your own data
 - Easily deployable to everywhere
-- Add ChatGPT support (preferably something like [privateGPT](https://github.com/imartinez/privateGPT))
+- Add private LLM support
 
 ---
 In progress for the community - by [Krishnasis](https://www.linkedin.com/in/krishnasis/) 👨🏽‍💻

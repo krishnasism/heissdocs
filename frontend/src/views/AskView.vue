@@ -3,7 +3,7 @@
     <AskInput class="mb-8" @submit-ask="askQuestion"></AskInput>
     <div>
       <DangerAlert v-if="errorMessage" alert="Error" :message="errorMessage"></DangerAlert>
-      <p class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
+      <p v-if="question" class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
         {{ $t('labels.question') }}: {{ question }}
       </p>
       <br/>
@@ -11,6 +11,7 @@
       <p v-else class="mb-3 text-gray-900 dark:text-gray-400">
         {{ answer }}
       </p>
+      <ChatHistory v-if="chatHistory.messages.length > 0" class="mt-8 bg-slate-50 p-10 rounded-md	" :chatHistory="chatHistory"></ChatHistory>
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import AuthService from "@/services/auth";
 import DangerAlert from "@/components/DangerAlert.vue";
 import { useAuth0 } from '@auth0/auth0-vue';
 import SettingsService from "@/services/settings";
+import ChatHistory from "@/components/ChatHistory.vue";
 
 export default {
   components: {
@@ -29,17 +31,27 @@ export default {
     AskInput,
     LoadingCircle,
     DangerAlert,
+    ChatHistory,
   },
   data() {
     return {
-      loading: true,
+      chatHistory: {
+        messages: [],
+        add_message(sender, text) {
+          this.messages.push({ sender, text });
+        },
+        get_context(num_messages) {
+          const start_idx = Math.max(0, this.messages.length - num_messages);
+          return this.messages.slice(start_idx);
+        },
+      },
+      loading: false,
       answer: "",
       apiToken: null,
       authService: null,
-      loading: false,
       errorMessage: null,
       question: "",
-    }
+    };
   },
   async mounted() {
     this.loading = true;
@@ -83,23 +95,25 @@ export default {
       this.loading = true;
       this.question = evt;
       if (this.isAuthenticated) {
-        fetch(this.askQuestionApiUrl + "?query=" + evt + '&user_email=' + this.user.email,
-          {
+        try {
+          const response = await fetch(this.askQuestionApiUrl + "?query=" + evt + '&user_email=' + this.user.email, {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + this.apiToken,
               'Content-Type': 'application/json; charset=utf-8'
             },
-          })
-          .then(response => response.json())
-          .then(data => {
-            this.answer = data.answer;
-            this.errorMessage = data.error;
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error(error);
           });
+          const data = await response.json();
+
+          this.answer = data.answer;
+          this.errorMessage = data.error;
+          this.loading = false;
+
+          this.chatHistory.add_message('user', this.question);
+          this.chatHistory.add_message('bot', this.answer);
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
   }
