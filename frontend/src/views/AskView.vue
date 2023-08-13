@@ -6,12 +6,20 @@
       <p v-if="question" class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
         {{ $t('labels.question') }}: {{ question }}
       </p>
-      <br/>
+      <br />
       <LoadingCircle v-if="loading && (answer || !errorMessage)"></LoadingCircle>
       <p v-else class="mb-3 text-gray-900 dark:text-gray-400">
         {{ answer }}
       </p>
-      <ChatHistory v-if="chatHistory.messages.length > 0" class="mt-8 bg-slate-50 p-10 rounded-md	" :chatHistory="chatHistory"></ChatHistory>
+      <ChatHistory v-if="chatHistory.messages.length > 0" class="mt-8 bg-slate-50 p-10 rounded-md	"
+        :chatHistory="chatHistory"></ChatHistory>
+      <button v-if="chatHistory.messages.length > 0" type="button" @click="downloadJSON"
+        class="mt-8 focus:outline-none text-white bg-green-400 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"><svg
+          class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 20 19">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4" />
+        </svg></button>
     </div>
   </div>
 </template>
@@ -115,6 +123,19 @@ export default {
           console.error(error);
         }
       }
+    },
+    downloadJSON() {
+      const jsonContent = JSON.stringify(this.chatHistory.messages, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const currentDateTime = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = `chathistory_${currentDateTime}.json`;
+      a.href = url;
+      a.download = fileName;
+      a.click();
+
+      URL.revokeObjectURL(url);
     },
   }
 }
