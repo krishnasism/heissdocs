@@ -7,6 +7,9 @@ class QdrantClient:
 
     def connect(self, host: str = None, port: int = None, api_key: str = None):
         """Connect to Qdrant"""
+        if host:
+            host = host.replace("http://", "")
+            host = host.replace("https://", "")
         try:
             self.client = qdrant_client.QdrantClient(
                 host=host,

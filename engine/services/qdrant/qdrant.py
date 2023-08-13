@@ -13,9 +13,13 @@ class QdrantClient:
 
     def __connect_to_qdrant(self):
         """Connect to Qdrant"""
+        qdrant_host = self._settings.qdrant_host
+        if qdrant_host:
+            qdrant_host = qdrant_host.replace("http://", "")
+            qdrant_host = qdrant_host.replace("https://", "")
         try:
             self.client = qdrant_client.QdrantClient(
-                host=self._settings.qdrant_host,
+                host=qdrant_host,
                 port=self._settings.qdrant_port,
                 api_key=self._settings.qdrant_api_key,
             )
