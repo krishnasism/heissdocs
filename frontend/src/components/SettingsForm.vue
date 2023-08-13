@@ -145,7 +145,7 @@
                 <br/>
                 <p class="mt-5 font-black">{{ $t('labels.llmSettings') }}</p>
                 <br/>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-5">
                     <label for="openaiApiKey"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.openaiApiKey') }}</label>
@@ -163,7 +163,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             :placeholder="$t('labels.huggingfaceApiKeyPlaceholder')" v-model="huggingfaceApiKey"/>
                 </div> -->
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-5">
                     <label for="qdrantHost"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.qdrantHost') }}</label>
@@ -172,7 +172,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             :placeholder="$t('labels.qdrantHostPlaceholder')" v-model="qdrantHost"/>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-5">
                     <label for="qdrantPort"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.qdrantPort') }}</label>
@@ -181,7 +181,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             :placeholder="$t('labels.qdrantPortPlaceholder')" v-model="qdrantPort"/>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-5">
                     <label for="qdrantApiKey"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.qdrantApiKey') }}</label>
@@ -190,7 +190,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             :placeholder="$t('labels.qdrantApiKeyPlaceholder')" v-model="qdrantApiKey"/>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-5">
                     <label for="qdrantCollectionName"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.qdrantCollectionName') }}</label>

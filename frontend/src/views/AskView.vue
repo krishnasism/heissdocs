@@ -11,7 +11,7 @@
       <p v-else class="mb-3 text-gray-900 dark:text-gray-400">
         {{ answer }}
       </p>
-      <ChatHistory v-if="chatHistory.messages.length > 0" class="mt-8 bg-slate-50 p-10 rounded-md	"
+      <ChatHistory v-if="chatHistory.messages.length > 0" class="mt-8 bg-slate-50 p-10 rounded-md"
         :chatHistory="chatHistory"></ChatHistory>
       <button v-if="chatHistory.messages.length > 0" type="button" @click="downloadJSON"
         class="mt-8 focus:outline-none text-white bg-green-400 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"><svg
