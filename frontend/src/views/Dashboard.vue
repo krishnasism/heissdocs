@@ -150,7 +150,6 @@ export default {
       for (let i = 0; i < this.fileList.length; i++) {
         const formData = new FormData()
         formData.append('file', this.fileList[i])
-        formData.append('summarize', this.summaryEnabled);
         formData.append('user_email', this.user.email);
         formData.append('store_files_in_cloud', this.storeFilesInCloud);
         formData.append('store_in_elastic', this.storeInElastic);

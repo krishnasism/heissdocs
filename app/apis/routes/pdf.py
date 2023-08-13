@@ -42,7 +42,6 @@ async def pdf_search(
 @router.post("/upload")
 async def upload_pdf(
     file: UploadFile,
-    summarize: Annotated[str, Form()],
     user_email: Annotated[str, Form()],
     store_files_in_cloud: Annotated[bool, Form()],
     store_in_elastic: Annotated[bool, Form()],
@@ -56,7 +55,6 @@ async def upload_pdf(
         job_metadata = prepare_job(
             file,
             params={
-                "summarize": summarize,
                 "user_email": user_email,
                 "store_files_in_cloud": store_files_in_cloud,
                 "store_in_elastic": store_in_elastic,
