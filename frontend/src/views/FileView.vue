@@ -42,9 +42,9 @@ export default {
         this.authService = new AuthService(this.user.email, this.user.sub);
         this.apiToken = await this.authService.getApiToken();
         const file_name = this.$route.query.file_name;
-        const s3_bucket_name = this.$route.query.s3_bucket;
+        const bucket_name = this.$route.query.bucketName;
         const page = this.$route.query.page;
-        this.fileLink = await this.getFileLink(file_name, s3_bucket_name, page);
+        this.fileLink = await this.getFileLink(file_name, bucket_name, page);
         this.loading = false;
     },
     computed: {

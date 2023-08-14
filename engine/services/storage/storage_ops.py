@@ -1,6 +1,57 @@
 from .connectors import StorageConnection
 from .storage_providers import StorageProviders
+from services.settings.settings import Settings
 import logging
+
+
+def upload_file_to_bucket(filestream, filename_str: str, bucket=None) -> bool:
+    """
+    Upload file to configured cloud storage
+    params: filestream: File stream (BufferedReader)
+    params: filename_str: File name
+    params: bucket: Bucket name
+    return: bool: True if file uploaded successfully, False otherwise
+    """
+    _settings = Settings.get_settings()
+    cloud_provider = _settings.cloud_provider
+    match cloud_provider:
+        case StorageProviders.aws.value:
+            return upload_file_to_s3_bucket(filestream, filename_str, bucket)
+        case StorageProviders.azure.value:
+            return upload_file_to_az_blob(filestream, filename_str, bucket)
+        case StorageProviders.gcp.value:
+            return upload_file_to_gcp_bucket(filestream, filename_str, bucket)
+        case _:
+            logging.error(f"[Storage Connection] Undefined provider: {cloud_provider}")
+            return False
+
+
+def upload_file_to_az_blob(filestream, filename: str, bucket=None) -> bool:
+    """Unimplemented"""
+    return False
+
+
+def upload_file_to_gcp_bucket(filestream, filename: str, bucket=None) -> bool:
+    """
+    Upload file to GCP bucket
+    params: filestream: File stream (BufferedReader)
+    params: filename: File name
+    params: bucket: Bucket name
+    return: bool: True if file uploaded successfully, False otherwise
+    """
+    storage_connection = StorageConnection(StorageProviders.gcp.value)
+    try:
+        gcp_storage_client = storage_connection.storage_client
+        bucket = gcp_storage_client.bucket(bucket)
+        blob = bucket.blob(filename)
+        blob.upload_from_file(filestream, content_type="application/pdf")
+        return True
+    except Exception as e:
+        logging.error(
+            f"[GCP File Upload] Unable to upload file to bucket: {bucket}, file: {filename}"
+        )
+        logging.exception(e)
+        return False
 
 
 def upload_file_to_s3_bucket(filestream, filename: str, bucket=None) -> bool:

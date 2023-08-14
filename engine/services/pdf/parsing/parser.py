@@ -102,7 +102,7 @@ class PDFParser:
             text = page.extract_text()
             if text:
                 text = preprocess_parsed_text(text)
-                body[i+1] = text
+                body[i + 1] = text
             if i % 5 == 0:
                 document_progress["pages_parsed"] = 5
                 update_document_progress(document_progress)
@@ -112,9 +112,7 @@ class PDFParser:
         update_document_progress(document_progress)
         return body
 
-    def parse(
-        self, path: str, document_progress: dict, force_ocr: bool
-    ) -> dict:
+    def parse(self, path: str, document_progress: dict, force_ocr: bool) -> dict:
         """
         Parse PDF and get text from it
         params: path: Path to PDF file

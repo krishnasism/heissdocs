@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from typing import Annotated
 from services.search.search import get_pdf_by_query
-from services.storage.storage_ops import get_s3_presigned_url
+from services.storage.storage_ops import get_cloud_presigned_url
 from services.security.verify_token import verify_token
 from services.queue.queue import prepare_job
 from apis.requests.document_progress import DocumentProgressRequest
@@ -92,7 +92,7 @@ async def get_file_url(
     authenticated: bool = Depends(verify_token),
 ):
     try:
-        url = get_s3_presigned_url(bucket_name, file_name, user_email)
+        url = get_cloud_presigned_url(bucket_name, file_name, user_email)
 
         return JSONResponse(
             content={"success": "true", "file_url": url}, status_code=200

@@ -41,7 +41,7 @@
         "awsSecret": "AWS Secret",
         "awsRegion": "AWS Region",
         "destinationBuckets": "Ziel-Buckets",
-        "s3BucketSource": "S3 Bucket [Quelle - Parsing]",
+        "scanBucket": "Quelle Bucket",
         "nosqlEngineHost": "NoSQL-Engine-Host",
         "noSqlEngineHostHelper": "Wo wird Ihre NoSQL DB gehostet?",
         "noSqlEngineHostDropdown": "Anbieter auswählen",
@@ -121,7 +121,13 @@
         "ask": "eine Frage stellen",
         "question": "Frage",
         "toggleForceOcr": "Erzwinge OCR",
-        "toggleForceOcrTip": "Erzwingen Sie die OCR-Verarbeitung für alle Dateien, die Sie hochladen. Dies kann die Verarbeitungszeit verlängern."
+        "toggleForceOcrTip": "Erzwingen Sie die OCR-Verarbeitung für alle Dateien, die Sie hochladen. Dies kann die Verarbeitungszeit verlängern.",
+        "azureBlobConnectionString": "Azure Blob Connection String",
+        "azureBlobConnectionStringPlaceholder": "Geben Sie Ihren Azure Blob Connection String ein",
+        "azureBlobConnectionStringTip": "Bitte geben Sie Ihren Azure Blob Connection String ein. Sie können ihn in Ihrem Azure-Konto finden. <b>Achtung</b>: Bei der Verwendung von Azure Blob Storage werden Ihre Daten zur Verarbeitung an deren Server gesendet.",
+        "azureBlobContainerName": "Azure Blob Container Name",
+        "azureBlobContainerNamePlaceholder": "Geben Sie Ihren Azure Blob Container Name ein",
+        "azureBlobContainerNameTip": "Bitte geben Sie Ihren Azure Blob Container Name ein. Sie können ihn in Ihrem Azure-Konto finden. <b>Achtung</b>: Bei der Verwendung von Azure Blob Storage werden Ihre Daten zur Verarbeitung an deren Server gesendet."
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

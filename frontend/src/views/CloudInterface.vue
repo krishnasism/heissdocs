@@ -91,7 +91,7 @@ export default {
       return this.cloudApiUrl + "/all-bucket-files"
     },
     s3SendParsingJobUrl() {
-      return this.cloudApiUrl + "/s3-parsing-job"
+      return this.cloudApiUrl + "/cloud-parsing-job"
     }
   },
   methods: {
@@ -143,11 +143,11 @@ export default {
           })
           .then(response => response.json())
           .then(data => {
-            if (data.s3_response.error == null) {
-              this.s3Documents = data.s3_response.files;
+            if (data.all_files.error == null) {
+              this.s3Documents = data.all_files.files;
             }
             else {
-              this.pageError = data.s3_response.error;
+              this.pageError = data.all_files.error;
             }
           })
           .catch(error => {

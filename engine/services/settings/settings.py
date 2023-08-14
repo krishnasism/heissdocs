@@ -24,7 +24,7 @@ class Settings:
     mongo_db_password = ""
     mongo_db_host = ""
     openai_api_key = ""
-    huggingfacehub_api_key = ""
+    hugging_face_api_key = ""
     qdrant_api_key = ""
     qdrant_host = ""
     qdrant_port = ""
@@ -61,11 +61,19 @@ class Settings:
         self.mongo_db_password = settings.get("mongoDbPassword")
         self.mongo_db_host = settings.get("mongoDbHost")
         self.openai_api_key = settings.get("openaiApiKey")
-        self.huggingfacehub_api_key = settings.get("huggingfacehubApiKey")
+        self.hugging_face_api_key = settings.get("huggingFaceApiKey")
         self.qdrant_api_key = settings.get("qdrantApiKey")
         self.qdrant_host = settings.get("qdrantHost")
         self.qdrant_port = settings.get("qdrantPort")
         self.qdrant_collection_name = settings.get("qdrantCollectionName")
+        self.cloud_provider = settings.get("cloudProvider")
+        self.azure_blob_connection_string = settings.get("azureBlobConnectionString")
+        self.azure_blob_container_name = settings.get("azureBlobContainerName")
+        self.cosmos_db_host = settings.get("cosmosDbHost")
+        self.cosmos_db_container = settings.get("cosmosDbContainer")
+        self.cosmos_db_container = settings.get("cosmosDbDatabase")
+        self.cosmos_db_key = settings.get("cosmosDbKey")
+        self.gcp_key_file_content = settings.get("gcpKeyFileContent")
 
     @classmethod
     def get_settings(cls):
