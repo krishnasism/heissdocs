@@ -112,9 +112,51 @@ If you're using DynamoDB to store parsed PDFs, you should know the table's name:
 
    In the `Tables` section, find the table storing the parsed PDFs. This table's name is your `AWS_SEARCH_TABLE_NAME`.
 
-### Setting Up Configurations
+### Azure Resources
 
-You can then set these values directly in your application frontend.:
+#### Azure Blob Storage
+
+1. **Azure Blob Connection String**
+
+   - Obtain the connection string for your Azure Blob Storage.
+   - This string can be found in the Azure Portal under your Storage Account's "Access keys" section.
+
+2. **Azure Blob Container Name**
+
+   - Identify the name of the container within your Azure Blob Storage.
+
+#### Azure Cosmos DB
+
+1. **Cosmos DB Database Name**
+
+   - Identify the name of the database in your Azure Cosmos DB.
+
+2. **Cosmos DB Host URI**
+
+   - Locate the Host URI for your Azure Cosmos DB account.
+
+3. **Cosmos DB Key**
+
+   - Retrieve the primary or secondary key for your Azure Cosmos DB account.
+
+4. **Cosmos DB Container Name**
+
+   - Identify the name of the container within your Azure Cosmos DB.
+
+### GCP Resources
+
+#### GCP Credentials JSON File
+
+1. **Generate GCP Credentials**
+
+   - Go to the [GCP Console](https://console.cloud.google.com/).
+   - Navigate to the `IAM & Admin` > `Service accounts` section.
+   - Create a new service account or use an existing one.
+   - Download the JSON key file associated with the service account.
+
+   **Note:** Ensure that you keep this JSON file secure and do not share it publicly.
+
+   The file that you get, you can upload directly on the `Settings` page.
 
 
 ## MongoDB Configuration Retrieval
@@ -262,6 +304,8 @@ QDrantCloud requires an API key for authentication and other configuration detai
    - `QDRANT_HOST`: This would typically be the domain name or IP address of your QDrant server. For local instances, it's usually `http://localhost`.
    - `QDRANT_PORT`: Default port might be `6333`, but ensure it's the correct one based on your setup.
    - `QDRANT_COLLECTION_NAME`: If you've already set up a collection in QDrant, note its name. In this case, it's given as `heissdocs`.
+
+
 
 ### Setting Up Configurations
 
