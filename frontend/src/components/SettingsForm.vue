@@ -101,9 +101,16 @@
                     <div class="sm:col-span-2">
                         <label for="gcpkeyfile" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                             $t('labels.gcpKeyFile') }}</label>
-                        <input
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            id="gcpkeyfile" type="file" accept=".json" @change="gcpKeyFileChanged">
+                        <div class="flex">
+                            <input
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                id="gcpkeyfile" type="file" accept=".json" @change="gcpKeyFileChanged">
+                            <svg v-if="settings.gcpKeyFileContent" class="w-6 h-6 text-green-500 dark:text-white mt-2 ml-2" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 5h8m-1-3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2m6 0h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m0 9.464 2.025 1.965L12 9.571" />
+                            </svg>
+                        </div>
                     </div>
                     <div class="sm:col-span-2">
                         <label for="bucketsList" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
