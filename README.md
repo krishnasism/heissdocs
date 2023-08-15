@@ -24,7 +24,14 @@ Simply upload a scanned or normal PDF and start searching for content in it with
 1. Upload a file on the Dashboard
 1. Start searching!
 
-Keep an eye on the `Vision` tab to take a look at what is in stock for the future!
+# Features
+- ☁️ Multi cloud support (AWS, GCP, Azure)
+- 💬 Semantic search (Langchain + OpenAI)
+- 🔒 Full ownership of data
+- 🆓 Completely open-source
+- 💻 Self hosted
+- ... more things to come + feel free to add in requests!
+
 
 ---
 # Setup
@@ -113,17 +120,6 @@ Ingestion Flow
 Query Flow
 ![Technical Diagrams - Frame 2](https://github.com/krishnasism/heissdocs/assets/21293324/8a8a8f57-62b3-4e55-9e65-f1cb6882d464)
 
-
----
-# About the Project:
-
-## Vision: 
-- Pluggable into various cloud providers
-    - Currently supports AWS, GCP & Azure
-- Bring your own Compute, Storage, & Search providers
-- Govern your own data
-- Easily deployable to everywhere
-- Add private LLM support
 
 ---
 In progress for the community - by [Krishnasis](https://www.linkedin.com/in/krishnasis/) 👨🏽‍💻
