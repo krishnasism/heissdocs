@@ -33,9 +33,9 @@ You need the following resources to be able to set up the app without any hassle
 You can follow this [document](https://github.com/krishnasism/heissdocs/blob/main/docs/doc.md) to fetch the required values.
 1. Auth0:
     1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`. This needs to be configured even before building the application.
-1. AWS resources
-    1. DynamoDB
-    1. S3
+1. AWS / Azure / GCP
+    1. AWS DynamoDB / Azure CosmosDB /GCP Firestore [NoSQL]
+    1. S3 / Storage Account / Cloud Storage
 1. Elasticsearch
 1. MongoDB
 
@@ -119,6 +119,7 @@ Query Flow
 
 ## Vision: 
 - Pluggable into various cloud providers
+    - Currently supports AWS, GCP & Azure
 - Bring your own Compute, Storage, & Search providers
 - Govern your own data
 - Easily deployable to everywhere

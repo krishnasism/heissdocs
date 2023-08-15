@@ -24,8 +24,15 @@ class Settings(BaseModel):
     mongoDbPassword: Optional[str] = None
     mongoDbHost: Optional[str] = None
     openaiApiKey: Optional[str] = None
-    huggingfacehubApiKey: Optional[str] = None
+    huggingFaceApiKey: Optional[str] = None
     qdrantApiKey: Optional[str] = None
     qdrantHost: Optional[str] = None
     qdrantPort: Optional[int] = None
     qdrantCollectionName: Optional[str] = None
+    cloudProvider: Optional[str] = None
+    azureBlobConnectionString: Optional[str] = None
+    cosmosDbHost: Optional[str] = None
+    cosmosDbContainer: Optional[str] = None
+    cosmosDbDatabase: Optional[str] = None
+    cosmosDbKey: Optional[str] = None
+    gcpKeyFileContent: Optional[str] = None

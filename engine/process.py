@@ -2,7 +2,7 @@ import json
 from temp_storage_manager import get_temp_file_stream, delete_file
 from services.pdf.parsing.parser import get_pdf_body
 from tempfile import NamedTemporaryFile
-from services.storage.storage_ops import upload_file_to_s3_bucket
+from services.storage.storage_ops import upload_file_to_bucket
 from services.database.db_ops import put_pdf_to_document_db
 from services.elasticsearch.elasticsearch_client import insert_document_to_elasticsearch
 from services.ingest.ingest_ops import ingest_into_llm
@@ -47,7 +47,7 @@ def process_file(message):
         bucket_name = file_params["bucket_name"]
         with open(temp_file.name, "rb") as f:
             if bucket_name:
-                response = upload_file_to_s3_bucket(f, blob_file_name, bucket_name)
+                response = upload_file_to_bucket(f, blob_file_name, bucket_name)
                 if response:
                     file_metadata["s3_blob_file_name"] = blob_file_name
                     file_metadata["s3_bucket_name"] = bucket_name

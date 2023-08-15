@@ -32,6 +32,14 @@ settings_table = sa.Table(
     sa.Column("qdrant_collection_name", String),
     sa.Column("qdrant_port", String),
     sa.Column("qdrant_api_key", String),
+    sa.Column("hugging_face_api_key", String),
+    sa.Column("cloud_provider", String),
+    sa.Column("azure_blob_connection_string", String),
+    sa.Column("cosmos_db_host", String),
+    sa.Column("cosmos_db_container", String),
+    sa.Column("cosmos_db_database", String),
+    sa.Column("cosmos_db_key", String),
+    sa.Column("gcp_key_file_content", String),
 )
 
 

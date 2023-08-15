@@ -40,11 +40,17 @@ class Settings(BaseSettings):
     mongo_db_username: str
     mongo_db_password: str
     openai_api_key: str
-    huggingfacehub_api_key: str
+    hugging_face_api_key: str
     qdrant_api_key: str
     qdrant_host: str
     qdrant_port: int
     qdrant_collection_name: str
+    azure_blob_connection_string: str
+    cosmos_db_host: str
+    cosmos_db_container: str
+    cosmos_db_database: str
+    cosmos_db_key: str
+    gcp_key_file_content: Optional[str] = None
 
     class Config:
         env_file = ".env"

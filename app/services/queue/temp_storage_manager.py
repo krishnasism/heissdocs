@@ -12,7 +12,7 @@ def get_temp_storage_client():
     )
 
 
-def upload_file_to_s3_bucket(filestream, filename: str, bucket="tempfiles"):
+def upload_file_to_temp_s3_bucket(filestream, filename: str, bucket="tempfiles"):
     """
     Upload file to S3 bucket
     params: filestream: File stream (BufferedReader)

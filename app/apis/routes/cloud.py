@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, Form
 from fastapi.responses import JSONResponse
 from services.local.postgres import PostgresManager
 from services.security.verify_token import verify_token
-from services.storage.storage_ops import get_all_s3_files
-from services.queue.queue import prepare_s3_job
+from services.storage.storage_ops import get_all_files
+from services.queue.queue import prepare_cloud_job
 from apis.requests.document_progress import DocumentProgressRequest
 from enums.FileStages import FileStages
 from typing import Annotated
@@ -20,17 +20,17 @@ pm = PostgresManager()
 async def update_settings(
     bucket_name: str, user_email: str, authenticated: bool = Depends(verify_token)
 ):
-    s3_response = get_all_s3_files(bucket_name, user_email)
+    all_files = get_all_files(bucket_name, user_email)
     return JSONResponse(
         content={
-            "s3_response": s3_response,
+            "all_files": all_files,
         },
         status_code=200,
     )
 
 
-@router.post("/s3-parsing-job")
-async def s3_parsing_job(
+@router.post("/cloud-parsing-job")
+async def cloud_parsing_job(
     source_bucket_name: Annotated[str, Form()],
     key_name: Annotated[str, Form()],
     user_email: Annotated[str, Form()],
@@ -38,7 +38,7 @@ async def s3_parsing_job(
     authenticated: bool = Depends(verify_token),
 ):
     try:
-        document_id = await prepare_s3_job(
+        document_id = await prepare_cloud_job(
             source_bucket_name,
             key_name,
             user_email,

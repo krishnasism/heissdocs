@@ -8,7 +8,8 @@ from settings.config import Settings
 from services.elasticsearch.elasticsearch_client import ElasticSearchClient
 from pymongo.collection import Collection
 from pymongo import TEXT
-
+from google.cloud.firestore import FieldFilter
+from azure.cosmos import CosmosClient
 
 DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
 SEARCH_KEY = "pdf_body"
@@ -114,6 +115,52 @@ def __search_document_db_aws(query: str, user_email: str, settings: Settings) ->
     return documents
 
 
+def __search_document_db_gcp_firestore(query: str, user_email: str, settings: Settings):
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
+    firestore = db_connection.db_client
+    try:
+        collection_name = settings.document_table_name
+        collection_ref = firestore.collection(collection_name)
+
+        query_obj = collection_ref.where(
+            filter=FieldFilter(SEARCH_KEY, ">=", query)
+        ).where(filter=FieldFilter(SEARCH_KEY, "<=", query + "\uf8ff"))
+        query_obj = query_obj.select(DOCUMENT_TABLE_KEYS.split(","))
+        documents = query_obj.stream()
+        results = [doc.to_dict() for doc in documents]
+    except Exception as e:
+        logging.error(f"[GCP Firestore] Error: {str(e)}")
+        logging.exception(e)
+        return []
+    return results
+
+
+def __search_document_db_azure_cosmosdb(
+    query: str, user_email: str, settings: Settings
+):
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
+    cosmosdb = db_connection.db_client
+    database = cosmosdb.get_database_client(settings.cosmos_db_database)
+    container = database.get_container_client(settings.document_table_name)
+    query = query.replace(" ", "\n")
+    query_string = f"""
+        SELECT *
+        FROM {settings.document_table_name} c
+        WHERE CONTAINS(c.{SEARCH_KEY}, "{query}")
+    """
+    try:
+        documents = container.query_items(
+            query=query_string,
+            enable_cross_partition_query=True,
+        )
+        results = [doc for doc in documents]
+    except Exception as e:
+        logging.error(f"[Azure CosmosDB] Error: {str(e)}")
+        logging.exception(e)
+        return []
+    return results
+
+
 def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     Get PDF by query from ElasticSearch and/or Document DB
@@ -123,16 +170,29 @@ def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     settings = override_settings(get_settings(), get_override_settings(user_email))
     documents: list = []
+    response_documents: list = []
     if settings.search_document_db:
         match settings.no_sql_provider:
             case Databases.aws.value:
-                documents.extend(__search_document_db_aws(query, user_email, settings))
+                response_documents = __search_document_db_aws(
+                    query, user_email, settings
+                )
             case Databases.mongodb.value:
-                documents.extend(
-                    __search_document_db_mongodb(query, user_email, settings)
+                response_documents = __search_document_db_mongodb(
+                    query, user_email, settings
+                )
+            case Databases.gcp.value:
+                response_documents = __search_document_db_gcp_firestore(
+                    query, user_email, settings
+                )
+            case Databases.azure.value:
+                response_documents = __search_document_db_azure_cosmosdb(
+                    query, user_email, settings
                 )
             case _:
                 logging.error("[get_pdf_by_query] Undefined document database provider")
+        if response_documents:
+            documents.extend(response_documents)
     if settings.search_elastic_search:
         documents.extend(
             __search_elastic_search(query, user_email, settings, page_start)

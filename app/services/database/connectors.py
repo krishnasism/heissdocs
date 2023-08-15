@@ -6,6 +6,10 @@ import pymongo
 from .databases import Databases
 from settings.config import get_settings, override_settings
 from settings.override_config import get_override_settings
+import tempfile
+import google.cloud.firestore as firestore
+from azure.cosmos import CosmosClient
+import os
 
 
 class DatabaseConnection:
@@ -20,6 +24,10 @@ class DatabaseConnection:
                 self.__connect_to_mongodb()
             case Databases.aws.value:
                 self.__connect_to_aws_dynamodb()
+            case Databases.gcp.value:
+                self.__connect_to_gcp_firestore()
+            case Databases.azure.value:
+                self.__connect_to_azure_cosmosdb()
             case _:
                 logging.error("[DatabaseConnection] Undefined")
 
@@ -39,3 +47,30 @@ class DatabaseConnection:
             region_name=self.settings.aws_region,
         )
         self.db_client = session.resource("dynamodb")
+
+    def __connect_to_gcp_firestore(self):
+        """Connect to GCP Firestore"""
+        try:
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(self.settings.gcp_key_file_content.encode())
+                temp_file_path = temp_file.name
+            self.db_client = firestore.Client.from_service_account_json(temp_file_path)
+            self.storage_low_level_client = None
+            temp_file.close()
+            if temp_file_path:
+                os.unlink(temp_file_path)
+        except Exception as e:
+            logging.error(f"[GCP Client] Unable to connect to GCP client")
+            logging.exception(e)
+
+    def __connect_to_azure_cosmosdb(self):
+        """
+        Connect to Azure CosmosDB
+        """
+        try:
+            self.db_client = CosmosClient(
+                self.settings.cosmos_db_host, self.settings.cosmos_db_key
+            )
+        except Exception as e:
+            logging.error(f"[Azure CosmosDB] Unable to connect to Azure CosmosDB")
+            logging.exception(e)
