@@ -35,7 +35,6 @@ settings_table = sa.Table(
     sa.Column("hugging_face_api_key", String),
     sa.Column("cloud_provider", String),
     sa.Column("azure_blob_connection_string", String),
-    sa.Column("azure_blob_container_name", String),
     sa.Column("cosmos_db_host", String),
     sa.Column("cosmos_db_container", String),
     sa.Column("cosmos_db_database", String),

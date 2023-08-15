@@ -31,7 +31,6 @@ class Settings(BaseModel):
     qdrantCollectionName: Optional[str] = None
     cloudProvider: Optional[str] = None
     azureBlobConnectionString: Optional[str] = None
-    azureBlobContainerName: Optional[str] = None
     cosmosDbHost: Optional[str] = None
     cosmosDbContainer: Optional[str] = None
     cosmosDbDatabase: Optional[str] = None

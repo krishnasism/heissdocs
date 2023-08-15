@@ -392,7 +392,6 @@ export default {
             qdrantCollectionName: "",
             cloudProvider: "aws",
             azureBlobConnectionString: "",
-            azureBlobContainerName: "",
             cosmosDbHost: "",
             cosmosDbContainer: "",
             cosmosDbDatabase: "",
@@ -528,7 +527,6 @@ export default {
                 'cloudProvider': this.cloudProvider,
                 'gcpKeyFileContent': this.gcpKeyFileContent,
                 'azureBlobConnectionString': this.azureBlobConnectionString,
-                'azureBlobContainerName': this.azureBlobContainerName,
                 'cosmosDbHost': this.cosmosDbHost,
                 'cosmosDbContainer': this.cosmosDbContainer,
                 'cosmosDbDatabase': this.cosmosDbDatabase,
@@ -563,7 +561,6 @@ export default {
                 this.qdrantCollectionName = this.settings.qdrantCollectionName
                 this.cloudProvider = this.settings.cloudProvider
                 this.azureBlobConnectionString = this.settings.azureBlobConnectionString
-                this.azureBlobContainerName = this.settings.azureBlobContainerName
                 this.cosmosDbHost = this.settings.cosmosDbHost
                 this.cosmosDbContainer = this.settings.cosmosDbContainer
                 this.cosmosDbDatabase = this.settings.cosmosDbDatabase

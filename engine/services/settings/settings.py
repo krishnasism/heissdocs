@@ -68,7 +68,6 @@ class Settings:
         self.qdrant_collection_name = settings.get("qdrantCollectionName")
         self.cloud_provider = settings.get("cloudProvider")
         self.azure_blob_connection_string = settings.get("azureBlobConnectionString")
-        self.azure_blob_container_name = settings.get("azureBlobContainerName")
         self.cosmos_db_host = settings.get("cosmosDbHost")
         self.cosmos_db_container = settings.get("cosmosDbContainer")
         self.cosmos_db_container = settings.get("cosmosDbDatabase")

@@ -46,7 +46,6 @@ class Settings(BaseSettings):
     qdrant_port: int
     qdrant_collection_name: str
     azure_blob_connection_string: str
-    azure_blob_container_name: str
     cosmos_db_host: str
     cosmos_db_container: str
     cosmos_db_database: str

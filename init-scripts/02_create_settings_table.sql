@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS settings (
 	qdrant_collection_name VARCHAR,
 	cloud_provider VARCHAR,
 	azure_blob_connection_string VARCHAR,
-	azure_blob_container_name VARCHAR,
 	cosmos_db_host VARCHAR,
 	cosmos_db_container VARCHAR,
 	cosmos_db_database VARCHAR,
