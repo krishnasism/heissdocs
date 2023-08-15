@@ -4,6 +4,7 @@ from settings.override_config import get_override_settings
 import logging
 import boto3
 from google.cloud import storage
+from azure.storage.blob import BlobServiceClient
 import tempfile
 import os
 
@@ -53,4 +54,10 @@ class StorageConnection:
             logging.exception(e)
 
     def __connect_to_az(self):
-        pass
+        try:
+            self.storage_client = BlobServiceClient.from_connection_string(
+                self.settings.azure_blob_connection_string
+            )
+        except Exception as e:
+            logging.error(f"[Azure Client] Unable to connect to Azure client")
+            logging.exception(e)

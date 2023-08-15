@@ -127,7 +127,8 @@
         "azureBlobConnectionStringTip": "Bitte geben Sie Ihren Azure Blob Connection String ein. Sie können ihn in Ihrem Azure-Konto finden. <b>Achtung</b>: Bei der Verwendung von Azure Blob Storage werden Ihre Daten zur Verarbeitung an deren Server gesendet.",
         "azureBlobContainerName": "Azure Blob Container Name",
         "azureBlobContainerNamePlaceholder": "Geben Sie Ihren Azure Blob Container Name ein",
-        "azureBlobContainerNameTip": "Bitte geben Sie Ihren Azure Blob Container Name ein. Sie können ihn in Ihrem Azure-Konto finden. <b>Achtung</b>: Bei der Verwendung von Azure Blob Storage werden Ihre Daten zur Verarbeitung an deren Server gesendet."
+        "azureBlobContainerNameTip": "Bitte geben Sie Ihren Azure Blob Container Name ein. Sie können ihn in Ihrem Azure-Konto finden. <b>Achtung</b>: Bei der Verwendung von Azure Blob Storage werden Ihre Daten zur Verarbeitung an deren Server gesendet.",
+        "gcpKeyFileExists": "GCP Key File Exists"
     },
     "errors": {
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",

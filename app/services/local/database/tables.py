@@ -38,6 +38,7 @@ settings_table = sa.Table(
     sa.Column("azure_blob_container_name", String),
     sa.Column("cosmos_db_host", String),
     sa.Column("cosmos_db_container", String),
+    sa.Column("cosmos_db_database", String),
     sa.Column("cosmos_db_key", String),
     sa.Column("gcp_key_file_content", String),
 )

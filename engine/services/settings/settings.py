@@ -73,6 +73,7 @@ class Settings:
         self.cosmos_db_container = settings.get("cosmosDbContainer")
         self.cosmos_db_container = settings.get("cosmosDbDatabase")
         self.cosmos_db_key = settings.get("cosmosDbKey")
+        self.cosmos_db_database = settings.get("cosmosDbDatabase")
         self.gcp_key_file_content = settings.get("gcpKeyFileContent")
 
     @classmethod

@@ -2,7 +2,7 @@ from .connectors import StorageConnection
 from .storage_providers import StorageProviders
 from services.settings.settings import Settings
 import logging
-
+from azure.storage.blob import ContentSettings
 
 def upload_file_to_bucket(filestream, filename_str: str, bucket=None) -> bool:
     """
@@ -27,7 +27,26 @@ def upload_file_to_bucket(filestream, filename_str: str, bucket=None) -> bool:
 
 
 def upload_file_to_az_blob(filestream, filename: str, bucket=None) -> bool:
-    """Unimplemented"""
+    """
+    Upload file to Azure blob
+    params: filestream: File stream (BufferedReader)
+    params: filename: File name
+    params: bucket: Bucket name [Actually container name but whatever]
+    return: bool: True if file uploaded successfully, False otherwise
+    """
+    storage_connection = StorageConnection(StorageProviders.azure.value)
+    azure_storage_client = storage_connection.storage_client
+    try:
+        container_client = azure_storage_client.get_container_client(bucket)
+        blob_client = container_client.get_blob_client(filename)
+        content_settings = ContentSettings(content_type='application/pdf')
+        blob_client.upload_blob(filestream, content_settings=content_settings)
+        return True
+    except Exception as e:
+        logging.error(
+            f"[Azure File Upload] Unable to upload file to container: {bucket}, file: {filename}"
+        )
+        logging.exception(e)
     return False
 
 

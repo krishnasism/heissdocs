@@ -7,6 +7,7 @@ from .databases import Databases
 from services.settings.settings import Settings
 import tempfile
 import google.cloud.firestore as firestore
+from azure.cosmos import CosmosClient
 import os
 
 
@@ -22,6 +23,8 @@ class DatabaseConnection:
                 self.__connect_to_aws()
             case Databases.gcp.value:
                 self.__connect_to_gcp()
+            case Databases.azure.value:
+                self.__connect_to_azure()
             case _:
                 logging.error(f"[DatabaseConnection] Undefined. Db provider: {db_name}")
 
@@ -61,4 +64,13 @@ class DatabaseConnection:
                 os.unlink(temp_file_path)
         except Exception as e:
             logging.error(f"[GCP Client] Unable to connect to GCP client")
+            logging.exception(e)
+
+    def __connect_to_azure(self):
+        try:
+            self.db_client = CosmosClient(
+                self._settings.cosmos_db_host, self._settings.cosmos_db_key
+            )
+        except Exception as e:
+            logging.error(f"[Azure CosmosDB] Unable to connect to Azure client")
             logging.exception(e)

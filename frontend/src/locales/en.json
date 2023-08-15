@@ -160,7 +160,8 @@
         "cosmosDbDatabaseTip": "Please enter the name of the Cosmos DB database you would like to use to store your documents. Example: heissdocs",
         "cosmosDbContainerTip": "Please enter the name of the Cosmos DB container you would like to use to store your documents. Example: documents",
         "cosmosDbKeyTip": "Please enter the key for autenticating with your remote Cosmos DB instance. Example: password",
-        "cloudProviderTip": "Please select the cloud provider you would like to use to store your documents. Example: AWS" 
+        "cloudProviderTip": "Please select the cloud provider you would like to use to store your documents. Example: AWS",
+        "gcpKeyFileExists": "GCP Key File Exists"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

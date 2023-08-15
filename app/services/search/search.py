@@ -9,6 +9,7 @@ from services.elasticsearch.elasticsearch_client import ElasticSearchClient
 from pymongo.collection import Collection
 from pymongo import TEXT
 from google.cloud.firestore import FieldFilter
+from azure.cosmos import CosmosClient
 
 DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
 SEARCH_KEY = "pdf_body"
@@ -134,6 +135,32 @@ def __search_document_db_gcp_firestore(query: str, user_email: str, settings: Se
     return results
 
 
+def __search_document_db_azure_cosmosdb(
+    query: str, user_email: str, settings: Settings
+):
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
+    cosmosdb = db_connection.db_client
+    database = cosmosdb.get_database_client(settings.cosmos_db_database)
+    container = database.get_container_client(settings.document_table_name)
+    query = query.replace(" ", "\n")
+    query_string = f"""
+        SELECT *
+        FROM {settings.document_table_name} c
+        WHERE CONTAINS(c.{SEARCH_KEY}, "{query}")
+    """
+    try:
+        documents = container.query_items(
+            query=query_string,
+            enable_cross_partition_query=True,
+        )
+        results = [doc for doc in documents]
+    except Exception as e:
+        logging.error(f"[Azure CosmosDB] Error: {str(e)}")
+        logging.exception(e)
+        return []
+    return results
+
+
 def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     Get PDF by query from ElasticSearch and/or Document DB
@@ -156,6 +183,10 @@ def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
                 )
             case Databases.gcp.value:
                 response_documents = __search_document_db_gcp_firestore(
+                    query, user_email, settings
+                )
+            case Databases.azure.value:
+                response_documents = __search_document_db_azure_cosmosdb(
                     query, user_email, settings
                 )
             case _:

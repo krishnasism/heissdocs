@@ -49,6 +49,7 @@ class Settings(BaseSettings):
     azure_blob_container_name: str
     cosmos_db_host: str
     cosmos_db_container: str
+    cosmos_db_database: str
     cosmos_db_key: str
     gcp_key_file_content: Optional[str] = None
 

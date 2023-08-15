@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS settings (
 	azure_blob_container_name VARCHAR,
 	cosmos_db_host VARCHAR,
 	cosmos_db_container VARCHAR,
+	cosmos_db_database VARCHAR,
 	cosmos_db_key VARCHAR,
 	gcp_key_file_content VARCHAR
 )

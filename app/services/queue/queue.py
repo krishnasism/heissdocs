@@ -12,6 +12,7 @@ from enums.QueueMessages import QueueMessageTypes
 from services.storage.storage_ops import (
     get_s3_presigned_url,
     get_gcp_signed_url,
+    get_azure_sas_link,
     load_file_from_presigned_url,
 )
 from tempfile import NamedTemporaryFile
@@ -50,30 +51,14 @@ async def prepare_cloud_job(
             logging.error("[Storage Connection] Undefined")
 
 
-async def prepare_azure_job(
-    bucket_name: str, key_name: str, user_email: str, viewer_bucket_name: str
-) -> str:
-    return None
-
-
-async def prepare_gcp_job(
-    bucket_name: str, key_name: str, user_email: str, viewer_bucket_name: str
-) -> str:
-    """
-    Prepare job for reading file from s3 bucket and send job to parsing queue
-    params: bucket_name: S3 bucket name
-    params: key_name: S3 key name (file name)
-    params: user_email: User email
-    params: viewer_bucket_name: Viewer bucket name (where the parsed file will be uploaded)
-    return: str: Document name in viewer bucket
-    """
-    document_id = str(uuid4())
-    blob_file_name = document_id + ".pdf"
-    file_to_parse_url = get_gcp_signed_url(
-        bucket_name=bucket_name,
-        blob_name=key_name,
-        user_email=user_email,
-    )
+async def process_file_url(
+    document_id,
+    file_to_parse_url,
+    destination_bucket_name,
+    user_email,
+    original_file_name,
+    blob_file_name,
+):
     params = {}
     file_to_parse = await load_file_from_presigned_url(file_to_parse_url)
     try:
@@ -91,18 +76,66 @@ async def prepare_gcp_job(
 
         params["chunk_file_name"] = chunk_file_name
         params["temp_bucket_name"] = TEMP_BUCKET_NAME
-        params["original_file_name"] = key_name
+        params["original_file_name"] = original_file_name
         params["user_email"] = user_email
         params["message_type"] = QueueMessageTypes.PARSING.value
         params["document_unique_id"] = blob_file_name
         params["total_pages"] = total_pages
-        params["bucket_name"] = viewer_bucket_name
+        params["bucket_name"] = destination_bucket_name
 
         send_queue_message(json.dumps(params))
         return blob_file_name
     except Exception as e:
         logging.error(f"An error occurred: {e}")
     return None
+
+
+async def prepare_azure_job(
+    bucket_name: str, key_name: str, user_email: str, viewer_bucket_name: str
+) -> str:
+    document_id = str(uuid4())
+    blob_file_name = document_id + ".pdf"
+    file_to_parse_url = get_azure_sas_link(
+        bucket_name=bucket_name,
+        blob_name=key_name,
+        user_email=user_email,
+    )
+    return await process_file_url(
+        document_id,
+        file_to_parse_url,
+        viewer_bucket_name,
+        user_email,
+        key_name,
+        blob_file_name,
+    )
+
+
+async def prepare_gcp_job(
+    bucket_name: str, key_name: str, user_email: str, viewer_bucket_name: str
+) -> str:
+    """
+    Prepare job for reading file from s3 bucket and send job to parsing queue
+    params: bucket_name: bucket name
+    params: key_name: key name (file name)
+    params: user_email: User email
+    params: viewer_bucket_name: Viewer bucket name (where the parsed file will be uploaded)
+    return: str: Document name in viewer bucket
+    """
+    document_id = str(uuid4())
+    blob_file_name = document_id + ".pdf"
+    file_to_parse_url = get_gcp_signed_url(
+        bucket_name=bucket_name,
+        blob_name=key_name,
+        user_email=user_email,
+    )
+    return await process_file_url(
+        document_id,
+        file_to_parse_url,
+        viewer_bucket_name,
+        user_email,
+        key_name,
+        blob_file_name,
+    )
 
 
 async def prepare_s3_job(
@@ -123,35 +156,14 @@ async def prepare_s3_job(
         blob_name=key_name,
         user_email=user_email,
     )
-    params = {}
-    file_to_parse = await load_file_from_presigned_url(file_to_parse_url)
-    try:
-        with NamedTemporaryFile(delete=True) as temp_file:
-            temp_file.write(file_to_parse)
-            temp_file.flush()
-            chunks, total_pages = split_pdf_into_chunks(temp_file.name, 50)
-            for i in range(0, len(chunks)):
-                chunk_file_name = f"{document_id}_part{i}.pdf"
-                res = upload_file_to_temp_s3_bucket(chunks[i], chunk_file_name)
-                if res:
-                    logging.info(
-                        f"[Prepare Job S3] File part {i} uploaded to temp bucket"
-                    )
-
-        params["chunk_file_name"] = chunk_file_name
-        params["temp_bucket_name"] = TEMP_BUCKET_NAME
-        params["original_file_name"] = key_name
-        params["user_email"] = user_email
-        params["message_type"] = QueueMessageTypes.PARSING.value
-        params["document_unique_id"] = blob_file_name
-        params["total_pages"] = total_pages
-        params["bucket_name"] = viewer_bucket_name
-
-        send_queue_message(json.dumps(params))
-        return blob_file_name
-    except Exception as e:
-        logging.error(f"An error occurred: {e}")
-    return None
+    return await process_file_url(
+        document_id,
+        file_to_parse_url,
+        viewer_bucket_name,
+        user_email,
+        key_name,
+        blob_file_name,
+    )
 
 
 def prepare_job(file: UploadFile, params: dict) -> dict:

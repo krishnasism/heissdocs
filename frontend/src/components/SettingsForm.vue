@@ -88,13 +88,13 @@
                             v-model="azureBlobConnectionString">
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="azureBlobContainerName"
+                        <label for="bucketsList"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.azureBlobContainerName') }}</label>
-                        <input type="text" name="azureBlobContainerName" id="azureBlobContainerName"
-                            @focus="showTip('azureBlobContainerName')"
+                        <input type="text" name="bucketsList" id="bucketsList"
+                            @focus="showTip('dest')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            :placeholder="$t('labels.azureBlobContainerNamePlaceholder')" v-model="azureBlobContainerName">
+                            :placeholder="$t('labels.azureBlobContainerNamePlaceholder')" v-model="bucketsList">
                     </div>
                 </div>
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6" id="gcp-options" v-if="cloudProvider === 'gcp'">
@@ -105,8 +105,9 @@
                             <input
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                 id="gcpkeyfile" type="file" accept=".json" @change="gcpKeyFileChanged">
-                            <svg v-if="settings.gcpKeyFileContent" class="w-6 h-6 text-green-500 dark:text-white mt-2 ml-2" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <svg v-if="settings.gcpKeyFileContent" class="w-6 h-6 text-green-500 dark:text-white mt-2 ml-2"
+                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                <title>{{ $t('labels.gcpKeyFileExists') }}</title>
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 5h8m-1-3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1m6 0v3H6V2m6 0h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m0 9.464 2.025 1.965L12 9.571" />
                             </svg>
@@ -137,10 +138,10 @@
                         <select v-model="noSqlProvider" id="noSqlProvider" @focus="showTip('noSqlProvider')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected value="default">{{ $t('labels.noSqlEngineHostDropdown') }}</option>
-                            <option value="aws">DynamoDB (AWS)</option>
-                            <option value="gcp">Firestore (GCP)</option>
+                            <option v-if="cloudProvider == 'aws'" value="aws">DynamoDB (AWS)</option>
+                            <option v-if="cloudProvider == 'gcp'" value="gcp">Firestore (GCP)</option>
                             <option value="mongodb">MongoDB</option>
-                            <option value="azure">CosmosDB (Azure)</option>
+                            <option v-if="cloudProvider == 'azure'" value="azure">CosmosDB (Azure)</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2" v-if="noSqlProvider != 'azure'">
@@ -199,13 +200,11 @@
                                 :placeholder="$t('labels.cosmosDbHostPlaceholder')" v-model="cosmosDbHost">
                         </div>
                         <div class="sm:col-span-2 mb-5">
-                            <label for="cosmosDbDatabase"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $t('labels.cosmosDbDatabase') }}</label>
-                            <input type="text" name="cosmosDbDatabase" id="cosmosDbDatabase"
-                                @focus="showTip('cosmosDbDatabase')"
+                            <label for="cosmosDbKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ $t('labels.cosmosDbKey') }}</label>
+                            <input type="password" name="cosmosDbKey" id="cosmosDbKey" @focus="showTip('cosmosDbKey')"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                :placeholder="$t('labels.cosmosDbDatabasePlaceholder')" v-model="cosmosDbDatabase">
+                                :placeholder="$t('labels.cosmosDbKeyPlaceholder')" v-model="cosmosDbKey">
                         </div>
                         <div class="sm:col-span-2 mb-5">
                             <label for="cosmosDbContainer"
@@ -217,11 +216,13 @@
                                 :placeholder="$t('labels.cosmosDbContainerPlaceholder')" v-model="cosmosDbContainer">
                         </div>
                         <div class="sm:col-span-2 mb-5">
-                            <label for="cosmosDbKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $t('labels.cosmosDbKey') }}</label>
-                            <input type="password" name="cosmosDbKey" id="cosmosDbKey" @focus="showTip('cosmosDbKey')"
+                            <label for="cosmosDbDatabase"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ $t('labels.cosmosDbDatabase') }}</label>
+                            <input type="text" name="cosmosDbDatabase" id="cosmosDbDatabase"
+                                @focus="showTip('cosmosDbDatabase')"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                :placeholder="$t('labels.cosmosDbKeyPlaceholder')" v-model="cosmosDbKey">
+                                :placeholder="$t('labels.cosmosDbDatabasePlaceholder')" v-model="cosmosDbDatabase">
                         </div>
                     </div>
                 </div>
@@ -393,8 +394,8 @@ export default {
             azureBlobConnectionString: "",
             azureBlobContainerName: "",
             cosmosDbHost: "",
-            cosmosDbDatabase: "",
             cosmosDbContainer: "",
+            cosmosDbDatabase: "",
             cosmosDbKey: "",
             gcpKeyFileContent: null,
             tipMap: {
@@ -525,7 +526,13 @@ export default {
                 'qdrantApiKey': this.qdrantApiKey,
                 'qdrantCollectionName': this.qdrantCollectionName,
                 'cloudProvider': this.cloudProvider,
-                'gcpKeyFileContent': this.gcpKeyFileContent
+                'gcpKeyFileContent': this.gcpKeyFileContent,
+                'azureBlobConnectionString': this.azureBlobConnectionString,
+                'azureBlobContainerName': this.azureBlobContainerName,
+                'cosmosDbHost': this.cosmosDbHost,
+                'cosmosDbContainer': this.cosmosDbContainer,
+                'cosmosDbDatabase': this.cosmosDbDatabase,
+                'cosmosDbKey': this.cosmosDbKey,
             }
             this.$emit('submit', settings);
         },
@@ -555,6 +562,12 @@ export default {
                 this.qdrantApiKey = this.settings.qdrantApiKey
                 this.qdrantCollectionName = this.settings.qdrantCollectionName
                 this.cloudProvider = this.settings.cloudProvider
+                this.azureBlobConnectionString = this.settings.azureBlobConnectionString
+                this.azureBlobContainerName = this.settings.azureBlobContainerName
+                this.cosmosDbHost = this.settings.cosmosDbHost
+                this.cosmosDbContainer = this.settings.cosmosDbContainer
+                this.cosmosDbDatabase = this.settings.cosmosDbDatabase
+                this.cosmosDbKey = this.settings.cosmosDbKey
             }
         },
         overrideElasticLocalSettings() {

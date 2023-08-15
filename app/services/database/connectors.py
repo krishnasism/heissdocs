@@ -8,6 +8,7 @@ from settings.config import get_settings, override_settings
 from settings.override_config import get_override_settings
 import tempfile
 import google.cloud.firestore as firestore
+from azure.cosmos import CosmosClient
 import os
 
 
@@ -25,6 +26,8 @@ class DatabaseConnection:
                 self.__connect_to_aws_dynamodb()
             case Databases.gcp.value:
                 self.__connect_to_gcp_firestore()
+            case Databases.azure.value:
+                self.__connect_to_azure_cosmosdb()
             case _:
                 logging.error("[DatabaseConnection] Undefined")
 
@@ -58,4 +61,16 @@ class DatabaseConnection:
                 os.unlink(temp_file_path)
         except Exception as e:
             logging.error(f"[GCP Client] Unable to connect to GCP client")
+            logging.exception(e)
+
+    def __connect_to_azure_cosmosdb(self):
+        """
+        Connect to Azure CosmosDB
+        """
+        try:
+            self.db_client = CosmosClient(
+                self.settings.cosmos_db_host, self.settings.cosmos_db_key
+            )
+        except Exception as e:
+            logging.error(f"[Azure CosmosDB] Unable to connect to Azure CosmosDB")
             logging.exception(e)

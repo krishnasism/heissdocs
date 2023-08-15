@@ -39,6 +39,13 @@ def put_pdf_to_document_db(pdf_body: dict, file_metadata: dict) -> None:
                 file_metadata,
                 table_name=_settings.document_table_name,
             )
+        case Databases.azure.value:
+            return __put_pdf_body_azure(
+                database_connection.db_client,
+                pdf_body,
+                file_metadata,
+                table_name=_settings.document_table_name,
+            )
         case _:
             logging.error(
                 f"[DB Ops - Document DB] Undefined provider. Provider: {configured_db}"
@@ -94,6 +101,9 @@ def __put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name
 
 
 def __put_pdf_body_gcp(firestore, pdfbody, metadata, table_name):
+    """
+    Put PDF body to GCP Firestore
+    """
     try:
         collection_ref = firestore.collection(table_name)
 
@@ -115,5 +125,32 @@ def __put_pdf_body_gcp(firestore, pdfbody, metadata, table_name):
         )
         logging.exception(e)
         return False
+    return True
 
+
+def __put_pdf_body_azure(cosmosdb, pdfbody, metadata, table_name):
+    _settings = Settings.get_settings()
+    """
+    Put PDF body to Azure CosmosDB
+    """
+    try:
+        database = cosmosdb.get_database_client(_settings.cosmos_db_database)
+        container = database.get_container_client(table_name)
+        for page_num, page_data in pdfbody.items():
+            item = {
+                "id": str(uuid4()),
+                "pdf_body": str(page_data),
+                "file_name": metadata.get("filename"),
+                "made_on": str(datetime.utcnow()),
+                "page_num": str(page_num),
+                "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
+                "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+            }
+            container.upsert_item(item)
+    except Exception as e:
+        logging.error(
+            f"[DB Ops - CosmosDB] Unable to put pdf body into {table_name} table"
+        )
+        logging.exception(e)
+        return False
     return True

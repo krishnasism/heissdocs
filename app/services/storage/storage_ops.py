@@ -4,7 +4,7 @@ import logging
 import httpx
 from settings.config import get_settings, override_settings
 from settings.override_config import get_override_settings
-from google.cloud import storage
+from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 import datetime
 
 
@@ -60,7 +60,7 @@ def get_cloud_presigned_url(bucket_name: str, blob_name: str, user_email: str) -
                 bucket_name=bucket_name, blob_name=blob_name, user_email=user_email
             )
         case StorageProviders.azure.value:
-            return get_azure_presigned_url(
+            return get_azure_sas_link(
                 bucket_name=bucket_name, blob_name=blob_name, user_email=user_email
             )
         case StorageProviders.gcp.value:
@@ -71,8 +71,33 @@ def get_cloud_presigned_url(bucket_name: str, blob_name: str, user_email: str) -
             logging.error(f"[Storage Connection] Undefined provider: {cloud_provider}")
 
 
-def get_azure_presigned_url(bucket_name: str, blob_name: str, user_email: str) -> str:
-    return ""
+def get_azure_sas_link(bucket_name: str, blob_name: str, user_email: str) -> str:
+    """
+    Get signed URL for Azure Storage blob
+    params: bucket_name: Bucket name [container name]
+    params: blob_name: Blob name
+    params: expiration_seconds: Expiration time in seconds
+    return: str: Signed URL
+    """
+    storage_connection = StorageConnection(StorageProviders.azure.value, user_email)
+    blob_service_client = storage_connection.storage_client
+    try:
+        container_client = blob_service_client.get_container_client(bucket_name)
+        blob_client = container_client.get_blob_client(blob_name)
+        sas_token = generate_blob_sas(
+            account_name=blob_service_client.account_name,
+            container_name=bucket_name,
+            blob_name=blob_name,
+            account_key=blob_service_client.credential.account_key,
+            permission=BlobSasPermissions(read=True),
+            expiry=datetime.datetime.utcnow() + datetime.timedelta(hours=1),
+        )
+        sas_url = f"{blob_client.url}?{sas_token}"
+        return sas_url
+    except Exception as e:
+        logging.error("[Azure] Error generating signed url")
+        logging.exception(e)
+        return ""
 
 
 def get_s3_presigned_url(bucket_name: str, blob_name: str, user_email: str) -> str:
@@ -112,7 +137,17 @@ def get_all_files(bucket_name: str, user_email: str) -> dict:
 
 
 def get_all_azure_files(bucket_name: str, user_email: str) -> dict:
-    return {"files": [], "error": "Not implemented"}
+    storage_connection = StorageConnection(StorageProviders.azure.value, user_email)
+    blob_service_client = storage_connection.storage_client
+    try:
+        container_client = blob_service_client.get_container_client(bucket_name)
+        blobs = container_client.list_blobs()
+        files_list = [blob.name for blob in blobs]
+        result = {"files": files_list, "error": None}
+        return result
+    except Exception as e:
+        logging.error("[Storage Azure] Something went wrong", str(e))
+        return {"files": None, "error": str(e)}
 
 
 def get_all_gcp_files(bucket_name: str, user_email: str) -> dict:
