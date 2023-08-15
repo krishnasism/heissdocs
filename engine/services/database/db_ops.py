@@ -32,6 +32,13 @@ def put_pdf_to_document_db(pdf_body: dict, file_metadata: dict) -> None:
                 file_metadata,
                 table_name=_settings.document_table_name,
             )
+        case Databases.gcp.value:
+            return __put_pdf_body_gcp(
+                database_connection.db_client,
+                pdf_body,
+                file_metadata,
+                table_name=_settings.document_table_name,
+            )
         case _:
             logging.error(
                 f"[DB Ops - Document DB] Undefined provider. Provider: {configured_db}"
@@ -83,4 +90,30 @@ def __put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name
     except Exception as e:
         logging.error(f"[DB Ops - MongoDB] Error: {e}")
         return False
+    return True
+
+
+def __put_pdf_body_gcp(firestore, pdfbody, metadata, table_name):
+    try:
+        collection_ref = firestore.collection(table_name)
+
+        for page_num, page_data in pdfbody.items():
+            document_data = {
+                "pdf_body": str(page_data),
+                "file_name": metadata.get("filename"),
+                "made_on": str(datetime.utcnow()),
+                "page_num": str(page_num),
+                "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
+                "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+            }
+            document_ref = collection_ref.document()
+            document_ref.set(document_data)
+
+    except Exception as e:
+        logging.error(
+            f"[DB Ops - Firestore] Unable to put pdf body into {table_name} collection"
+        )
+        logging.exception(e)
+        return False
+
     return True

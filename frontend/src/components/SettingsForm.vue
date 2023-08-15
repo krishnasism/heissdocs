@@ -130,11 +130,10 @@
                         <select v-model="noSqlProvider" id="noSqlProvider" @focus="showTip('noSqlProvider')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected value="default">{{ $t('labels.noSqlEngineHostDropdown') }}</option>
-                            <option value="aws">Amazon Web Services</option>
-                            <option value="gcp">Google Cloud Platform</option>
+                            <option value="aws">DynamoDB (AWS)</option>
+                            <option value="gcp">Firestore (GCP)</option>
                             <option value="mongodb">MongoDB</option>
-                            <option value="azure">Microsoft Azure</option>
-                            <option value="other">Other [Unsupported]</option>
+                            <option value="azure">CosmosDB (Azure)</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2" v-if="noSqlProvider != 'azure'">

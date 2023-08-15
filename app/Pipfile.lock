@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7085e941bba7ab846be1386d8c128af496a12dcce238e141723e170272d69a62"
+            "sha256": "c5a242d234abf517741e1904d2008965203b779ff3ab133e8fb486b6ce446d5f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -475,6 +475,9 @@
             "version": "==1.4.0"
         },
         "google-api-core": {
+            "extras": [
+                "grpc"
+            ],
             "hashes": [
                 "sha256:25d29e05a0058ed5f19c61c0a78b1b53adea4d9364b464d014fbda941f6d1c9a",
                 "sha256:d92a5a92dc36dd4f4b9ee4e55528a90e432b059f93aee6ad857f9de8cc7ae94a"
@@ -497,6 +500,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.3.3"
+        },
+        "google-cloud-firestore": {
+            "hashes": [
+                "sha256:7f7dfa86567c8d66c66c8dba8bc5ef85677c8532b4206055a339413f8071525d",
+                "sha256:833019175b6c82727da71e2db2fdea9bf203d0b8239c696492f7e2b24566bb3e"
+            ],
+            "index": "pypi",
+            "version": "==2.11.1"
         },
         "google-cloud-storage": {
             "hashes": [
@@ -711,6 +722,13 @@
                 "sha256:fee387d2fab144e8a34e0e9c5ca0f45c9376b99de45628265cfa9886b1dbe62b"
             ],
             "markers": "python_version >= '3.7'",
+            "version": "==1.57.0"
+        },
+        "grpcio-status": {
+            "hashes": [
+                "sha256:15d6af055914ebbc4ed17e55ebfb8e6bb17a45a57fea32e6af19978fb7844690",
+                "sha256:b098da99df1eebe58337f8f78e50df990273ccacc1226fddeb47c590e3df9e02"
+            ],
             "version": "==1.57.0"
         },
         "grpcio-tools": {
@@ -1123,6 +1141,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==2.7.0"
+        },
+        "proto-plus": {
+            "hashes": [
+                "sha256:a49cd903bc0b6ab41f76bf65510439d56ca76f868adf0274e738bfdd096894df",
+                "sha256:fdcd09713cbd42480740d2fe29c990f7fbd885a67efc328aa8be6ee3e9f76a6b"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==1.22.3"
         },
         "protobuf": {
             "hashes": [
@@ -1733,11 +1759,11 @@
         },
         "tenacity": {
             "hashes": [
-                "sha256:2f277afb21b851637e8f52e6a613ff08734c347dc19ade928e519d7d2d8569b0",
-                "sha256:43af037822bd0029025877f3b2d97cc4d7bb0c2991000a3d59d71517c5c969e0"
+                "sha256:5398ef0d78e63f40007c1fb4c0bff96e1911394d2fa8d194f77619c05ff6cc8a",
+                "sha256:ce510e327a630c9e1beaf17d42e6ffacc88185044ad85cf74c0a8887c6a0f88c"
             ],
-            "markers": "python_version >= '3.6'",
-            "version": "==8.2.2"
+            "markers": "python_version >= '3.7'",
+            "version": "==8.2.3"
         },
         "threadpoolctl": {
             "hashes": [

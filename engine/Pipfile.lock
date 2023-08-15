@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2d32b29b85cdc81d449aff89b523a3da0d9dd045fccfe7f3a2519fa7be8509c3"
+            "sha256": "f68a185f8a6b5b45b3def4ab44bb64ef36431be155bd5569783dde7f83cf732e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -283,7 +283,7 @@
                 "sha256:57c6fbaaeaaf39c891292012060beb141791735dbb4004798328fc2c467402d8",
                 "sha256:8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984"
             ],
-            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "markers": "python_version >= '3.8' and python_version < '4'",
             "version": "==2.4.2"
         },
         "elastic-transport": {
@@ -370,6 +370,9 @@
             "version": "==1.4.0"
         },
         "google-api-core": {
+            "extras": [
+                "grpc"
+            ],
             "hashes": [
                 "sha256:25d29e05a0058ed5f19c61c0a78b1b53adea4d9364b464d014fbda941f6d1c9a",
                 "sha256:d92a5a92dc36dd4f4b9ee4e55528a90e432b059f93aee6ad857f9de8cc7ae94a"
@@ -392,6 +395,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.3.3"
+        },
+        "google-cloud-firestore": {
+            "hashes": [
+                "sha256:7f7dfa86567c8d66c66c8dba8bc5ef85677c8532b4206055a339413f8071525d",
+                "sha256:833019175b6c82727da71e2db2fdea9bf203d0b8239c696492f7e2b24566bb3e"
+            ],
+            "index": "pypi",
+            "version": "==2.11.1"
         },
         "google-cloud-storage": {
             "hashes": [
@@ -608,6 +619,13 @@
             "markers": "python_version >= '3.7'",
             "version": "==1.57.0"
         },
+        "grpcio-status": {
+            "hashes": [
+                "sha256:15d6af055914ebbc4ed17e55ebfb8e6bb17a45a57fea32e6af19978fb7844690",
+                "sha256:b098da99df1eebe58337f8f78e50df990273ccacc1226fddeb47c590e3df9e02"
+            ],
+            "version": "==1.57.0"
+        },
         "grpcio-tools": {
             "hashes": [
                 "sha256:02d78c034109f46032c7217260066d49d41e6bcaf588fa28fa40fe2f83445347",
@@ -743,7 +761,7 @@
                 "sha256:1bc94a2e5bfa355ca15d9e658c2c2d04c8cc45c61892a1be08a7c3b40f2fd3f4",
                 "sha256:5726c7841294db2a9e5863e20718878d16e28722bdaf3169a278ff3bda2f0be7"
             ],
-            "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
+            "markers": "python_version < '4' and python_full_version >= '3.8.1'",
             "version": "==0.0.22"
         },
         "marshmallow": {
@@ -1018,6 +1036,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==2.7.0"
+        },
+        "proto-plus": {
+            "hashes": [
+                "sha256:a49cd903bc0b6ab41f76bf65510439d56ca76f868adf0274e738bfdd096894df",
+                "sha256:fdcd09713cbd42480740d2fe29c990f7fbd885a67efc328aa8be6ee3e9f76a6b"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==1.22.3"
         },
         "protobuf": {
             "hashes": [
@@ -1457,7 +1483,7 @@
                 "sha256:90260d9058e514786967344d0ef75fa8727eed8a7d2e43ce9f4bcf1b536174f7",
                 "sha256:e38464a49c6c85d7f1351b0126661487a7e0a14a50f1675ec50eb34d4f20ef21"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4.0'",
+            "markers": "python_version >= '3.6' and python_version < '4'",
             "version": "==4.9"
         },
         "s3transfer": {
@@ -1593,11 +1619,11 @@
         },
         "tenacity": {
             "hashes": [
-                "sha256:2f277afb21b851637e8f52e6a613ff08734c347dc19ade928e519d7d2d8569b0",
-                "sha256:43af037822bd0029025877f3b2d97cc4d7bb0c2991000a3d59d71517c5c969e0"
+                "sha256:5398ef0d78e63f40007c1fb4c0bff96e1911394d2fa8d194f77619c05ff6cc8a",
+                "sha256:ce510e327a630c9e1beaf17d42e6ffacc88185044ad85cf74c0a8887c6a0f88c"
             ],
-            "markers": "python_version >= '3.6'",
-            "version": "==8.2.2"
+            "markers": "python_version >= '3.7'",
+            "version": "==8.2.3"
         },
         "threadpoolctl": {
             "hashes": [

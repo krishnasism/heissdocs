@@ -8,7 +8,7 @@ from settings.config import Settings
 from services.elasticsearch.elasticsearch_client import ElasticSearchClient
 from pymongo.collection import Collection
 from pymongo import TEXT
-
+from google.cloud.firestore import FieldFilter
 
 DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
 SEARCH_KEY = "pdf_body"
@@ -114,6 +114,26 @@ def __search_document_db_aws(query: str, user_email: str, settings: Settings) ->
     return documents
 
 
+def __search_document_db_gcp_firestore(query: str, user_email: str, settings: Settings):
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
+    firestore = db_connection.db_client
+    try:
+        collection_name = settings.document_table_name
+        collection_ref = firestore.collection(collection_name)
+
+        query_obj = collection_ref.where(
+            filter=FieldFilter(SEARCH_KEY, ">=", query)
+        ).where(filter=FieldFilter(SEARCH_KEY, "<=", query + "\uf8ff"))
+        query_obj = query_obj.select(DOCUMENT_TABLE_KEYS.split(","))
+        documents = query_obj.stream()
+        results = [doc.to_dict() for doc in documents]
+    except Exception as e:
+        logging.error(f"[GCP Firestore] Error: {str(e)}")
+        logging.exception(e)
+        return []
+    return results
+
+
 def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     Get PDF by query from ElasticSearch and/or Document DB
@@ -123,16 +143,25 @@ def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     settings = override_settings(get_settings(), get_override_settings(user_email))
     documents: list = []
+    response_documents: list = []
     if settings.search_document_db:
         match settings.no_sql_provider:
             case Databases.aws.value:
-                documents.extend(__search_document_db_aws(query, user_email, settings))
+                response_documents = __search_document_db_aws(
+                    query, user_email, settings
+                )
             case Databases.mongodb.value:
-                documents.extend(
-                    __search_document_db_mongodb(query, user_email, settings)
+                response_documents = __search_document_db_mongodb(
+                    query, user_email, settings
+                )
+            case Databases.gcp.value:
+                response_documents = __search_document_db_gcp_firestore(
+                    query, user_email, settings
                 )
             case _:
                 logging.error("[get_pdf_by_query] Undefined document database provider")
+        if response_documents:
+            documents.extend(response_documents)
     if settings.search_elastic_search:
         documents.extend(
             __search_elastic_search(query, user_email, settings, page_start)
