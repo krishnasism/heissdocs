@@ -167,6 +167,8 @@
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",
         "settingsNotSet": "Settings Not Set!",
         "settingsNotSetMessage": "Please configure your settings before proceeding!",
-        "failedToParse": "Failed to Parse"
+        "failedToParse": "Failed to Parse",
+        "parsingFormErrorHeader": "Alert!",
+        "parsingFormErrorMessage": "Please select a parsing outcome"
     }
 }

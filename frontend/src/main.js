@@ -5,7 +5,7 @@ import { createAuth0 } from '@auth0/auth0-vue';
 import i18n from './locales/i18n'
 
 import './assets/tailwind.css'
-
+import './assets/global.css'
 const app = createApp(App);
 app.use(i18n);
 app.use(router);

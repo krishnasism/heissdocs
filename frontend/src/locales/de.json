@@ -134,6 +134,8 @@
         "loadS3Bucket": "S3-Bucket-Objekte konnten nicht geladen werden: ",
         "settingsNotSet": "Einstellungen nicht festgelegt!",
         "settingsNotSetMessage": "Bitte konfigurieren Sie Ihre Einstellungen, bevor Sie fortfahren!",
-        "failedToParse": "Fehler beim Parsen"
+        "failedToParse": "Fehler beim Parsen",
+        "parsingFormErrorHeader": "Achtung!",
+        "parsingFormErrorMessage": "Bitte wählen Sie ein Parsing-Ergebnis"
     }
 }

@@ -4,14 +4,24 @@
     <DangerAlert v-if="settingsNotSet" :alert="settingsNotSetAlert" :message="settingsNotSetMessage"></DangerAlert>
     <SearchInput class="mb-8"></SearchInput>
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
-
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleForceOcr" :label="$t('labels.toggleForceOcr')" :helper="$t('labels.toggleForceOcrHelper')"></CheckBoxWithTipVue>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" :label="$t('labels.storeCloudStorage')" :helper="$t('labels.storeCloudStorageHelper')"></CheckBoxWithTipVue>
-    <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
-    </BucketList>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')" :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')" :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
-    <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleIngestIntoLlm" :label="$t('labels.ingestIntoLlm')" :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
+    <div>
+      <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleForceOcr" :label="$t('labels.toggleForceOcr')"
+        :helper="$t('labels.toggleForceOcrHelper')"></CheckBoxWithTipVue>
+      <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" :label="$t('labels.storeCloudStorage')"
+        :helper="$t('labels.storeCloudStorageHelper')"></CheckBoxWithTipVue>
+      <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
+      </BucketList>
+      <div :class="{ 'shake': parsingFormError }">
+        <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')"
+          :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
+        <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')"
+          :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
+        <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleIngestIntoLlm" :label="$t('labels.ingestIntoLlm')"
+          :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
+      </div>
+    </div>
+    <ErrorAlert class="w-80 mt-4 mb-4" v-if="parsingFormError" :header="$t('errors.parsingFormErrorHeader')"
+      :message="$t('errors.parsingFormErrorMessage')"></ErrorAlert>
     <FileList class="mt-4" v-if="uploadedFileNameList.length > 0" :fileNameList="uploadedFileNameList"
       @deleteFile="deleteFile"></FileList>
     <button type="button" @click="sendFilesForParsing" v-if="uploadedFileNameList.length > 0" :disabled="parsing"
@@ -52,6 +62,7 @@ import SettingsService from "@/services/settings";
 import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 import LoadingCircle from "@/components/LoadingCircle.vue";
+import ErrorAlert from "@/components/ErrorAlert.vue";
 
 export default {
   components: {
@@ -65,6 +76,7 @@ export default {
     BucketList,
     CheckBoxWithTipVue,
     LoadingCircle,
+    ErrorAlert,
   },
   data() {
     return {
@@ -91,6 +103,7 @@ export default {
       storeInDocumentDb: false,
       ingestIntoLlm: false,
       forceOcr: false,
+      parsingFormError: false,
     }
   },
   setup() {
@@ -145,6 +158,13 @@ export default {
       }
     },
     async sendFilesForParsing() {
+      if (!this.storeInElastic && !this.storeInDocumentDb && !this.ingestIntoLlm) {
+        this.parsingFormError = false;
+        setTimeout(() => {
+          this.parsingFormError = true;
+        }, 0);
+        return;
+      }
       await this.settingsService.refreshSettings();
       this.parsing = true;
       for (let i = 0; i < this.fileList.length; i++) {
@@ -192,21 +212,34 @@ export default {
       }
       this.uploadedFileNameList.splice(idx, 1);
       this.fileList.splice(idx, 1);
+      if (this.fileList.length === 0){
+        this.parsingFormError = false;
+      }
     },
     bucketSelected(bucketName) {
       this.bucketName = bucketName;
     },
     toggleStoreInCloud(value) {
       this.storeFilesInCloud = value;
+
     },
     toggleStoreInElastic(value) {
       this.storeInElastic = value;
+      if (value) {
+        this.parsingFormError = false;
+      }
     },
     toggleStoreInDocumentDb(value) {
       this.storeInDocumentDb = value;
+      if (value) {
+        this.parsingFormError = false;
+      }
     },
     toggleIngestIntoLlm(value) {
       this.ingestIntoLlm = value;
+      if (value) {
+        this.parsingFormError = false;
+      }
     },
     toggleForceOcr(value) {
       console.log(value)

@@ -52,6 +52,8 @@ async def upload_pdf(
     authenticated: bool = Depends(verify_token),
 ):
     try:
+        if not (store_in_elastic or store_in_document_db or ingest_into_llm):
+            raise Exception("No parsing outcome selected")
         job_metadata = prepare_job(
             file,
             params={
