@@ -73,6 +73,7 @@ export default {
         this.loading = true;
         this.authService = new AuthService(this.user.email, this.user.sub);
         this.apiToken = await this.authService.getApiToken();
+        this.getLogs();
         this.timer = setInterval(this.getLogs, 10000);
         this.loading = false;
     },
