@@ -96,12 +96,25 @@ async def get_logs(
     user_email: str,
     start_time: str = Query(None, description="Start time in ISO 8601 format"),
     end_time: str = Query(None, description="End time in ISO 8601 format"),
+    page: int = Query(1, description="Page number"),
+    per_page: int = Query(10, description="Logs per page"),
     authenticated: bool = Depends(verify_token),
 ):
     if start_time and end_time:
         start_datetime = datetime.fromisoformat(start_time)
         end_datetime = datetime.fromisoformat(end_time)
-        logs = pm.get_logs_in_time_range(user_email, start_datetime, end_datetime)
+        logs, total_pages = pm.get_logs_in_time_range_paged(
+            user_email, start_datetime, end_datetime, page, per_page
+        )
     else:
-        logs = pm.get_logs(user_email)
-    return JSONResponse(content={"logs": logs}, status_code=200)
+        logs, total_pages = pm.get_logs_paged(user_email, page, per_page)
+    has_previous_page = page > 1
+    has_next_page = page < total_pages
+    return JSONResponse(
+        content={
+            "logs": logs,
+            "has_previous_page": has_previous_page,
+            "has_next_page": has_next_page,
+        },
+        status_code=200,
+    )

@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine, insert, update, and_
+from sqlalchemy import create_engine, insert, update, and_, select, func
+import math
 import logging
 from .database.tables import settings_table, documents_progress_table, logs_table
 import re
@@ -182,7 +183,12 @@ class PostgresManager:
             conn.execute(statement)
             conn.commit()
 
-    def get_logs(self, user_email: str) -> list:
+    def get_logs_paged(
+        self,
+        user_email: str,
+        page: int,
+        per_page: int,
+    ) -> list:
         """
         Get all logs from the database.
         params: None
@@ -191,8 +197,10 @@ class PostgresManager:
         with self.client.connect() as conn:
             result_set = conn.execute(
                 logs_table.select()
-                .where(and_(logs_table.c.user_email == user_email))
+                .where(logs_table.c.user_email == user_email)
                 .order_by(logs_table.c.created_on.desc())
+                .offset((page - 1) * per_page)
+                .limit(per_page)
             )
             result_rows = result_set.all()
             result_rows_safe = []
@@ -202,19 +210,18 @@ class PostgresManager:
                     "%Y-%m-%d %H:%M:%S"
                 )
                 result_rows_safe.append(row_safe)
-            return result_rows_safe
+            total_logs = conn.scalar(select(func.count()).select_from(logs_table))
+            total_pages = math.ceil(total_logs / per_page)
+            return result_rows_safe, total_pages
 
-    def get_logs_in_time_range(
-        self, user_email: str, start_datetime: datetime, end_datetime: datetime
+    def get_logs_in_time_range_paged(
+        self,
+        user_email: str,
+        start_datetime: datetime,
+        end_datetime: datetime,
+        page: int,
+        per_page: int,
     ) -> list:
-        """
-        Get logs from the database within a specified time range.
-        params:
-            user_email (str): The user's email for whom logs are fetched.
-            start_datetime (datetime): Start time of the time range.
-            end_datetime (datetime): End time of the time range.
-        return: list: A list of log dictionaries within the specified time range.
-        """
         with self.client.connect() as conn:
             result_set = conn.execute(
                 logs_table.select()
@@ -225,6 +232,8 @@ class PostgresManager:
                     )
                 )
                 .order_by(logs_table.c.created_on.desc())
+                .offset((page - 1) * per_page)
+                .limit(per_page)
             )
             result_rows = result_set.all()
             result_rows_safe = []
@@ -234,4 +243,16 @@ class PostgresManager:
                     "%Y-%m-%d %H:%M:%S"
                 )
                 result_rows_safe.append(row_safe)
-            return result_rows_safe
+            total_logs = conn.scalar(
+                select(func.count())
+                .select_from(logs_table)
+                .where(
+                    and_(
+                        logs_table.c.user_email == user_email,
+                        logs_table.c.created_on.between(start_datetime, end_datetime),
+                    )
+                )
+            )
+            # Calculate pagination information
+            total_pages = math.ceil(total_logs / per_page)
+            return result_rows_safe, total_pages

@@ -4,6 +4,7 @@ from services.settings.settings import Settings
 import logging
 from azure.storage.blob import ContentSettings
 
+
 def upload_file_to_bucket(filestream, filename_str: str, bucket=None) -> bool:
     """
     Upload file to configured cloud storage
@@ -39,7 +40,7 @@ def upload_file_to_az_blob(filestream, filename: str, bucket=None) -> bool:
     try:
         container_client = azure_storage_client.get_container_client(bucket)
         blob_client = container_client.get_blob_client(filename)
-        content_settings = ContentSettings(content_type='application/pdf')
+        content_settings = ContentSettings(content_type="application/pdf")
         blob_client.upload_blob(filestream, content_settings=content_settings)
         return True
     except Exception as e:

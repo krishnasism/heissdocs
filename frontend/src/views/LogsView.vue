@@ -22,6 +22,26 @@
         </div>
         <div v-if="logs.length == 0">{{ $t('labels.noLogsMessage') }}</div>
         <LogsTable v-else :logs="logs"></LogsTable>
+        <div class="inline-flex mt-2 xs:mt-0">
+            <button v-if="hasPreviousPage" @click="handlePreviousPage"
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 5H1m0 0 4 4M1 5l4-4" />
+                </svg>
+                {{ $t('labels.previousPageButton') }}
+            </button>
+            <button v-if="hasNextPage" @click="handleNextPage"
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                {{ $t('labels.nextPageButton') }}
+                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9" />
+                </svg>
+            </button>
+        </div>
     </div>
 </template>
 <script>
@@ -43,13 +63,16 @@ export default {
             authService: null,
             loading: false,
             selectInterval: "30",
+            currentPage: 1,
+            perPage: 10,
+            hasNextPage: false,
+            hasPreviousPage: false,
         }
     },
     async mounted() {
         this.loading = true;
         this.authService = new AuthService(this.user.email, this.user.sub);
         this.apiToken = await this.authService.getApiToken();
-        this.logs = await this.getLogs();
         this.timer = setInterval(this.getLogs, 10000);
         this.loading = false;
     },
@@ -78,36 +101,49 @@ export default {
         handleIntervalChange() {
             this.getLogs();
         },
+        handleNextPage() {
+            this.currentPage++;
+            this.getLogs();
+        },
+        handlePreviousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.getLogs();
+            }
+        },
         async getLogs() {
             if (this.isAuthenticated) {
                 let url = ""
                 if (this.selectInterval === "-1") {
-                    url = `${this.logsUrl}?user_email=system`;
+                    url = `${this.logsUrl}?user_email=system&page=${this.currentPage}&per_page=${this.perPage}`;
                 } else {
                     const intervalInMinutes = parseInt(this.selectInterval);
                     const endTime = new Date();
                     const startTime = new Date(endTime.getTime() - intervalInMinutes * 60 * 1000);
+
                     url = `${this.logsUrl}?user_email=system&start_time=${encodeURIComponent(
                         startTime.toISOString()
-                    )}&end_time=${encodeURIComponent(endTime.toISOString())}`;
+                    )}&end_time=${encodeURIComponent(endTime.toISOString())}&page=${this.currentPage}&per_page=${this.perPage}`;
                 }
-                fetch(
-                    url,
-                    {
+                try {
+                    const response = await fetch(url, {
                         method: "GET",
                         headers: {
                             Authorization: "Bearer " + this.apiToken,
                             "Content-Type": "application/json; charset=utf-8",
                         },
-                    }
-                )
-                    .then((response) => response.json())
-                    .then((data) => {
-                        this.logs = data.logs;
-                    })
-                    .catch((error) => {
-                        console.error(error);
                     });
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.logs = data.logs;
+                        this.hasNextPage = data.has_next_page;
+                        this.hasPreviousPage = data.has_previous_page;
+                    } else {
+                        console.error("Error fetching logs:", response.status);
+                    }
+                } catch (error) {
+                    console.error("Fetch error:", error);
+                }
             }
         },
     }
