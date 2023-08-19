@@ -19,8 +19,10 @@
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul class="space-y-2 font-medium">
             <li>
-              <RouterLink :to="{ name: 'dashboard' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'dashboard' }" :class="{
+                'bg-gray-100': $route.name === 'dashboard',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg fill="currentColor"
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -35,8 +37,10 @@
               </RouterLink>
             </li>
             <li>
-              <RouterLink :to="{ name: 'settings' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'settings' }" :class="{
+                'bg-gray-100': $route.name === 'settings',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg
                   class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -48,8 +52,10 @@
               </RouterLink>
             </li>
             <li>
-              <RouterLink :to="{ name: 'ask' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'ask' }" :class="{
+                'bg-gray-100': $route.name === 'ask',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg
                   class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -60,8 +66,10 @@
               </RouterLink>
             </li>
             <li>
-              <RouterLink :to="{ name: 'cloud-interface' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'cloud-interface' }" :class="{
+                'bg-gray-100': $route.name === 'cloud-interface',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg
                   class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -73,8 +81,10 @@
               </RouterLink>
             </li>
             <li>
-              <RouterLink :to="{ name: 'progress' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'progress' }" :class="{
+                'bg-gray-100': $route.name === 'progress',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg
                   class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -86,8 +96,10 @@
               </RouterLink>
             </li>
             <li>
-              <RouterLink :to="{ name: 'logs' }"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <RouterLink :to="{ name: 'logs' }" :class="{
+                'bg-gray-100': $route.name === 'logs',
+                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+              }">
                 <svg
                   class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

@@ -3,7 +3,8 @@
         <nav class="bg-white dark:bg-gray-900 fixed w-full z-50 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
             <div class="w-full flex flex-wrap items-center justify-between mx-2 p-4 pr-12">
                 <a href="/" class="flex items-center">
-                    <img src="/public/logo/logo.png" height="20" width="100" alt="heißdocs">
+                    <img src="/public/logo.svg" height="40" width="40" alt="heißdocs">
+                    <p class="text-[#4682a9]">heißdocs</p>
                 </a>
                 <div class="flex md:order-2 mr-0">
                     <a href="https://github.com/krishnasism/heissdocs" target="_blank">
