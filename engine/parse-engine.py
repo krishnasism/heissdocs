@@ -44,7 +44,7 @@ while True:
         try:
             message_body = json.loads(message["Body"])
             if message_body.get("message_type") == QueueMessageTypes.PARSING.value:
-                process_file(message["Body"])
+                _ = process_file(message["Body"])
             elif (
                 message_body.get("message_type")
                 == QueueMessageTypes.SETTINGS_UPDATED.value

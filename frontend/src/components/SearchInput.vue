@@ -90,6 +90,9 @@ export default {
     },
     methods: {
         submitSearch() {
+            if (this.searchText === "") {
+                return;
+            }
             this.$router.push({ path: "/search", query: { search: this.searchText } });
             this.$emit("submit-search", this.searchText);
         },

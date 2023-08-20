@@ -16,10 +16,6 @@
                         </svg>
                     </a>
                     <LanguageSwitcher class="mr-4"></LanguageSwitcher>
-                    <button type="button" @click="logout"
-                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        {{ $t('component.logout') }}
-                    </button>
                 </div>
             </div>
         </nav>
@@ -27,7 +23,6 @@
 </template>
 <script>
 import { RouterLink } from 'vue-router';
-import { useAuth0 } from "@auth0/auth0-vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {
@@ -35,13 +30,6 @@ export default {
         RouterLink, LanguageSwitcher
     },
     setup() {
-        const { logout } = useAuth0();
-
-        return {
-            logout: () => {
-                logout({ logoutParams: { returnTo: window.location.origin } });
-            }
-        };
     }
 };
 

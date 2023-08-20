@@ -1,9 +1,9 @@
 <template>
   <div>
-    <SearchInput class="mb-8" @submit-search="handleSearch"></SearchInput>
+    <SearchInput class="mb-8" submit-search="handleSearch"></SearchInput>
     <LoadingCircle v-if="loading && (documents || !errorMessage)"></LoadingCircle>
     <div v-else>
-      <DocumentsTable :documents="documents" v-if="documents" class="w-full"></DocumentsTable>
+      <DocumentsTable :documents="documents" v-if="documents && documents.length > 0" class="w-full"></DocumentsTable>
       <DangerAlert v-if="errorMessage" alert="Error" :message="errorMessage"></DangerAlert>
       <div class="flex flex-col">
         <div class="inline-flex mt-2 xs:mt-0">
@@ -100,6 +100,11 @@ export default {
   methods: {
     async handleSearch(evt, nextPage = false, previousPage = false) {
       this.loading = true;
+      if (evt == null || evt == undefined || evt == "") {
+        this.documents = [];
+        this.loading = false;
+        return;
+      }
       if (this.isAuthenticated) {
         if (nextPage) {
           this.currentPage++;

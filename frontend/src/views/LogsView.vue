@@ -100,6 +100,7 @@ export default {
             clearInterval(this.timer);
         },
         handleIntervalChange() {
+            this.currentPage = 1;
             this.getLogs();
         },
         handleNextPage() {

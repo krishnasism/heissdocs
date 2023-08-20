@@ -55,27 +55,31 @@ def process_file(message):
         "file_name"
     ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
 
-    status, elasticsearch_status, ingest_status = True, True, True
+    failures = []
+    status = True
 
     if file_params.get("store_in_document_db"):
         status = put_pdf_to_document_db(pdf_body, file_metadata)
+        if not status:
+            failures.append("nosql")
 
     if file_params.get("ingest_into_llm"):
-        ingest_status = ingest_into_llm(pdf_body)
+        status = ingest_into_llm(pdf_body)
+        if not status:
+            failures.append("llm")
 
     if file_params.get("store_in_elastic"):
-        elasticsearch_status = insert_document_to_elasticsearch(
+        status = insert_document_to_elasticsearch(
             document=pdf_body, file_metadata=file_metadata
         )
+        if not status:
+            failures.append("elastic")
 
-    if not (status and elasticsearch_status and ingest_status):
+    if len(failures) == 0:
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
         logging.error(
-            "[Process] Error while processing file nosql: %s elastic: %s llm ingestion: %s",
-            status,
-            elasticsearch_status,
-            ingest_status,
+            f"[Process] Error while processing file. Failures: {failures}",
         )
 
     temp_file.close()
@@ -84,4 +88,4 @@ def process_file(message):
         delete_file(file_params["chunk_file_name"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
-    return status and elasticsearch_status
+    return len(failures) == 0
