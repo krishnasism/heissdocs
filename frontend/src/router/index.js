@@ -7,10 +7,10 @@ import Search from '../views/Search.vue'
 import Login from '../views/Login.vue'
 import FileView from '../views/FileView.vue'
 import DocumentsProgress from '../views/DocumentsProgress.vue'
-import CloudInterface from '../views/CloudInterface.vue'
+import CloudIngest from '../views/CloudIngest.vue'
 import LogsView from '../views/LogsView.vue'
 import AskView from '../views/AskView.vue'
-
+import ElasticSearchInterface from '../views/ElasticSearchInterface.vue'
 import { createAuth0, authGuard } from '@auth0/auth0-vue';
 
 const router = createRouter({
@@ -65,9 +65,9 @@ const router = createRouter({
       beforeEnter: authGuard,
     },
     {
-      path: '/cloud-interface',
-      name: 'cloud-interface',
-      component: CloudInterface,
+      path: '/cloud-ingest',
+      name: 'cloud-ingest',
+      component: CloudIngest,
       beforeEnter: authGuard,
     },
     {
@@ -80,6 +80,12 @@ const router = createRouter({
       path: '/ask',
       name: 'ask',
       component: AskView,
+      beforeEnter: authGuard,
+    },
+    {
+      path: '/elastic-interface',
+      name: 'elastic-interface',
+      component: ElasticSearchInterface,
       beforeEnter: authGuard,
     },
     {

@@ -49,8 +49,8 @@ def process_file(message):
             if bucket_name:
                 response = upload_file_to_bucket(f, blob_file_name, bucket_name)
                 if response:
-                    file_metadata["s3_blob_file_name"] = blob_file_name
-                    file_metadata["s3_bucket_name"] = bucket_name
+                    file_metadata["blob_file_name"] = blob_file_name
+                    file_metadata["bucket_name"] = bucket_name
     file_metadata[
         "file_name"
     ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
@@ -75,7 +75,7 @@ def process_file(message):
         if not status:
             failures.append("elastic")
 
-    if len(failures) == 0:
+    if len(failures) > 0:
         document_progress["stage"] = FileStages.ERROR.value
         update_document_progress(document_progress)
         logging.error(

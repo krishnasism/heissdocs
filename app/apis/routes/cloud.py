@@ -4,6 +4,10 @@ from services.local.postgres import PostgresManager
 from services.security.verify_token import verify_token
 from services.storage.storage_ops import get_all_files
 from services.queue.queue import prepare_cloud_job
+from services.elasticsearch.elastic_ops import (
+    fetch_scroll_elasticsearch_files,
+    remove_elasticsearch_file,
+)
 from apis.requests.document_progress import DocumentProgressRequest
 from enums.FileStages import FileStages
 from typing import Annotated
@@ -57,6 +61,45 @@ async def cloud_parsing_job(
         )
 
         return JSONResponse(content={"message": "Created"}, status_code=201)
+    except Exception as e:
+        logging.error(e)
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+@router.get("/all-elasticsearch-files")
+async def get_all_elasticsearch_files(
+    user_email: str,
+    authenticated: bool = Depends(verify_token),
+    scroll_id: str = None,
+):
+    all_files, scroll_id, error = await fetch_scroll_elasticsearch_files(
+        user_email, scroll_id
+    )
+    return JSONResponse(
+        content={
+            "all_files": all_files,
+            "scroll_id": scroll_id,
+            "error": error,
+        },
+        status_code=200 if not error else 500,
+    )
+
+
+@router.delete("/elasticsearch-file")
+async def delete_elasticsearch_file(
+    user_email: Annotated[str, Form()],
+    file_id: Annotated[str, Form()],
+    authenticated: bool = Depends(verify_token),
+):
+    try:
+        status = await remove_elasticsearch_file(
+            user_email=user_email,
+            file_id=file_id,
+        )
+        return JSONResponse(
+            content={"message": "Deleted" if status else "Not Deleted"},
+            status_code=200 if status else 500,
+        )
     except Exception as e:
         logging.error(e)
         return JSONResponse(content={"error": str(e)}, status_code=500)

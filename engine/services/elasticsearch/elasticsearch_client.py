@@ -70,8 +70,8 @@ def insert_document_to_elasticsearch(document: dict, file_metadata: dict) -> boo
                 "file_name": file_metadata.get("filename"),
                 "made_on": str(datetime.utcnow()),
                 "page_num": str(page_num),
-                "s3_blob_file_name": str(file_metadata.get("s3_blob_file_name", "")),
-                "s3_bucket_name": str(file_metadata.get("s3_bucket_name", "")),
+                "blob_file_name": str(file_metadata.get("blob_file_name", "")),
+                "bucket_name": str(file_metadata.get("bucket_name", "")),
             }
             elasticsearch_client.insert_document_to_index(
                 index=settings.elastic_search_index, document=document

@@ -25,7 +25,7 @@ async def pdf_search(
     page_start: int = 0,
 ):
     query = query.lower()
-    response = get_pdf_by_query(query, user_email, page_start)
+    response = await get_pdf_by_query(query, user_email, page_start)
 
     documents = response.get("documents")
     error = response.get("error")

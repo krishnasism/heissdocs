@@ -44,8 +44,8 @@
                         </th>
                         <td class="px-6 py-4">{{ document.page_num }}</td>
                         <td class="px-6 py-4">{{ document.made_on }}</td>
-                        <td class="px-6 py-4" v-if="document.s3_bucket_name">
-                            <a :href="`/view-file?file_name=${document.s3_blob_file_name}&page=${document.page_num}&bucketName=${document.s3_bucket_name}`"
+                        <td class="px-6 py-4" v-if="document.bucket_name">
+                            <a :href="`/view-file?file_name=${document.blob_file_name}&page=${document.page_num}&bucketName=${document.bucket_name}`"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                 target="_blank">{{ $t('labels.view') }}</a>
                         </td>

@@ -10,7 +10,10 @@
         "logout": "Logout",
         "progress": "Progress",
         "logs": "Logs",
-        "ask": "Ask"
+        "ask": "Ask",
+        "cloudIngest": "Ingest",
+        "elasticInterface": "Elasticsearch",
+        "exploreNosql": "DocumentDB"
     },
     "labels": {
         "parsing": "Parsing",
@@ -161,7 +164,12 @@
         "cosmosDbContainerTip": "Please enter the name of the Cosmos DB container you would like to use to store your documents. Example: documents",
         "cosmosDbKeyTip": "Please enter the key for autenticating with your remote Cosmos DB instance. Example: password",
         "cloudProviderTip": "Please select the cloud provider you would like to use to store your documents. Example: AWS",
-        "gcpKeyFileExists": "GCP Key File Exists"
+        "gcpKeyFileExists": "GCP Key File Exists",
+        "deleteFile": "Delete",
+        "fileId": "File ID",
+        "bucket": "Bucket",
+        "loadMoreButton": "Load More",
+        "fileDeleted": "File Deleted!"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",
@@ -169,6 +177,7 @@
         "settingsNotSetMessage": "Please configure your settings before proceeding!",
         "failedToParse": "Failed to Parse",
         "parsingFormErrorHeader": "Alert!",
-        "parsingFormErrorMessage": "Please select a parsing outcome"
+        "parsingFormErrorMessage": "Please select a parsing outcome",
+        "loadElasticSearchAllFiles": "Error!"
     }
 }

@@ -9,13 +9,12 @@ from services.elasticsearch.elasticsearch_client import ElasticSearchClient
 from pymongo.collection import Collection
 from pymongo import TEXT
 from google.cloud.firestore import FieldFilter
-from azure.cosmos import CosmosClient
 
-DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,s3_blob_file_name,s3_bucket_name"
+DOCUMENT_TABLE_KEYS = "file_name,page_num,made_on,blob_file_name,bucket_name"
 SEARCH_KEY = "pdf_body"
 
 
-def __search_elastic_search(
+async def __search_elastic_search(
     query: str, user_email: str, settings: Settings, page_start: int = 0
 ) -> list:
     """
@@ -30,8 +29,8 @@ def __search_elastic_search(
             host=settings.elastic_search_host, port=int(settings.elastic_search_port)
         )
         elasticsearch_client.connect(api_key=settings.elastic_search_api_key)
-        documents: list = elasticsearch_client.search(
-            index=settings.elastic_search_index, query=f"{query}", page_start=page_start
+        documents: list = await elasticsearch_client.search(
+            index=settings.elastic_search_index, query_str=query, page_start=page_start
         )
         return documents
     except Exception as e:
@@ -39,7 +38,7 @@ def __search_elastic_search(
         return []
 
 
-def __search_document_db_mongodb(
+async def __search_document_db_mongodb(
     query: str, user_email: str, settings: Settings
 ) -> list:
     """
@@ -79,7 +78,9 @@ def __search_document_db_mongodb(
     return documents
 
 
-def __search_document_db_aws(query: str, user_email: str, settings: Settings) -> list:
+async def __search_document_db_aws(
+    query: str, user_email: str, settings: Settings
+) -> list:
     """
     Search Document DB in AWS
     params: query: Query to search
@@ -115,7 +116,9 @@ def __search_document_db_aws(query: str, user_email: str, settings: Settings) ->
     return documents
 
 
-def __search_document_db_gcp_firestore(query: str, user_email: str, settings: Settings):
+async def __search_document_db_gcp_firestore(
+    query: str, user_email: str, settings: Settings
+):
     db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
     firestore = db_connection.db_client
     try:
@@ -135,7 +138,7 @@ def __search_document_db_gcp_firestore(query: str, user_email: str, settings: Se
     return results
 
 
-def __search_document_db_azure_cosmosdb(
+async def __search_document_db_azure_cosmosdb(
     query: str, user_email: str, settings: Settings
 ):
     db_connection = DatabaseConnection(settings.no_sql_provider, user_email)
@@ -161,7 +164,7 @@ def __search_document_db_azure_cosmosdb(
     return results
 
 
-def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
+async def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     """
     Get PDF by query from ElasticSearch and/or Document DB
     params: query: Query to search
@@ -174,19 +177,19 @@ def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
     if settings.search_document_db:
         match settings.no_sql_provider:
             case Databases.aws.value:
-                response_documents = __search_document_db_aws(
+                response_documents = await __search_document_db_aws(
                     query, user_email, settings
                 )
             case Databases.mongodb.value:
-                response_documents = __search_document_db_mongodb(
+                response_documents = await __search_document_db_mongodb(
                     query, user_email, settings
                 )
             case Databases.gcp.value:
-                response_documents = __search_document_db_gcp_firestore(
+                response_documents = await __search_document_db_gcp_firestore(
                     query, user_email, settings
                 )
             case Databases.azure.value:
-                response_documents = __search_document_db_azure_cosmosdb(
+                response_documents = await __search_document_db_azure_cosmosdb(
                     query, user_email, settings
                 )
             case _:
@@ -195,7 +198,7 @@ def get_pdf_by_query(query: str, user_email: str, page_start: int = 0) -> dict:
             documents.extend(response_documents)
     if settings.search_elastic_search:
         documents.extend(
-            __search_elastic_search(query, user_email, settings, page_start)
+            await __search_elastic_search(query, user_email, settings, page_start)
         )
     return {
         "documents": documents,
