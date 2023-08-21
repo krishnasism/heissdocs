@@ -119,15 +119,13 @@ export default {
         });
       } else if (this.sortColumn === 'made_on') {
         sortedDocs.sort((a, b) => {
-          const stageA = String(a.made_on).toLowerCase();
-          const stageB = String(b.made_on).toLowerCase();
-          return this.sortDirection === 'asc'
-            ? stageA.localeCompare(stageB)
-            : stageB.localeCompare(stageA);
+          const stageA = new Date(a.made_on);
+          const stageB = new Date(b.made_on);
+          return this.sortDirection === 'asc' ? stageA - stageB : stageB - stageA;
         });
       } else if (this.sortColumn === 'blob_file_name') {
         sortedDocs.sort((a, b) => {
-          const stageA =  String(a.blob_file_name).toLowerCase();
+          const stageA = String(a.blob_file_name).toLowerCase();
           const stageB = String(b.blob_file_name).toLowerCase();
           return this.sortDirection === 'asc'
             ? stageA.localeCompare(stageB)
