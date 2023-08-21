@@ -26,18 +26,18 @@
                     v-model="searchElasticSearch" @click="toggleSearchElasticSearch"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>
-            <div class="ml-2 text-sm mr-2">
+            <div class="ml-2 text-sm mr-4">
                 <label for="chkSearchElastic" class="font-medium text-gray-900 dark:text-gray-300">{{
                     $t('labels.searchElasticsearch') }}</label>
                 <p id="chkSearchElastic-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">{{
                     $t('labels.searchElasticsearchHelper') }}</p>
             </div>
-            <div class="flex items-center h-5 mr-2">
+            <div class="flex items-center h-5 mr-1">
                 <input id="chkSearchDocumentDb" aria-describedby="chkSearchDocumentDb-text" type="checkbox"
                     v-model="searchDocumentDb" @click="toggleSearchDocumentDB"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             </div>
-            <div class="ml-2 text-sm">
+            <div class="ml-1 text-sm">
                 <label for="chkSearchDocumentDb" class="font-medium text-gray-900 dark:text-gray-300">{{
                     $t('labels.searchDocumentDb') }}</label>
                 <p id="chkSearchDocumentDb-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">{{

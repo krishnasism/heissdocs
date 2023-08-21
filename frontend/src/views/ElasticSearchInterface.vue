@@ -2,6 +2,19 @@
   <LoadingCircle v-if="loading"></LoadingCircle>
   <div v-else>
     <DangerAlert v-if="pageError" :alert="pageErrorAlert" :message="pageError"></DangerAlert>
+    <div class="flex mb-4" :class="{ 'shake': deleteElasticSearchNotConfirmed }">
+      <div class="flex items-center h-5 mr-1">
+        <input id="chkDeleteElasticConfirmed" aria-describedby="chkDeleteElasticConfirmed-text" type="checkbox"
+          @click="toggleDeleteElasticConfirmed"
+          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      </div>
+      <div class="ml-1 text-sm">
+        <label for="chkDeleteElasticConfirmed" class="font-medium text-gray-900 dark:text-gray-300">{{
+          $t('labels.deleteElasticSearch') }}</label>
+        <p id="chkDeleteElasticConfirmed-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">{{
+          $t('labels.deleteElasticSearchHelper') }}</p>
+      </div>
+    </div>
     <ElasticDocumentsTable :documents="documents" v-if="!loading && !pageError && documents" class="w-full"
       @delete-document="deleteDocument"></ElasticDocumentsTable>
     <div class="mt-4" v-if="documents">
@@ -23,9 +36,10 @@ import AuthService from "@/services/auth";
 import { useAuth0 } from '@auth0/auth0-vue';
 import SettingsService from "@/services/settings";
 import DangerAlert from "@/components/DangerAlert.vue";
-import ElasticDocumentsTable from "../components/ElasticDocumentsTable.vue";
+import ElasticDocumentsTable from "@/components/ElasticDocumentsTable.vue";
 import WarningToast from "@/components/WarningToast.vue";
 import LoadingCircle from '@/components/LoadingCircle.vue';
+import CheckBoxWithTipVue from "@/components/CheckBoxWithTip.vue";
 
 export default {
   components: {
@@ -33,6 +47,7 @@ export default {
     ElasticDocumentsTable,
     WarningToast,
     LoadingCircle,
+    CheckBoxWithTipVue,
   },
   data() {
     return {
@@ -47,6 +62,8 @@ export default {
       authService: null,
       documents: [],
       scrollId: null,
+      deleteElasticSearch: false,
+      deleteElasticSearchNotConfirmed: false,
     }
   },
   async mounted() {
@@ -85,6 +102,13 @@ export default {
   },
   methods: {
     async deleteDocument(evt) {
+      if (!this.deleteElasticSearch) {
+        this.deleteElasticSearchNotConfirmed = false;
+        setTimeout(() => {
+          this.deleteElasticSearchNotConfirmed = true;
+        }, 0);
+        return;
+      }
       await this.settingsService.refreshSettings();
       const formData = new FormData();
       formData.append('file_id', evt._id)
@@ -121,6 +145,9 @@ export default {
         this.toasts.splice(index, 1);
       }
     },
+    toggleDeleteElasticConfirmed(evt) {
+      this.deleteElasticSearch = evt.target.checked;
+    },
     async loadElasticSearchFiles() {
       if (this.isAuthenticated) {
         try {
@@ -140,9 +167,7 @@ export default {
           });
 
           const data = await response.json();
-          console.log(data)
           if (data.error === null) {
-            console.log(data)
             if (!this.scrollId) {
               this.documents = [];
             }

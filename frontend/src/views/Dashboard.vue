@@ -6,18 +6,18 @@
     <FileUpload :disabled="parsing" class="w-60" @fileUpload="filesUploaded"></FileUpload>
     <div>
       <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleForceOcr" :label="$t('labels.toggleForceOcr')"
-        :helper="$t('labels.toggleForceOcrHelper')"></CheckBoxWithTipVue>
+        :helper="$t('labels.toggleForceOcrHelper')" class="mt-4"></CheckBoxWithTipVue>
       <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInCloud" :label="$t('labels.storeCloudStorage')"
-        :helper="$t('labels.storeCloudStorageHelper')"></CheckBoxWithTipVue>
+        :helper="$t('labels.storeCloudStorageHelper')" class="mt-4"></CheckBoxWithTipVue>
       <BucketList class="mt-1 ml-6" v-if="storeFilesInCloud" :bucketList="bucketsList" @bucketSelected="bucketSelected">
       </BucketList>
       <div :class="{ 'shake': parsingFormError }">
         <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInElastic" :label="$t('labels.storeElasticSearch')"
-          :helper="$t('labels.storeElasticSearchHelper')"></CheckBoxWithTipVue>
+          :helper="$t('labels.storeElasticSearchHelper')" class="mt-4"></CheckBoxWithTipVue>
         <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleStoreInDocumentDb" :label="$t('labels.storeDocumentDb')"
-          :helper="$t('labels.storeDocumentDbHelper')"></CheckBoxWithTipVue>
+          :helper="$t('labels.storeDocumentDbHelper')" class="mt-4"></CheckBoxWithTipVue>
         <CheckBoxWithTipVue :disabled="parsing" @toggled="toggleIngestIntoLlm" :label="$t('labels.ingestIntoLlm')"
-          :helper="$t('labels.ingestIntoLlmHelper')"></CheckBoxWithTipVue>
+          :helper="$t('labels.ingestIntoLlmHelper')" class="mt-4"></CheckBoxWithTipVue>
       </div>
     </div>
     <ErrorAlert class="w-80 mt-4 mb-4" v-if="parsingFormError" :header="$t('errors.parsingFormErrorHeader')"

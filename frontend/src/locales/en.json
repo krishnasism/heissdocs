@@ -169,7 +169,9 @@
         "fileId": "File ID",
         "bucket": "Bucket",
         "loadMoreButton": "Load More",
-        "fileDeleted": "File Deleted!"
+        "fileDeleted": "File Deleted!",
+        "deleteElasticSearch": "Confirm Delete",
+        "deleteElasticSearchHelper": "Please confirm before deleting from Elasticsearch."
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",
