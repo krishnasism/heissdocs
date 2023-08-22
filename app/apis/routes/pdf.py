@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, Form, Depends
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from typing import Annotated
-from services.search.search import get_pdf_by_query
+from services.documentdb.documentdb import get_pdf_by_query
 from services.storage.storage_ops import get_cloud_presigned_url
 from services.security.verify_token import verify_token
 from services.queue.queue import prepare_job

@@ -91,7 +91,7 @@
 </template>
 <script>
 export default {
-  name: 'ElasticDocumentsTable',
+  name: 'DocumentDbDocumentsTable',
   props: {
     documents: {
       type: Array,

@@ -65,6 +65,10 @@ def __put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                     "page_num": str(page_num),
                     "blob_file_name": str(metadata.get("blob_file_name", "")),
                     "bucket_name": str(metadata.get("bucket_name", "")),
+                    "unique_id": str(uuid4())
+                    + str(
+                        page_num
+                    ),  # removing all and any possibility of duplicate uuids
                 }
             )
     except Exception as e:
@@ -92,6 +96,10 @@ def __put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name
                     "page_num": str(page_num),
                     "blob_file_name": str(metadata.get("blob_file_name", "")),
                     "bucket_name": str(metadata.get("bucket_name", "")),
+                    "unique_id": str(uuid4())
+                    + str(
+                        page_num
+                    ),  # removing all and any possibility of duplicate uuids
                 }
             )
     except Exception as e:
@@ -115,6 +123,8 @@ def __put_pdf_body_gcp(firestore, pdfbody, metadata, table_name):
                 "page_num": str(page_num),
                 "blob_file_name": str(metadata.get("blob_file_name", "")),
                 "bucket_name": str(metadata.get("bucket_name", "")),
+                "unique_id": str(uuid4())
+                + str(page_num),  # removing all and any possibility of duplicate uuids
             }
             document_ref = collection_ref.document()
             document_ref.set(document_data)
@@ -145,6 +155,8 @@ def __put_pdf_body_azure(cosmosdb, pdfbody, metadata, table_name):
                 "page_num": str(page_num),
                 "blob_file_name": str(metadata.get("blob_file_name", "")),
                 "bucket_name": str(metadata.get("bucket_name", "")),
+                "unique_id": str(uuid4())
+                + str(page_num),  # removing all and any possibility of duplicate uuids
             }
             container.upsert_item(item)
     except Exception as e:

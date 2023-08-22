@@ -242,7 +242,6 @@ export default {
       }
     },
     toggleForceOcr(value) {
-      console.log(value)
       this.forceOcr = value;
     },
   }

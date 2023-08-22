@@ -171,7 +171,9 @@
         "loadMoreButton": "Load More",
         "fileDeleted": "File Deleted!",
         "deleteElasticSearch": "Confirm Delete",
-        "deleteElasticSearchHelper": "Please confirm before deleting from Elasticsearch."
+        "deleteElasticSearchHelper": "Please confirm before deleting from Elasticsearch.",
+        "deleteDocumentDb": "Confirm Delete",
+        "deleteDocumentDbHelper": "Please confirm before deleting from DocumentDB."
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

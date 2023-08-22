@@ -111,6 +111,7 @@ If you're using DynamoDB to store parsed PDFs, you should know the table's name:
 2. **Locate your Table**
 
    In the `Tables` section, find the table storing the parsed PDFs. This table's name is your `AWS_SEARCH_TABLE_NAME`.
+   Please note to add `unique_id (String)` as your partition key! 
 
 ### Azure Resources
 
