@@ -182,6 +182,7 @@
         "failedToParse": "Failed to Parse",
         "parsingFormErrorHeader": "Alert!",
         "parsingFormErrorMessage": "Please select a parsing outcome",
-        "loadElasticSearchAllFiles": "Error!"
+        "loadElasticSearchAllFiles": "Error!",
+        "loadDocumentDbAllFiles ": "Error!"
     }
 }

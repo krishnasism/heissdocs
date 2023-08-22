@@ -143,6 +143,7 @@ If you're using DynamoDB to store parsed PDFs, you should know the table's name:
 4. **Cosmos DB Container Name**
 
    - Identify the name of the container within your Azure Cosmos DB.
+   Please note to create `unique_id` as the Partition Key!
 
 ### GCP Resources
 

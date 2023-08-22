@@ -354,8 +354,10 @@ async def get_all_document_db_docs(user_email: str) -> dict:
     }
 
 
-async def __delete_document_aws(unique_id: str, settings: Settings) -> str:
-    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=None)
+async def __delete_document_aws(
+    unique_id: str, user_email: str, settings: Settings
+) -> str:
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=user_email)
     table_name = settings.document_table_name
     dynamodb = db_connection.db_client
     try:
@@ -370,8 +372,10 @@ async def __delete_document_aws(unique_id: str, settings: Settings) -> str:
     return "deleted"
 
 
-async def __delete_document_firestore(unique_id: str, settings: Settings) -> str:
-    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=None)
+async def __delete_document_firestore(
+    unique_id: str, user_email: str, settings: Settings
+) -> str:
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=user_email)
     firestore = db_connection.db_client
     try:
         collection_name = settings.document_table_name
@@ -384,25 +388,29 @@ async def __delete_document_firestore(unique_id: str, settings: Settings) -> str
     return "deleted"
 
 
-async def __delete_document_cosmosdb(unique_id: str, settings: Settings) -> str:
-    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=None)
+async def __delete_document_cosmosdb(
+    unique_id: str, cosmos_id: str, user_email: str, settings: Settings
+) -> str:
+    db_connection = DatabaseConnection(settings.no_sql_provider, user_email=user_email)
     cosmosdb = db_connection.db_client
     database = cosmosdb.get_database_client(settings.cosmos_db_database)
     container = database.get_container_client(settings.document_table_name)
     try:
-        response = container.delete_item(item=unique_id, partition_key=unique_id)
+        response = container.delete_item(item=cosmos_id, partition_key=unique_id)
     except Exception as e:
         logging.error(f"[Azure CosmosDB] Delete Error: {str(e)}")
         return str(e)
     return "deleted"
 
 
-async def __delete_document_mongodb(unique_id: str, settings: Settings) -> str:
+async def __delete_document_mongodb(
+    unique_id: str, user_email: str, settings: Settings
+) -> str:
     db_name = settings.mongo_db_database
     collection_name = settings.document_table_name
     try:
         mongodb_client = DatabaseConnection(
-            settings.no_sql_provider, user_email=None
+            settings.no_sql_provider, user_email=user_email
         ).db_client
         db = mongodb_client[db_name]
         collection: Collection = db[collection_name]
@@ -415,17 +423,23 @@ async def __delete_document_mongodb(unique_id: str, settings: Settings) -> str:
     return "deleted"
 
 
-async def delete_document_from_document_db(user_email: str, unique_id: str) -> str:
+async def delete_document_from_document_db(
+    user_email: str, unique_id: str, cosmos_id: str
+) -> str:
     settings = override_settings(get_settings(), get_override_settings(user_email))
     match settings.no_sql_provider:
         case Databases.aws.value:
-            response = await __delete_document_aws(unique_id, settings)
+            response = await __delete_document_aws(unique_id, user_email, settings)
         case Databases.mongodb.value:
-            response = await __delete_document_mongodb(unique_id, settings)
+            response = await __delete_document_mongodb(unique_id, user_email, settings)
         case Databases.gcp.value:
-            response = await __delete_document_firestore(unique_id, settings)
+            response = await __delete_document_firestore(
+                unique_id, user_email, settings
+            )
         case Databases.azure.value:
-            response = await __delete_document_cosmosdb(unique_id, settings)
+            response = await __delete_document_cosmosdb(
+                unique_id, user_email, cosmos_id, settings
+            )
         case _:
             logging.error("[get_all_documents] Undefined document database provider")
 

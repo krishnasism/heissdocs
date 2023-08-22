@@ -128,12 +128,14 @@ async def get_all_documentdb_files(
 async def delete_documentdb_file(
     user_email: Annotated[str, Form()],
     file_id: Annotated[str, Form()],
+    cosmos_id: Annotated[str, Form()],
     authenticated: bool = Depends(verify_token),
 ):
     try:
         response = await delete_document_from_document_db(
             user_email=user_email,
             unique_id=file_id,
+            cosmos_id=cosmos_id,
         )
         success = response.get("success")
         error = response.get("error")

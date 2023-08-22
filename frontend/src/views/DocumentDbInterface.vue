@@ -106,6 +106,12 @@ export default {
       }
       await this.settingsService.refreshSettings();
       const formData = new FormData();
+      if (evt.id) {
+        formData.append('cosmos_id', evt.id)
+      }
+      else {
+        formData.append('cosmos_id', 'xxx')
+      }
       formData.append('file_id', evt.unique_id)
       formData.append('user_email', this.user.email)
       const response = await fetch(this.documentDbDeleteUrl, {
