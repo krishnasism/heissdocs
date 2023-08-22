@@ -29,11 +29,13 @@ Simply upload a scanned or normal PDF and start searching for content in it with
 1. Start searching!
 
 # Features
-- ☁️ Multi cloud support (AWS, GCP, Azure)
+- ☁️ Multi-cloud support (AWS, GCP, Azure)
 - 💬 Semantic search (Langchain + OpenAI)
+- 💿 Multiple Storage Options
+- 🔍 Powerful Search + Versatile Storage
 - 🔒 Full ownership of data
 - 🆓 Completely open-source
-- 💻 Self hosted
+- 💻 Self-hosted
 - ... more things to come + feel free to add in requests!
 
 
