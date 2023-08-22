@@ -5,7 +5,8 @@
       <br />
       <ChatHistory v-if="chatHistory.messages.length > 0" class="bg-slate-50 p-10 rounded-md"
         :chatHistory="chatHistory"></ChatHistory>
-      <AskInput class="mt-2 mb-4 sticky bottom-0" @submit-ask="askQuestion"></AskInput>
+      <LoadingCircle v-if="loading && (answer || !errorMessage)" class="mt-2"></LoadingCircle>
+      <AskInput v-if="!loading" class="mt-2 mb-4 sticky bottom-0 p-2" @submit-ask="askQuestion"></AskInput>
       <button v-if="chatHistory.messages.length > 0" type="button" @click="downloadJSON"
         class="mt-8 focus:outline-none text-white bg-green-400 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"><svg
           class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
