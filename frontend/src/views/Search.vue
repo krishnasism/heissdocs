@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SearchInput class="mb-8" submit-search="handleSearch"></SearchInput>
+    <SearchInput class="mb-8" @submit-search="handleSearch"></SearchInput>
     <LoadingCircle v-if="loading && (documents || !errorMessage)"></LoadingCircle>
     <div v-else>
       <DocumentsTable :documents="documents" v-if="documents && documents.length > 0" class="w-full"></DocumentsTable>

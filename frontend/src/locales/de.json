@@ -10,7 +10,8 @@
         "logout": "Abmeldung",
         "progress": "Fortschritt",
         "logs": "Logs",
-        "ask": "Fragen"
+        "ask": "Fragen",
+        "ingest": "Einlesen"
     },
     "labels": {
         "parsing": "Parsing",

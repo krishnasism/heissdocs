@@ -63,8 +63,12 @@ def __put_pdf_body_dynamodb(dynamodb, pdfbody, metadata, table_name):
                     "file_name": metadata.get("filename"),
                     "made_on": str(datetime.utcnow()),
                     "page_num": str(page_num),
-                    "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
-                    "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+                    "blob_file_name": str(metadata.get("blob_file_name", "")),
+                    "bucket_name": str(metadata.get("bucket_name", "")),
+                    "unique_id": str(uuid4())
+                    + str(
+                        page_num
+                    ),  # removing all and any possibility of duplicate uuids
                 }
             )
     except Exception as e:
@@ -90,8 +94,12 @@ def __put_pdf_body_mongodb(mongodb, pdfbody, metadata, database_name, table_name
                     "file_name": f"{str(metadata.get('filename'))}_{str(uuid4().hex)}",
                     "made_on": str(datetime.utcnow()),
                     "page_num": str(page_num),
-                    "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
-                    "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+                    "blob_file_name": str(metadata.get("blob_file_name", "")),
+                    "bucket_name": str(metadata.get("bucket_name", "")),
+                    "unique_id": str(uuid4())
+                    + str(
+                        page_num
+                    ),  # removing all and any possibility of duplicate uuids
                 }
             )
     except Exception as e:
@@ -108,15 +116,18 @@ def __put_pdf_body_gcp(firestore, pdfbody, metadata, table_name):
         collection_ref = firestore.collection(table_name)
 
         for page_num, page_data in pdfbody.items():
+            unique_id = str(uuid4())
             document_data = {
                 "pdf_body": str(page_data),
                 "file_name": metadata.get("filename"),
                 "made_on": str(datetime.utcnow()),
                 "page_num": str(page_num),
-                "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
-                "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+                "blob_file_name": str(metadata.get("blob_file_name", "")),
+                "bucket_name": str(metadata.get("bucket_name", "")),
+                "unique_id": unique_id
+                + str(page_num),  # removing all and any possibility of duplicate uuids
             }
-            document_ref = collection_ref.document()
+            document_ref = collection_ref.document(unique_id)
             document_ref.set(document_data)
 
     except Exception as e:
@@ -143,8 +154,10 @@ def __put_pdf_body_azure(cosmosdb, pdfbody, metadata, table_name):
                 "file_name": metadata.get("filename"),
                 "made_on": str(datetime.utcnow()),
                 "page_num": str(page_num),
-                "s3_blob_file_name": str(metadata.get("s3_blob_file_name", "")),
-                "s3_bucket_name": str(metadata.get("s3_bucket_name", "")),
+                "blob_file_name": str(metadata.get("blob_file_name", "")),
+                "bucket_name": str(metadata.get("bucket_name", "")),
+                "unique_id": str(uuid4())
+                + str(page_num),  # removing all and any possibility of duplicate uuids
             }
             container.upsert_item(item)
     except Exception as e:

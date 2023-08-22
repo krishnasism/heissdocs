@@ -590,7 +590,6 @@ export default {
                 reader.onload = () => {
                     try {
                         this.gcpKeyFileContent = reader.result;
-                        console.log(this.gcpKeyFileContent);
                     } catch (error) {
                         console.error("Error parsing JSON file:", error);
                     }
