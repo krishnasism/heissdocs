@@ -173,7 +173,8 @@
         "deleteElasticSearch": "Confirm Delete",
         "deleteElasticSearchHelper": "Please confirm before deleting from Elasticsearch.",
         "deleteDocumentDb": "Confirm Delete",
-        "deleteDocumentDbHelper": "Please confirm before deleting from DocumentDB."
+        "deleteDocumentDbHelper": "Please confirm before deleting from DocumentDB.",
+        "modelSelect": "LLM"
     },
     "errors": {
         "loadS3Bucket": "Unable to Load S3 Bucket Objects: ",

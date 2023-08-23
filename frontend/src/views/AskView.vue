@@ -1,10 +1,18 @@
 <template>
   <div>
     <div>
+      <div class="sm:col-span-2 mb-4">
+        <label for="modelSelect" class="block text-sm font-medium text-gray-900 dark:text-white w-full">{{
+          $t('labels.modelSelect') }}</label>
+        <select v-model="selectedModel" id="modelSelect"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+          <option value="gpt-3.5-turbo" selected>GPT 3.5 Turbo</option>
+          <option value="text-davinci-003">text-davinci-003</option>
+        </select>
+      </div>
       <DangerAlert v-if="errorMessage" alert="Error" :message="errorMessage"></DangerAlert>
-      <br />
-      <ChatHistory v-if="chatHistory.messages.length > 0" class="bg-slate-50 p-10 rounded-md"
-        :chatHistory="chatHistory"></ChatHistory>
+      <ChatHistory v-if="chatHistory.messages.length > 0" class="bg-slate-50 p-10 rounded-md" :chatHistory="chatHistory">
+      </ChatHistory>
       <LoadingCircle v-if="loading && (answer || !errorMessage)" class="mt-2"></LoadingCircle>
       <AskInput v-if="!loading" class="mt-2 mb-4 sticky bottom-0 p-2" @submit-ask="askQuestion"></AskInput>
       <button v-if="chatHistory.messages.length > 0" type="button" @click="downloadJSON"
@@ -53,6 +61,7 @@ export default {
       authService: null,
       errorMessage: null,
       question: "",
+      selectedModel: "gpt-3.5-turbo",
     };
   },
   async mounted() {
@@ -98,7 +107,7 @@ export default {
       this.question = evt;
       if (this.isAuthenticated) {
         try {
-          const response = await fetch(this.askQuestionApiUrl + "?query=" + evt + '&user_email=' + this.user.email, {
+          const response = await fetch(this.askQuestionApiUrl + "?query=" + evt + '&model=' + this.selectedModel + '&user_email=' + this.user.email, {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + this.apiToken,
