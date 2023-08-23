@@ -183,15 +183,15 @@ def prepare_job(file: UploadFile, params: dict) -> dict:
         return ""
     blob_file_name = document_id + ".pdf"
 
-    # Create chunks of PDF file before sending to queue
-    # This will help in parallel processing of PDF file
-    # And not overwhelm the worker (set to 50 pages/file for now)
-    chunks, total_pages = split_pdf_into_chunks(temp_file.name, 50)
     with open(temp_file.name, "rb") as f:
         response = upload_file_to_temp_s3_bucket(f, blob_file_name)
         if response:
             logging.info("[Queue] File uploaded to temp bucket")
 
+    # Create chunks of PDF file before sending to queue
+    # This will help in parallel processing of PDF file
+    # And not overwhelm the worker (set to 50 pages/file for now)
+    chunks, total_pages = split_pdf_into_chunks(temp_file.name, 50)
     for i in range(0, len(chunks)):
         chunk_file_name = f"{document_id}_part{i}.pdf"
         res = upload_file_to_temp_s3_bucket(chunks[i], chunk_file_name)

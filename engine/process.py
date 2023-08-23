@@ -15,8 +15,11 @@ from uuid import uuid4
 
 def process_file(message):
     file_params = json.loads(message)
-    file_stream = get_temp_file_stream(
+    chunk_file_stream = get_temp_file_stream(
         file_params["chunk_file_name"], file_params["temp_bucket_name"]
+    )
+    full_file_stream = get_temp_file_stream(
+        file_params["document_unique_id"], file_params["temp_bucket_name"]
     )
     document_unique_id = file_params["document_unique_id"]
 
@@ -31,21 +34,25 @@ def process_file(message):
 
     update_document_progress(document_progress)
 
-    temp_file = NamedTemporaryFile(delete=False)
-    with open(temp_file.name, "wb") as f:
-        f.write(file_stream)
+    chunk_temp_file = NamedTemporaryFile(delete=False)
+    with open(chunk_temp_file.name, "wb") as f:
+        f.write(chunk_file_stream)
 
     pdf_body, file_metadata = get_pdf_body(
-        pdf_file=temp_file,
+        pdf_file=chunk_temp_file,
         original_file_name=(file_params["original_file_name"]),
         document_progress=document_progress,
         force_ocr=file_params.get("force_ocr"),
     )
 
+    full_temp_file = NamedTemporaryFile(delete=False)
+    with open(full_temp_file.name, "wb") as f:
+        f.write(full_file_stream)
+
     if file_params.get("store_files_in_cloud"):
         blob_file_name = document_unique_id + ".pdf"
         bucket_name = file_params["bucket_name"]
-        with open(temp_file.name, "rb") as f:
+        with open(full_temp_file.name, "rb") as f:
             if bucket_name:
                 response = upload_file_to_bucket(f, blob_file_name, bucket_name)
                 if response:
@@ -82,10 +89,13 @@ def process_file(message):
             f"[Process] Error while processing file. Failures: {failures}",
         )
 
-    temp_file.close()
-    os.remove(temp_file.name)
+    chunk_temp_file.close()
+    os.remove(chunk_temp_file.name)
+    full_temp_file.close()
+    os.remove(full_temp_file.name)
     try:
         delete_file(file_params["chunk_file_name"], file_params["temp_bucket_name"])
+        delete_file(file_params["document_unique_id"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
     return len(failures) == 0
