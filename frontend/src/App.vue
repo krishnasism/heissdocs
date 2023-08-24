@@ -53,7 +53,7 @@
             <li>
               <RouterLink :to="{ name: 'ask' }" :class="{
                 'bg-blue-50 text-blue-500': $route.name === 'ask',
-                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700': true
               }">
                 <svg
                   class="flex-shrink-0 w-6 h-6 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -85,7 +85,7 @@
                 <li>
                   <RouterLink :to="{ name: 'cloud-ingest' }" :class="{
                     'bg-blue-50 text-blue-500': $route.name === 'cloud-ingest',
-                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700': true
+                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700': true
                   }">
                     <svg class="w-5 h-5  dark:text-white" aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -98,7 +98,7 @@
                 <li>
                   <RouterLink :to="{ name: 'elastic-interface' }" :class="{
                     'bg-blue-50 text-blue-500': $route.name === 'elastic-interface',
-                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700': true
+                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700': true
                   }">
                     <svg class="w-5 h-5  dark:text-white" aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -111,7 +111,7 @@
                 <li>
                   <RouterLink :to="{ name: 'document-db-interface' }" :class="{
                     'bg-blue-50 text-blue-500': $route.name === 'document-db-interface',
-                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700': true
+                    'flex items-center w-full p-2 text-gray-600 rounded-lg pl-11 group hover:bg-blue-100 dark:text-white dark:hover:bg-gray-700': true
                   }">
                     <svg class="w-5 h-5  dark:text-white" aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
@@ -128,7 +128,7 @@
             <li>
               <RouterLink :to="{ name: 'settings' }" :class="{
                 'bg-blue-50 text-blue-500': $route.name === 'settings',
-                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700': true
               }">
                 <svg
                   class="w-6 h-6  group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -143,7 +143,7 @@
             <li>
               <RouterLink :to="{ name: 'progress' }" :class="{
                 'bg-blue-50 text-blue-500': $route.name === 'progress',
-                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700': true
               }">
                 <svg
                   class="flex-shrink-0 w-6 h-6  group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -158,7 +158,7 @@
             <li>
               <RouterLink :to="{ name: 'logs' }" :class="{
                 'bg-blue-50 text-blue-500': $route.name === 'logs',
-                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700': true
+                'flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700': true
               }">
                 <svg
                   class="flex-shrink-0 w-6 h-6  group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -173,7 +173,7 @@
             </li>
             <li>
               <button type="button" @click="logout"
-                class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-100 dark:hover:bg-gray-700">
                 <svg class="w-6 h-6 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                   fill="none" viewBox="0 0 16 16">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
