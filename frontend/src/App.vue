@@ -15,7 +15,7 @@
         </svg>
       </button>
       <aside id="sidebar-multi-level-sidebar" v-if="!['login', 'register', 'help'].includes($route.name)"
-        class="fixed mt-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        class="fixed mt-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto border-2 dark:bg-gray-800">
           <ul class="space-y-2 font-medium">
