@@ -10,7 +10,7 @@ Quick Demo:
 ![Recording-2023-08-12-202607](https://github.com/krishnasism/heissdocs/assets/21293324/c39b3e5e-e152-4234-aaea-79d0e35c6e1a)
 
 Latest Screenshot:
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/5fca1941-79ae-49cb-8bb4-ef918a00899e)
+![image](https://github.com/krishnasism/heissdocs/assets/21293324/72f348c6-081d-4266-b0c4-99e65aa89294)
 
 ### Note:
 > This is a project in its infancy, so please expect things to break as it moves forward.
