@@ -65,12 +65,24 @@ async def refresh_queue_settings(
 
 @router.get("/documents-progress")
 async def get_documents_in_progress(
-    userEmail: str, authenticated: bool = Depends(verify_token)
+    page: int = Query(1, description="Page number"),
+    per_page: int = Query(10, description="Logs per page"),
+    userEmail: str = None,
+    authenticated: bool = Depends(verify_token),
 ):
-    documents = pm.get_documents_progress(userEmail)
+    documents, total_pages = pm.get_documents_progress_paged(userEmail, page, per_page)
+    has_previous_page = page > 1
+    has_next_page = page < total_pages
     for document in documents:
         del document["updated_on"]
-    return JSONResponse(content={"documents": documents}, status_code=200)
+    return JSONResponse(
+        content={
+            "documents": documents,
+            "has_previous_page": has_previous_page,
+            "has_next_page": has_next_page,
+        },
+        status_code=200,
+    )
 
 
 @router.post("/documents-progress")

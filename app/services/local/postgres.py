@@ -6,6 +6,7 @@ import re
 from uuid import uuid4
 from settings.config import get_settings
 from datetime import datetime
+from typing import Tuple
 
 
 SETTINGS_TABLE_NAME = "settings"
@@ -50,6 +51,37 @@ class PostgresManager:
             )
             result_row = result_set.first()
             return result_row._asdict() if result_row else {}
+
+    def get_documents_progress_paged(
+        self,
+        user_email: str,
+        page: int,
+        per_page: int,
+    ) -> Tuple[list, int]:
+        """
+        Get paged documents progress for a user
+        params: user_email: User email
+                page: Page number
+                per_page: Number of items per page
+        return: list: Paged documents progress for the user
+        """
+        with self.client.connect() as conn:
+            query = documents_progress_table.select().where(
+                documents_progress_table.c.user_email == user_email
+            )
+
+            total_rows = conn.scalar(select(func.count()).select_from(query))
+            total_pages = math.ceil(total_rows / per_page)
+            page = min(max(1, page), total_pages)
+
+            result_set = conn.execute(
+                query.order_by(documents_progress_table.c.updated_on.desc())
+                .offset((page - 1) * per_page)
+                .limit(per_page)
+            )
+
+            result_rows = result_set.all()
+            return [row._asdict() for row in result_rows], total_pages
 
     def get_documents_progress(self, user_email: str, document_id=None) -> list:
         """
