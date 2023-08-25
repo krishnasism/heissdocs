@@ -131,3 +131,5 @@ Query Flow
 In progress for the community - by [Krishnasis](https://www.linkedin.com/in/krishnasis/) 👨🏽‍💻
 
 Powered by [FastAPI](https://fastapi.tiangolo.com/) 💗
+
+<a href="https://www.producthunt.com/posts/heissdocs?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-heissdocs" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=411357&theme=light" alt="hei&#0223;docs - Open&#0032;Source&#0032;&#0038;&#0032;Self&#0032;Hosted&#0032;Document&#0032;Query&#0032;Engine | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
