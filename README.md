@@ -6,14 +6,13 @@ Add a searchable layer on top of your PDFs!
 Fully open-source and ready to be deployed.
 You store, own, and control the data.
 
-Quick Demo:
-![Recording-2023-08-12-202607](https://github.com/krishnasism/heissdocs/assets/21293324/c39b3e5e-e152-4234-aaea-79d0e35c6e1a)
+<a href="https://www.producthunt.com/posts/heissdocs?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-heissdocs" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=411357&theme=light" alt="hei&#0223;docs - Open&#0032;Source&#0032;&#0038;&#0032;Self&#0032;Hosted&#0032;Document&#0032;Query&#0032;Engine | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-Latest Screenshot:
-![image](https://github.com/krishnasism/heissdocs/assets/21293324/72f348c6-081d-4266-b0c4-99e65aa89294)
+Demo:
+![Recording-2023-08-26-211554](https://github.com/krishnasism/heissdocs/assets/21293324/680286c6-2c0d-4230-8397-571b4085fd69)
 
 ### Note:
-> This is a project in its infancy, so please expect things to break as it moves forward.
+> This is a project in progress, so please expect things to break as it moves forward.
 But the vision of this project is to allow the user to NOT be locked into an ecosystem, so your data is governed and stored by you - therefore even if the app breaks, your data should be supported and can be accessed using tools already at your disposal.
 
 # Usage
@@ -53,7 +52,7 @@ You can follow this [document](https://github.com/krishnasism/heissdocs/blob/mai
 1. MongoDB
 
 For LLM Support. Both of the following services need to be configured together:
-1. **Qdrant**: A vector database required for semantic searching. [Qdrant](https://qdrant.tech/)
+1. **Qdrant**: A vector database for semantic searching. [Qdrant](https://qdrant.tech/)
 2. **OpenAI API**: Needed to generate embeddings for the search functionality. [OpenAI API](https://openai.com/blog/openai-api)
 
 ## Setting up
@@ -131,5 +130,3 @@ Query Flow
 In progress for the community - by [Krishnasis](https://www.linkedin.com/in/krishnasis/) 👨🏽‍💻
 
 Powered by [FastAPI](https://fastapi.tiangolo.com/) 💗
-
-<a href="https://www.producthunt.com/posts/heissdocs?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-heissdocs" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=411357&theme=light" alt="hei&#0223;docs - Open&#0032;Source&#0032;&#0038;&#0032;Self&#0032;Hosted&#0032;Document&#0032;Query&#0032;Engine | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
