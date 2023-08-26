@@ -10,6 +10,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient as qdc
 from services.qunda.enums import OpenAIModels
 import logging
+from typing import Tuple
 
 
 class Qunda:
@@ -29,21 +30,37 @@ class Qunda:
         )
         if model == OpenAIModels.davinci.value:
             llm = OpenAI(openai_api_key=settings.openai_api_key)
+        elif model in [OpenAIModels.chatgpt35turbo, OpenAIModels.chatgpt4]:
+            llm = ChatOpenAI(openai_api_key=settings.openai_api_key, model_name=model)
         else:
-            # Default ChatGPT3.5Turbo
-            llm = ChatOpenAI(openai_api_key=settings.openai_api_key)
+            # Default cheaper option
+            llm = OpenAI(openai_api_key=settings.openai_api_key)
 
         self.qa_client = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=self.vector_store.as_retriever(),
+            return_source_documents=True,
         )
 
-    async def ask(self, question: str) -> str:
-        response = self.qa_client.run(question)
-        return response
+    async def ask(self, question: str) -> Tuple[str, list[dict]]:
+        response = self.qa_client({"query": question})
+
+        source_metadata = list(doc.metadata for doc in response["source_documents"])
+
+        seen_file_names = set()
+        clean_metadata_list = list()
+        for metadata in source_metadata:
+            if not metadata:
+                continue
+            if metadata.get("filename") in seen_file_names:
+                continue
+            seen_file_names.add(metadata.get("filename"))
+            clean_metadata_list.append(metadata)
+
+        return response["result"], clean_metadata_list
 
 
-async def ask(user_email: str, question: str, model: str) -> str:
+async def ask(user_email: str, question: str, model: str) -> Tuple[str, list[dict]]:
     qdrant_client = QdrantClient()
     settings = override_settings(get_settings(), get_override_settings(user_email))
     qdrant_client.connect(
@@ -57,10 +74,10 @@ async def ask(user_email: str, question: str, model: str) -> str:
         model=model,
     )
     try:
-        answer = await qunda_client.ask(
+        answer, source_metadata = await qunda_client.ask(
             question=question,
         )
-        return answer
+        return answer, source_metadata
     except Exception as e:
         logging.error(f"[Qunda] {e}")
         return "Sorry, I couldn't find an answer to your question."

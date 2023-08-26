@@ -1,36 +1,50 @@
 <template>
-    <div class="chat-history">
-      <div v-for="(message, index) in chatHistory.messages" :key="index" class="message">
-        <div :class="message.sender === 'user' ? 'user-message' : 'bot-message'">{{ message.text }}</div>
+  <div class="chat-history">
+    <div v-for="(message, index) in chatHistory.messages" :key="index" class="message">
+      <div v-if="message.sender != 'source_metadata'" :class="message.sender === 'user' ? 'user-message' : 'bot-message'">
+        {{
+          message.text }}
       </div>
+      <div v-if="message.sender === 'source_metadata'" class="bot-message sources">
+        <span v-for="(metadata, metadataIndex) in message.text" :key="metadataIndex">
+          <ul>
+            <li>
+              <a v-if="metadata.bucket_name" :href="`/view-file?file_name=${metadata.blob_file_name}&page=0&bucketName=${metadata.bucket_name}`"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{{ metadata.filename }}</a>
+              <span v-else>{{ metadata.filename }}</span>
+            </li>
+          </ul>
+        </span>
+      </div>
+
     </div>
-  </template>
+  </div>
+</template>
   
-  <script>
-  export default {
-    props: {
-      chatHistory: {
-        type: Object,
-        required: true,
-      },
+<script>
+export default {
+  props: {
+    chatHistory: {
+      type: Object,
+      required: true,
     },
-  };
-  </script>
+  },
+};
+</script>
   
-  <style scoped>  
-  .message {
+<style scoped>  .message {
     margin-bottom: 10px;
     display: flex;
     align-items: flex-start;
   }
-  
+
   .user-message {
     background-color: #F0F0F0;
     padding: 10px;
     border-radius: 10px;
     max-width: 70%;
   }
-  
+
   .bot-message {
     background-color: #b3def5;
     padding: 10px;
@@ -38,7 +52,15 @@
     max-width: 70%;
     margin-left: auto;
   }
-  
+
+  .sources {
+    background-color: #b3e0f5;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin-left: auto;
+  }
+
   .user-message::before,
   .bot-message::before {
     content: "";
@@ -47,7 +69,7 @@
     height: 0;
     border-style: solid;
   }
-  
+
   .user-message::before {
     border-width: 10px 10px 0 0;
     border-color: #F0F0F0 transparent transparent transparent;
@@ -55,7 +77,7 @@
     top: 0;
     left: -10px;
   }
-  
+
   .bot-message::before {
     border-width: 0 10px 10px 0;
     border-color: transparent transparent #DCF8C6 transparent;
@@ -63,7 +85,7 @@
     bottom: 0;
     right: -10px;
   }
-  
+
   .user-message::after,
   .bot-message::after {
     content: "";
@@ -72,7 +94,7 @@
     height: 0;
     border-style: solid;
   }
-  
+
   .user-message::after {
     border-width: 10px 0 0 10px;
     border-color: #F0F0F0 transparent transparent transparent;
@@ -80,7 +102,7 @@
     top: 0;
     right: -10px;
   }
-  
+
   .bot-message::after {
     border-width: 0 0 10px 10px;
     border-color: transparent transparent #DCF8C6 transparent;
@@ -88,5 +110,5 @@
     bottom: 0;
     left: -10px;
   }
-  </style>
+</style>
   

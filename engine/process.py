@@ -71,7 +71,7 @@ def process_file(message):
             failures.append("nosql")
 
     if file_params.get("ingest_into_llm"):
-        status = ingest_into_llm(pdf_body)
+        status = ingest_into_llm(pdf_body, file_metadata)
         if not status:
             failures.append("llm")
 

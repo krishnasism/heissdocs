@@ -121,7 +121,7 @@
               </ul>
             </li>
           </ul>
-          <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+          <ul class="pt-4 mt-4 space-y-2 font-medium text-gray-600 border-t border-gray-200 dark:border-gray-700">
             <li>
               <RouterLink :to="{ name: 'settings' }" :class="{
                 'bg-blue-50 text-blue-500': $route.name === 'settings',

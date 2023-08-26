@@ -32,6 +32,7 @@ Simply upload a scanned or normal PDF and start searching for content in it with
 - 💬 Semantic search (Langchain + OpenAI)
 - 💿 Multiple Storage Options
 - 🔍 Powerful Search + Versatile Storage
+- 📄 View source documents
 - 🔒 Full ownership of data
 - 🆓 Completely open-source
 - 💻 Self-hosted

@@ -1,14 +1,16 @@
 <template>
   <div>
     <div>
-      <div class="sm:col-span-2 mb-4">
+      <div class="sm:col-span-2 mb-4 mt-0 ml-2">
         <label for="modelSelect" class="block text-sm font-medium text-gray-900 dark:text-white w-full">{{
           $t('labels.modelSelect') }}</label>
         <select v-model="selectedModel" id="modelSelect"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
           <option value="gpt-3.5-turbo" selected>GPT 3.5 Turbo</option>
           <option value="text-davinci-003">text-davinci-003</option>
+          <option value="gpt-4">GPT 4</option>
         </select>
+        <p v-if="selectedModel == 'gpt-4'" class="text-sm text-yellow-500 flex">{{ $t('warnings.GPT4Confirmation') }}</p>
       </div>
       <DangerAlert v-if="errorMessage" alert="Error" :message="errorMessage"></DangerAlert>
       <ChatHistory v-if="chatHistory.messages.length > 0" class="bg-slate-50 p-10 rounded-md" :chatHistory="chatHistory">
@@ -62,6 +64,7 @@ export default {
       errorMessage: null,
       question: "",
       selectedModel: "gpt-3.5-turbo",
+      sourceMetadata: [],
     };
   },
   async mounted() {
@@ -117,11 +120,15 @@ export default {
           const data = await response.json();
 
           this.answer = data.answer;
+          this.sourceMetadata = data.source_metadata;
           this.errorMessage = data.error;
           this.loading = false;
-
+          console.log(this.sourceMetadata)
           this.chatHistory.add_message('user', this.question);
           this.chatHistory.add_message('bot', this.answer);
+          if(this.sourceMetadata && this.sourceMetadata.length > 0) {
+            this.chatHistory.add_message('source_metadata', this.sourceMetadata);
+          }
         } catch (error) {
           console.error(error);
         }

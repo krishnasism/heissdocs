@@ -27,14 +27,17 @@ class IngestClient:
             embeddings=embeddings,
         )
 
-    def ingest_document(self, pdf_body: dict) -> bool:
+    def ingest_document(self, pdf_body: dict, file_metadata: dict) -> bool:
         """Ingest document"""
         full_text = ""
         try:
             for _, page_data in pdf_body.items():
                 full_text += page_data
             text_chunks = get_chunks(full_text)
-            self.vector_store.add_texts(text_chunks)
+            self.vector_store.add_texts(
+                texts=text_chunks,
+                metadatas=[file_metadata] * len(text_chunks),
+            )
             return True
         except Exception as e:
             logging.exception(f"[LLM Ingest] {e}")

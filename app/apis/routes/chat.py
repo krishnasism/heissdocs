@@ -19,16 +19,26 @@ async def ask_pdf(
     authenticated: bool = Depends(verify_token),
 ):
     query = query.lower()
-    answer = await ask(
-        user_email=user_email,
-        question=query,
-        model=model,
-    )
-    return JSONResponse(
-        content={
-            "answer": answer,
-        },
-        status_code=200
-        if answer != "Sorry, I couldn't find an answer to your question."
-        else 404,
-    )
+    try:
+        answer, source_metadata = await ask(
+            user_email=user_email,
+            question=query,
+            model=model,
+        )
+        return JSONResponse(
+            content={
+                "answer": answer,
+                "source_metadata": source_metadata,
+            },
+            status_code=200
+            if answer != "Sorry, I couldn't find an answer to your question."
+            else 404,
+        )
+    except Exception as e:
+        logging.error(f"[Qunda] {e}")
+        return JSONResponse(
+            content={
+                "answer": "Sorry, I couldn't find an answer to your question.",
+            },
+            status_code=404,
+        )
