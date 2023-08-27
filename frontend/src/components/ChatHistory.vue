@@ -2,15 +2,16 @@
   <div class="chat-history">
     <div v-for="(message, index) in chatHistory.messages" :key="index" class="message">
       <div v-if="message.sender != 'source_metadata'" :class="message.sender === 'user' ? 'user-message' : 'bot-message'">
-        {{
-          message.text }}
+        <div v-html="formatMessage(message.text)"></div>
       </div>
       <div v-if="message.sender === 'source_metadata'" class="bot-message sources">
         <span v-for="(metadata, metadataIndex) in message.text" :key="metadataIndex">
           <ul>
             <li>
-              <a v-if="metadata.bucket_name" :href="`/view-file?file_name=${metadata.blob_file_name}&page=0&bucketName=${metadata.bucket_name}`"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{{ metadata.filename }}</a>
+              <a v-if="metadata.bucket_name"
+                :href="`/view-file?file_name=${metadata.blob_file_name}&page=0&bucketName=${metadata.bucket_name}`"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{{ metadata.filename
+                }}</a>
               <span v-else>{{ metadata.filename }}</span>
             </li>
           </ul>
@@ -27,6 +28,11 @@ export default {
     chatHistory: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    formatMessage(text) {
+      return text.replace(/\n/g, '<br/>');
     },
   },
 };
