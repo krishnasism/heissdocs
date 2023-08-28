@@ -40,6 +40,7 @@ There are several configuration values you'll often need to set up the applicati
 
    Replace the placeholders with the values you've just retrieved:
 
+   Inside `backend` folder
    ```plaintext
    # Authentication specific - Only update these from https://manage.auth0.com/
    AUTH0_DOMAIN="Your Auth0 Domain"
@@ -48,6 +49,13 @@ There are several configuration values you'll often need to set up the applicati
    AUTH0_CLIENT_SECRET="Your Auth0 Client Secret"
    AUTH0_API_AUDIENCE=http://localhost:8000
    AUTH0_ALGORITHMS=RS256
+   ```
+
+   Inside `frontend` folder
+   ```plaintext
+   VITE_BASE_API_URL=http://localhost:8000
+   VITE_AUTH0_DOMAIN=<Your Auth0 domain>
+   VITE_AUTH0_CLIENT_ID=<Your Auth0 clientid>
    ```
 
 ## Postgres Settings
