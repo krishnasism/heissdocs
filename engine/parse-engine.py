@@ -56,8 +56,7 @@ while True:
                 else:
                     setup_logging()
             receipt_handle = message["ReceiptHandle"]
+            sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
         except Exception as e:
             logging.error("Unable to Parse File")
             logging.exception(e)
-        finally:
-            sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
