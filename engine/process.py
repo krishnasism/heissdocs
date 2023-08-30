@@ -18,9 +18,14 @@ def process_file(message):
     chunk_file_stream = get_temp_file_stream(
         file_params["chunk_file_name"], file_params["temp_bucket_name"]
     )
-    full_file_stream = get_temp_file_stream(
-        file_params["document_unique_id"], file_params["temp_bucket_name"]
-    )
+    full_file_stream_in_cloud = False
+    try:
+        full_file_stream = get_temp_file_stream(
+            file_params["document_unique_id"], file_params["temp_bucket_name"]
+        )
+    except:
+        full_file_stream_in_cloud = True
+
     document_unique_id = file_params["document_unique_id"]
 
     document_progress = {
@@ -43,21 +48,28 @@ def process_file(message):
         original_file_name=(file_params["original_file_name"]),
         document_progress=document_progress,
         force_ocr=file_params.get("force_ocr"),
+        chunk_num=file_params.get("chunk_num"),
     )
 
-    full_temp_file = NamedTemporaryFile(delete=False)
-    with open(full_temp_file.name, "wb") as f:
-        f.write(full_file_stream)
+    if not full_file_stream_in_cloud:
+        full_temp_file = NamedTemporaryFile(delete=False)
+        with open(full_temp_file.name, "wb") as f:
+            f.write(full_file_stream)
 
-    if file_params.get("store_files_in_cloud"):
-        blob_file_name = document_unique_id + ".pdf"
-        bucket_name = file_params["bucket_name"]
-        with open(full_temp_file.name, "rb") as f:
-            if bucket_name:
-                response = upload_file_to_bucket(f, blob_file_name, bucket_name)
-                if response:
-                    file_metadata["blob_file_name"] = blob_file_name
-                    file_metadata["bucket_name"] = bucket_name
+        if file_params.get("store_files_in_cloud"):
+            blob_file_name = document_unique_id + ".pdf"
+            bucket_name = file_params["bucket_name"]
+            with open(full_temp_file.name, "rb") as f:
+                if bucket_name:
+                    response = upload_file_to_bucket(f, blob_file_name, bucket_name)
+                    if response:
+                        file_metadata["blob_file_name"] = blob_file_name
+                        file_metadata["bucket_name"] = bucket_name
+
+    if full_file_stream_in_cloud:
+        file_metadata["blob_file_name"] = document_unique_id + ".pdf"
+        file_metadata["bucket_name"] = file_params["bucket_name"]
+
     file_metadata[
         "file_name"
     ] = f"{str(file_metadata.get('filename'))}_{str(uuid4().hex)}"
@@ -91,10 +103,13 @@ def process_file(message):
 
     chunk_temp_file.close()
     os.remove(chunk_temp_file.name)
-    full_temp_file.close()
-    os.remove(full_temp_file.name)
+    if not full_file_stream_in_cloud:
+        full_temp_file.close()
+        os.remove(full_temp_file.name)
     try:
         delete_file(file_params["chunk_file_name"], file_params["temp_bucket_name"])
+        if not full_file_stream_in_cloud:
+            delete_file(file_params["document_unique_id"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
     return len(failures) == 0

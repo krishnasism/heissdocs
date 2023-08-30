@@ -9,6 +9,7 @@ from services.utils.helpers import preprocess_parsed_text
 from enums.FileStages import FileStages
 from typing import Tuple
 from pypdf import PdfReader
+from services.pdf.parsing.utils import calculate_page_number
 
 
 class PDFParser:
@@ -33,7 +34,7 @@ class PDFParser:
         update_document_progress(document_progress)
         return page_data
 
-    def get_ocr_body(self, path, document_progress: dict) -> dict:
+    def get_ocr_body(self, path, document_progress: dict, chunk_num: int) -> dict:
         global counter
         counter = Value("i", 0)
         body = {}
@@ -74,7 +75,8 @@ class PDFParser:
             chain(*[page_result.get() for page_result in page_results])
         )
         for result in multiple_results:
-            body[result[0]] = result[1]
+            page_num = calculate_page_number(chunk_num, result[0] - 1)
+            body[page_num] = result[1]
 
         # Prevent duplicate progress update for pages_parsed
         document_progress["pages_parsed"] = 0
@@ -83,7 +85,9 @@ class PDFParser:
 
         return body
 
-    def parse_pdf_text_layer(self, path, document_progress: dict) -> dict:
+    def parse_pdf_text_layer(
+        self, path, document_progress: dict, chunk_num: int
+    ) -> dict:
         """
         Parse PDF and get text from it (without OCR)
         params: path: Path to PDF file
@@ -102,7 +106,8 @@ class PDFParser:
             text = page.extract_text()
             if text:
                 text = preprocess_parsed_text(text)
-                body[i + 1] = text
+                page_num = calculate_page_number(chunk_num, i)
+                body[page_num] = text
             if i % 5 == 0:
                 document_progress["pages_parsed"] = 5
                 update_document_progress(document_progress)
@@ -112,7 +117,9 @@ class PDFParser:
         update_document_progress(document_progress)
         return body
 
-    def parse(self, path: str, document_progress: dict, force_ocr: bool) -> dict:
+    def parse(
+        self, path: str, document_progress: dict, force_ocr: bool, chunk_num: int
+    ) -> dict:
         """
         Parse PDF and get text from it
         params: path: Path to PDF file
@@ -138,9 +145,9 @@ class PDFParser:
                 )
                 requires_ocr = True
         if requires_ocr:
-            pdf_body = self.get_ocr_body(path, document_progress)
+            pdf_body = self.get_ocr_body(path, document_progress, chunk_num)
         else:
-            pdf_body = self.parse_pdf_text_layer(path, document_progress)
+            pdf_body = self.parse_pdf_text_layer(path, document_progress, chunk_num)
         return pdf_body
 
 
@@ -148,7 +155,8 @@ def get_pdf_body(
     pdf_file: NamedTemporaryFile,
     original_file_name: str,
     document_progress: dict,
-    force_ocr=False,
+    force_ocr: bool = False,
+    chunk_num: int = 0,
 ) -> Tuple[dict, dict]:
     """
     Parse PDF and get text from it
@@ -164,5 +172,6 @@ def get_pdf_body(
         path=pdf_file.name,
         document_progress=document_progress,
         force_ocr=force_ocr,
+        chunk_num=chunk_num,
     )
     return body, file_metadata

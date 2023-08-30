@@ -46,13 +46,14 @@ async def cloud_parsing_job(
     authenticated: bool = Depends(verify_token),
 ):
     try:
-        document_id = await prepare_cloud_job(
+        job_metadata = await prepare_cloud_job(
             source_bucket_name,
             key_name,
             user_email,
             viewer_bucket_name,
         )
-
+        document_id = job_metadata.get("document_id")
+        total_pages = job_metadata.get("total_pages")
         pm.create_documents_progress_entry(
             DocumentProgressRequest(
                 userEmail=user_email,
@@ -60,7 +61,7 @@ async def cloud_parsing_job(
                 documentName=key_name,
                 stage=FileStages.QUEUED.value,
                 pagesParsed=0,
-                totalPages=0,
+                totalPages=total_pages,
             ).dict()
         )
 

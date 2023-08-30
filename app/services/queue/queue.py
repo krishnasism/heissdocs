@@ -74,17 +74,21 @@ async def process_file_url(
                         f"[Prepare Job S3] File part {i} uploaded to temp bucket"
                     )
 
-        params["chunk_file_name"] = chunk_file_name
-        params["temp_bucket_name"] = TEMP_BUCKET_NAME
-        params["original_file_name"] = original_file_name
-        params["user_email"] = user_email
-        params["message_type"] = QueueMessageTypes.PARSING.value
-        params["document_unique_id"] = blob_file_name
-        params["total_pages"] = total_pages
-        params["bucket_name"] = destination_bucket_name
+                params["chunk_file_name"] = chunk_file_name
+                params["temp_bucket_name"] = TEMP_BUCKET_NAME
+                params["original_file_name"] = original_file_name
+                params["user_email"] = user_email
+                params["message_type"] = QueueMessageTypes.PARSING.value
+                params["document_unique_id"] = blob_file_name
+                params["total_pages"] = total_pages
+                params["bucket_name"] = destination_bucket_name
+                params["chunk_num"] = i
 
-        send_queue_message(json.dumps(params))
-        return blob_file_name
+                send_queue_message(json.dumps(params))
+        return {
+            "document_id": f"{document_id}.pdf",
+            "total_pages": total_pages,
+        }
     except Exception as e:
         logging.error(f"An error occurred: {e}")
     return None
@@ -204,6 +208,7 @@ def prepare_job(file: UploadFile, params: dict) -> dict:
         params["message_type"] = QueueMessageTypes.PARSING.value
         params["document_unique_id"] = blob_file_name
         params["total_pages"] = total_pages
+        params["chunk_num"] = i
         send_queue_message(json.dumps(params))
 
     return {
