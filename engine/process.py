@@ -95,7 +95,6 @@ def process_file(message):
     os.remove(full_temp_file.name)
     try:
         delete_file(file_params["chunk_file_name"], file_params["temp_bucket_name"])
-        delete_file(file_params["document_unique_id"], file_params["temp_bucket_name"])
     except:
         logging.warning("[Process] Temp file could not be deleted from S3")
     return len(failures) == 0
