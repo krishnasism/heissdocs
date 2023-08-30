@@ -1,4 +1,6 @@
 **heißdocs** - A Document Query Application 🔍📄
+
+[Official Documentation](https://docs.heissdocs.com/)
 ## # Under Active Development # ##
 
 Add a searchable layer on top of your PDFs!
@@ -19,9 +21,9 @@ But the vision of this project is to allow the user to NOT be locked into an eco
 ## What is the purpose of this project?
 
 It is to allow a user or an organization to keep track of their PDF files. The complicated thing about PDFs is that they aren't searchable by content.
-Simply upload a scanned or normal PDF and start searching for content in it with the undisputed power of Elasticsearch (or a Nosql database)!
+Simply upload a scanned or normal PDF and start searching for content in it with the undisputed power of Elasticsearch (or a NoSQL database)!
 
-**heißdocs** creates search layer for your PDFs, down to the exact page (Working on pointing to the exact word!),
+**heißdocs** creates a search layer for your PDFs, down to the exact page (Working on pointing to the exact word!),
 
 1. Set up according to the instructions under `Setup`
 1. Upload a file on the Dashboard
@@ -42,22 +44,16 @@ Simply upload a scanned or normal PDF and start searching for content in it with
 ---
 # Setup
 ## Pre-requisites
-You need the following resources to be able to set up the app without any hassle.
-You can follow this [document](https://github.com/krishnasism/heissdocs/blob/main/docs/doc.md) to fetch the required values.
-1. Auth0:
+Please set up the required services before starting the application.
+You can follow [the documentation](https://docs.heissdocs.com/) to configure all services.
+1. Auth0 - required even before startup:
     1. For Auth0 you will need to get the required values from the [Auth0 portal](https://manage.auth0.com/) and paste them accordingly in the `.env` files in `frontend` and `app`. This needs to be configured even before building the application.
-1. AWS / Azure / GCP
-    1. AWS DynamoDB / Azure CosmosDB /GCP Firestore [NoSQL]
-    1. S3 / Storage Account / Cloud Storage
-1. Elasticsearch
-1. MongoDB
-
-For LLM Support. Both of the following services need to be configured together:
-1. **Qdrant**: A vector database for semantic searching. [Qdrant](https://qdrant.tech/)
-2. **OpenAI API**: Needed to generate embeddings for the search functionality. [OpenAI API](https://openai.com/blog/openai-api)
 
 ## Setting up
 Start by creating a `.env` file in the root directory and fill in the values according to the `.env.example` file.
+
+Before startup, only the Auth0 values need to be set up.
+Please follow the [documentation](https://docs.heissdocs.com/) for the full guide.
 
 ```bash
 cp .env.example .env
@@ -66,7 +62,7 @@ cp .env.example .env
 The values in the root `.env` file can remain unchanged unless you are planning on hosting each of the services individually.
 
 
-Similarly, create an `.env` file inside the `app`, `frontend`, and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
+Similarly, create a `.env` file inside the `app`, `frontend`, and `engine` folders and fill them in following the instructions in the respective `.env.example` files. 
 
 ```bash
 cp frontend/.env.example frontend/.env
@@ -74,9 +70,8 @@ cp app/.env.example app/.env
 cp engine/.env.example engine/.env
 ```
 
-Most of the values except private keys can be left as is!
-Follow my comments in the files!
-> Promise I'll make this easier!
+All the keys except Auth0 keys, can be left untouched. 
+Everything else is settable in settings.
 
 ---
 
