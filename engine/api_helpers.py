@@ -23,7 +23,7 @@ def get_auth_token():
                 logging.info("[Queue Handler] Auth successful")
                 return access_token
         except:
-            logging.error("[Queue Handler] Unable to auth, please wait..")
+            logging.exception("[Queue Handler] Unable to auth, please wait..")
         time.sleep(5)
         retries += 1
 
