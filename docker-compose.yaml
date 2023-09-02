@@ -11,7 +11,7 @@ services:
       - "db"
 
   db:
-    image: postgres
+    image: postgres:12-bullseye
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
