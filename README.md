@@ -103,6 +103,7 @@ docker compose -f docker-compose.yaml -f docker-compose.elasticsearch.override.y
 Run the `frontend`:
 ```bash
 cd frontend
+npm install
 npm run dev -- --port 8080
 ```
 
