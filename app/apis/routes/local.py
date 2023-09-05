@@ -10,6 +10,7 @@ from enums.QueueMessages import QueueMessageTypes
 from services.queue.queue import send_queue_message
 import json
 from datetime import datetime
+import logging
 
 router = APIRouter()
 
@@ -73,16 +74,19 @@ async def get_documents_in_progress(
     documents, total_pages = pm.get_documents_progress_paged(userEmail, page, per_page)
     has_previous_page = page > 1
     has_next_page = page < total_pages
-    for document in documents:
-        del document["updated_on"]
-    return JSONResponse(
-        content={
-            "documents": documents,
-            "has_previous_page": has_previous_page,
-            "has_next_page": has_next_page,
-        },
-        status_code=200,
-    )
+    try:
+        for document in documents:
+            document["updated_on"] = str(document["updated_on"])
+        return JSONResponse(
+            content={
+                "documents": documents,
+                "has_previous_page": has_previous_page,
+                "has_next_page": has_next_page,
+            },
+            status_code=200,
+        )
+    except Exception:
+        logging.exception(documents)
 
 
 @router.post("/documents-progress")

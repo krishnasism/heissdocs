@@ -107,6 +107,14 @@ npm install
 npm run dev -- --port 8080
 ```
 
+##  Run database migrations
+```bash
+cd app
+alembic upgrade head
+```
+
+[Optional] If you have your own hosted PostgresSQL database, please make sure to update the `sqlalchemy.url` in the `alembic.ini` file.
+
 ## Settings
 Before using the application, navigate to the `Settings` page by clicking on the left-side dashboard button, and configure the settings.
 

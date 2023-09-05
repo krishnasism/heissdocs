@@ -74,6 +74,11 @@ class Settings:
         self.cosmos_db_key = settings.get("cosmosDbKey")
         self.cosmos_db_database = settings.get("cosmosDbDatabase")
         self.gcp_key_file_content = settings.get("gcpKeyFileContent")
+        self.open_ai_type = settings.get("openAiType")
+        self.open_ai_base = settings.get("openAiBase")
+        self.open_ai_deployment_name = settings.get("openAiDeploymentName")
+        self.open_ai_api_version = settings.get("openAiApiVersion")
+        self.open_ai_model_name = settings.get("openAiModelName")
 
     @classmethod
     def get_settings(cls):

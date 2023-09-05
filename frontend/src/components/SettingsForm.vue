@@ -92,7 +92,7 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                                 $t('labels.azureBlobContainerName') }}</label>
                         <input type="text" name="bucketsList" id="bucketsList"
-                            @focus="showTip('dest')"
+                            @focus="showTip('azureBlobContainerName')"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             :placeholder="$t('labels.azureBlobContainerNamePlaceholder')" v-model="bucketsList">
                     </div>
@@ -284,21 +284,47 @@
                 <p class="mt-5 font-black">{{ $t('labels.llmSettings') }}</p>
                 <br />
                 <div class="sm:col-span-2 mb-5">
+                    <label for="openAiType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                        $t('labels.openAiType') }}</label>
+                    <input type="text" name="openAiType" id="openAiType" @focus="showTip('openAiType')"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        :placeholder="$t('labels.openAiTypePlaceholder')" v-model="openAiType" />
+                </div>
+                <div class="sm:col-span-2 mb-5">
+                    <label for="openAiBase" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                        $t('labels.openAiBase') }}</label>
+                    <input type="text" name="openAiBase" id="openAiBase" @focus="showTip('openAiBase')"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        :placeholder="$t('labels.openAiBasePlaceholder')" v-model="openAiBase" />
+                </div>
+                <div class="sm:col-span-2 mb-5">
                     <label for="openaiApiKey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                         $t('labels.openaiApiKey') }}</label>
                     <input type="password" name="openaiApiKey" id="openaiApiKey" @focus="showTip('openaiApiKey')"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         :placeholder="$t('labels.openaiApiKeyPlaceholder')" v-model="openaiApiKey" />
                 </div>
-                <!-- <div class="sm:col-span-2">
-                    <label for="huggingfaceApiKey"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
-                                $t('labels.huggingfaceApiKey') }}</label>
-                        <input type="password" name="huggingfaceApiKey" id="huggingfaceApiKey"
-                            @focus="showTip('huggingfaceApiKey')"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            :placeholder="$t('labels.huggingfaceApiKeyPlaceholder')" v-model="huggingfaceApiKey"/>
-                </div> -->
+                <div class="sm:col-span-2 mb-5">
+                    <label for="openAiDeploymentName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                        $t('labels.openAiDeploymentName') }}</label>
+                    <input type="text" name="openAiDeploymentName" id="openAiDeploymentName" @focus="showTip('openAiDeploymentName')"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        :placeholder="$t('labels.openAiDeploymentNamePlaceholder')" v-model="openAiDeploymentName" />
+                </div>
+                <div class="sm:col-span-2 mb-5">
+                    <label for="openAiModelName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                        $t('labels.openAiModelName') }}</label>
+                    <input type="text" name="openAiModelName" id="openAiModelName" @focus="showTip('openAiModelName')"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        :placeholder="$t('labels.openAiModelNamePlaceholder')" v-model="openAiModelName" />
+                </div>
+                <div class="sm:col-span-2 mb-5">
+                    <label for="openAiApiVersion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
+                        $t('labels.openAiApiVersion') }}</label>
+                    <input type="text" name="openAiApiVersion" id="openAiApiVersion" @focus="showTip('openAiApiVersion')"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        :placeholder="$t('labels.openAiApiVersionPlaceholder')" v-model="openAiApiVersion" />
+                </div>
                 <div class="sm:col-span-2 mb-5">
                     <label for="qdrantHost" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{
                         $t('labels.qdrantHost') }}</label>
@@ -404,6 +430,11 @@ export default {
             cosmosDbDatabase: "",
             cosmosDbKey: "",
             gcpKeyFileContent: null,
+            openAiBase: "",
+            openAiType: "",
+            openAiDeploymentName: "",
+            openAiApiVersion: "",
+            openAiModelName: "",
             tipMap: {
                 "awsAccessKey": {
                     "title": this.$t('labels.awsAccessKey'),
@@ -496,7 +527,55 @@ export default {
                 "cloudProvider": {
                     "title": this.$t('labels.cloudProvider'),
                     "description": this.$t('labels.cloudProviderTip'),
-                }
+                },
+                "azureBlobConnectionString": {
+                    "title": this.$t('labels.azureBlobConnectionString'),
+                    "description": this.$t('labels.azureBlobConnectionStringTip'),
+                },
+                "cosmosDbHost": {
+                    "title": this.$t('labels.cosmosDbHost'),
+                    "description": this.$t('labels.cosmosDbHostTip'),
+                },
+                "cosmosDbContainer": {
+                    "title": this.$t('labels.cosmosDbContainer'),
+                    "description": this.$t('labels.cosmosDbContainerTip'),
+                },
+                "cosmosDbDatabase": {
+                    "title": this.$t('labels.cosmosDbDatabase'),
+                    "description": this.$t('labels.cosmosDbDatabaseTip'),
+                },
+                "cosmosDbKey": {
+                    "title": this.$t('labels.cosmosDbKey'),
+                    "description": this.$t('labels.cosmosDbKeyTip'),
+                },
+                "openAiBase": {
+                    "title": this.$t('labels.openAiBase'),
+                    "description": this.$t('labels.openAiBaseTip'),
+                },
+                "openAiType": {
+                    "title": this.$t('labels.openAiType'),
+                    "description": this.$t('labels.openAiTypeTip'),
+                },
+                "openAiDeploymentName": {
+                    "title": this.$t('labels.openAiDeploymentName'),
+                    "description": this.$t('labels.openAiDeploymentNameTip'),
+                },
+                "openAiApiVersion": {
+                    "title": this.$t('labels.openAiApiVersion'),
+                    "description": this.$t('labels.openAiApiVersionTip'),
+                },
+                "azureBlobContainerName": {
+                    "title": this.$t('labels.azureBlobContainerName'),
+                    "description": this.$t('labels.azureBlobContainerNameTip'),
+                },
+                "mongoDbHost": {
+                    "title": this.$t('labels.mongoDbHost'),
+                    "description": this.$t('labels.mongoDbHostTip'),
+                },
+                "openAiModelName": {
+                    "title": this.$t('labels.openAiModelName'),
+                    "description": this.$t('labels.openAiModelNameTip'),
+                },
             }
         }
     },
@@ -538,6 +617,11 @@ export default {
                 'cosmosDbContainer': this.cosmosDbContainer,
                 'cosmosDbDatabase': this.cosmosDbDatabase,
                 'cosmosDbKey': this.cosmosDbKey,
+                'openAiBase': this.openAiBase,
+                'openAiType': this.openAiType,
+                'openAiDeploymentName': this.openAiDeploymentName,
+                'openAiApiVersion': this.openAiApiVersion,
+                'openAiModelName': this.openAiModelName,
             }
             this.$emit('submit', settings);
         },
@@ -572,6 +656,11 @@ export default {
                 this.cosmosDbContainer = this.settings.cosmosDbContainer
                 this.cosmosDbDatabase = this.settings.cosmosDbDatabase
                 this.cosmosDbKey = this.settings.cosmosDbKey
+                this.openAiBase = this.settings.openAiBase
+                this.openAiType = this.settings.openAiType
+                this.openAiDeploymentName = this.settings.openAiDeploymentName
+                this.openAiApiVersion = this.settings.openAiApiVersion
+                this.openAiModelName = this.settings.openAiModelName
             }
         },
         overrideElasticLocalSettings() {

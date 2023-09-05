@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 
 
@@ -36,3 +36,8 @@ class Settings(BaseModel):
     cosmosDbDatabase: Optional[str] = None
     cosmosDbKey: Optional[str] = None
     gcpKeyFileContent: Optional[str] = None
+    openAiType: Optional[str] = None
+    openAiBase: Optional[str] = None
+    openAiDeploymentName: Optional[str] = None
+    openAiApiVersion: Optional[str] = None
+    openAiModelName: Optional[str] = None

@@ -19,9 +19,20 @@ class Qunda:
 
     def __init__(self, settings: Settings, vector_db_client: qdc, model: str):
         collection_name = settings.qdrant_collection_name
-        embeddings = OpenAIEmbeddings(
-            openai_api_key=settings.openai_api_key,
-        )
+        open_ai_base_url = settings.open_ai_base
+        if open_ai_base_url is None:
+            embeddings = OpenAIEmbeddings(
+                openai_api_key=settings.openai_api_key,
+            )
+        else:
+            embeddings = OpenAIEmbeddings(
+                openai_api_key=settings.openai_api_key,
+                openai_api_base=open_ai_base_url,
+                deployment=settings.open_ai_deployment_name,
+                api_version=settings.open_ai_api_version,
+                openai_api_type=settings.open_ai_type,
+                model=settings.open_ai_model_name,
+            )
 
         self.vector_store = Qdrant(
             client=vector_db_client,

@@ -76,7 +76,7 @@ class PostgresManager:
 
             result_set = conn.execute(
                 query.order_by(documents_progress_table.c.updated_on.desc())
-                .offset((page - 1) * per_page)
+                .offset(max((page - 1) * per_page, 0))
                 .limit(per_page)
             )
 

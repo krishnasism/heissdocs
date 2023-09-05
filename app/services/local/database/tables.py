@@ -1,4 +1,4 @@
-from sqlalchemy import String, Numeric, Boolean, DateTime
+from sqlalchemy import String, Boolean, DateTime, Integer
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -40,6 +40,11 @@ settings_table = sa.Table(
     sa.Column("cosmos_db_database", String),
     sa.Column("cosmos_db_key", String),
     sa.Column("gcp_key_file_content", String),
+    sa.Column("open_ai_type", String),
+    sa.Column("open_ai_base", String),
+    sa.Column("open_ai_deployment_name", String),
+    sa.Column("open_ai_api_version", String),
+    sa.Column("open_ai_model_name", String),
 )
 
 
@@ -51,8 +56,8 @@ documents_progress_table = sa.Table(
     sa.Column("document_id", String),
     sa.Column("document_name", String),
     sa.Column("stage", String),
-    sa.Column("pages_parsed", Numeric),
-    sa.Column("total_pages", Numeric),
+    sa.Column("pages_parsed", Integer),
+    sa.Column("total_pages", Integer),
     sa.Column("updated_on", DateTime),
 )
 

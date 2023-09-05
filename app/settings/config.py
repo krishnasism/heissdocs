@@ -51,6 +51,11 @@ class Settings(BaseSettings):
     cosmos_db_database: str
     cosmos_db_key: str
     gcp_key_file_content: Optional[str] = None
+    open_ai_type: Optional[str] = None
+    open_ai_base: Optional[str] = None
+    open_ai_deployment_name: Optional[str] = None
+    open_ai_api_version: Optional[str] = None
+    open_ai_model_name: Optional[str] = None
 
     class Config:
         env_file = ".env"

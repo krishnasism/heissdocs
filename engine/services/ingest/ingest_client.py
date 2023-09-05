@@ -18,9 +18,20 @@ class IngestClient:
 
     def __create_vector_store(self):
         collection_name = self._settings.qdrant_collection_name
-        embeddings = OpenAIEmbeddings(
-            openai_api_key=self._settings.openai_api_key,
-        )
+        open_ai_base_url = self._settings.open_ai_base
+        if not open_ai_base_url:
+            embeddings = OpenAIEmbeddings(
+                openai_api_key=self._settings.openai_api_key,
+            )
+        else:
+            embeddings = OpenAIEmbeddings(
+                openai_api_key=self._settings.openai_api_key,
+                openai_api_base=open_ai_base_url,
+                deployment=self._settings.open_ai_deployment_name,
+                api_version=self._settings.open_ai_api_version,
+                openai_api_type=self._settings.open_ai_type,
+                model=self._settings.open_ai_model_name,
+            )
         self.vector_store = Qdrant(
             client=self.qdrant_client.client,
             collection_name=collection_name,
