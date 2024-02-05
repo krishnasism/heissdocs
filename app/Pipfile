@@ -7,7 +7,7 @@ name = 'pypi'
 python_version = '3.11'
 
 [packages]
-fastapi = "==0.101.0"
+fastapi = "==0.109.1"
 uvicorn = "==0.22.0"
 python-multipart = "==0.0.6"
 pytesseract = "==0.3.10"
