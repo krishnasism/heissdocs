@@ -1,3 +1,5 @@
+### Note: This project is not maintained anymore
+
 **heißdocs** - A Document Query Application 🔍📄
 
 [Official Documentation](https://docs.heissdocs.com/)
